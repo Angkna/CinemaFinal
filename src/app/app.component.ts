@@ -8,7 +8,7 @@ import { Component } from '@angular/core';
 export class AppComponent {
   public title: string = 'movies';
   public defaultcountry: string = 'all';
-
+  public countries: Set<string> = new Set();
   public movies: any[] = [
     {
       title: 'Joker',
@@ -36,6 +36,14 @@ export class AppComponent {
     }
   ];
 
+  public constructor() {
+    this._fill();
+  }
+
+  public _fill(): void {
+    this.movies.forEach((movie) => this.countries.add(movie.country));
+  }
+
   public toggleAll(): void {
     this.defaultcountry = 'all';
     this.movies.forEach((movie: any) => {
@@ -43,24 +51,13 @@ export class AppComponent {
     })
   }
 
-  public toggleUS(): void {
-    this.defaultcountry = 'us';
+  public toggle(country): void {
+    this.defaultcountry = country;
     this.movies.forEach((movie: any) => {
       movie.shown = (movie.country == this.defaultcountry);
     })
   }
 
-  public toggleFR(): void {
-    this.defaultcountry = 'fr';
-    this.movies.forEach((movie: any) => {
-      movie.shown = (movie.country == this.defaultcountry);
-    })
-  }
   
-  public toggleES(): void {
-    this.defaultcountry = 'es';
-    this.movies.forEach((movie: any) => {
-      movie.shown = (movie.country == this.defaultcountry);
-    })
-  }
 }
+

@@ -4,9 +4,7 @@
 <ul>
   <li>Country Filter : </li>
   <li [ngClass]="{'select' : defaultcountry == 'all'}" (click)="toggleAll()">All</li>
-  <li [ngClass]="{'select' : defaultcountry == 'us'}" (click)="toggleUS()">US</li>
-  <li [ngClass]="{'select' : defaultcountry == 'fr'}" (click)="toggleFR()">FR</li>
-  <li [ngClass]="{'select' : defaultcountry == 'es'}" (click)="toggleES()">ES</li>
+  <li *ngFor="let country of countries" [ngClass]="{'select' : defaultcountry == country}" (click)="toggle(country)">{{country}}</li>
 </ul>
   
 
