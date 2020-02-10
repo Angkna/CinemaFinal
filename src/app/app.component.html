@@ -4,7 +4,7 @@
 <button (click)="toggleCountry()">Filter</button>
 
 <div *ngFor="let movie of movies"> 
-  <div *ngIf="movie.country == defaultcountry">
+  <div class='movie' *ngIf="movie.country == defaultcountry">
     <h1 [ngClass]="{'old' : movie.year < 2020, 'title': true }">{{ movie.title }}</h1>
     <h2>{{ movie.year }}</h2>
     <button 

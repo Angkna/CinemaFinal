@@ -24,6 +24,11 @@ export class AppComponent {
       title: 'Parasite',
       year: 2012,
       country: 'fr'
+    },
+    {
+      title: 'Il était une fois dans la creuse...',
+      year: 1984,
+      country: 'fr'
     }
   ];
 

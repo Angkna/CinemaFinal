@@ -2,6 +2,20 @@
     color: palegreen;
 }
 
-.title {
-    font-size: 32px;
+$default-font-color : hsl(200, 52%, 25%);
+div {
+    color: $default-font-color;
+    &.movie{
+        min-width: 20em;
+        width: auto;
+        min-height: 10em;
+        height: auto;
+        
+        h1 {
+            &.title{
+                letter-spacing: 0.5em;
+                text-transform: uppercase;
+            }
+        }
+    }
 }
