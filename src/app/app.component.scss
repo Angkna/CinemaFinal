@@ -19,3 +19,20 @@ div {
         }
     }
 }
+
+ul {
+    display: flex;
+    width: 20em;
+    li {
+        list-style: none;
+        flex: auto;
+
+        &.select {
+            text-decoration: underline;
+            font-style: italic;
+        }
+    }
+    li:hover {
+        cursor: pointer;
+    }
+}
