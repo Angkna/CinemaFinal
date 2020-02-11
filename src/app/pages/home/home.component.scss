@@ -1,0 +1,38 @@
+.old {
+    color: palegreen;
+}
+
+$default-font-color : hsl(200, 52%, 25%);
+div {
+    color: $default-font-color;
+    &.movie{
+        min-width: 20em;
+        width: auto;
+        min-height: 10em;
+        height: auto;
+        
+        h1 {
+            &.title{
+                letter-spacing: 0.5em;
+                text-transform: uppercase;
+            }
+        }
+    }
+}
+
+ul {
+    display: flex;
+    width: 20em;
+    li {
+        list-style: none;
+        flex: auto;
+
+        &.select {
+            text-decoration: underline;
+            font-style: italic;
+        }
+    }
+    li:hover {
+        cursor: pointer;
+    }
+}

@@ -1,0 +1,22 @@
+<p>Hey, I'm AppComponent, and my title is {{ title }}.</p>
+
+<p>Here my list : {{ movies | json }}</p>
+<ul>
+  <li>Country Filter : </li>
+  <li [ngClass]="{'select' : defaultcountry == 'all'}" (click)="toggleAll()">All</li>
+  <li *ngFor="let country of countries" [ngClass]="{'select' : defaultcountry == country}" (click)="toggle(country)">{{country}}</li>
+</ul>
+  
+
+<div *ngFor="let movie of movies"> 
+  <div class='movie' *ngIf="movie.shown">
+    <h1 [ngClass]="{'old' : movie.year < 2020, 'title': true }">{{ movie.title }}</h1>
+    <h2>{{ movie.year }}</h2>
+    <button 
+      type = "button" 
+      (click) = "movie.year = movie.year + 1"
+    > 
+      Add 1 year !
+    </button>
+  </div>
+</div>
