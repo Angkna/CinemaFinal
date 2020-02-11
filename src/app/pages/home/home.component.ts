@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { MovieService } from 'src/app/core/services/movie.service';
+import { take } from 'rxjs/operators';
+import { Movie } from 'src/app/core/models/movie';
 
 @Component({
   selector: 'app-home',
@@ -7,57 +10,26 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
   public title: string = 'movies';
-  public defaultcountry: string = 'all';
-  public countries: Set<string> = new Set();
-  public movies: any[] = [
-    {
-      title: 'Joker',
-      year: 2019,
-      country: 'us',
-      shown: true
-    },
-    {
-      title: 'Avenger',
-      year: 2018,
-      country: 'fr',
-      shown: true
-    },
-    {
-      title: 'Parasite',
-      year: 2012,
-      country: 'us',
-      shown: true
-    },
-    {
-      title: 'Il était une fois dans la creuse...',
-      year: 1984,
-      country: 'fr',
-      shown: true
-    }
-  ];
-
-  public _fill(): void {
-    this.movies.forEach((movie) => this.countries.add(movie.country));
-  }
-
-  public toggleAll(): void {
-    this.defaultcountry = 'all';
-    this.movies.forEach((movie: any) => {
-      movie.shown = true;
-    })
-  }
-
-  public toggle(country): void {
-    this.defaultcountry = country;
-    this.movies.forEach((movie: any) => {
-      movie.shown = (movie.country == this.defaultcountry);
-    })
-  }
+  public movies: Movie[] = [];
+  public years: number[];
+  public yearSelected: number = 0;
   
-  constructor() {}
+  constructor(private movieService: MovieService) { }
 
   ngOnInit(): void {
-    this._fill();
+    const yearsSet: Set<number> = new Set();
+    this.movieService.all()
+      .pipe(
+        take(1)
+      )
+      .subscribe((reponse: any[]) => {
+        console.log(`Response : ${JSON.stringify(reponse)}`);
+        this.movies = reponse.map((movie: Movie) => {
+          yearsSet.add(movie.year);
+          return new Movie().deserialize(movie);
+        });
+        this.years = Array.from(yearsSet).sort();
+      });
   }
 
 }

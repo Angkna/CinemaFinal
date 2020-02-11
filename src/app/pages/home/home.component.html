@@ -1,22 +1,19 @@
 <p>Hey, I'm AppComponent, and my title is {{ title }}.</p>
 
-<p>Here my list : {{ movies | json }}</p>
-<ul>
-  <li>Country Filter : </li>
-  <li [ngClass]="{'select' : defaultcountry == 'all'}" (click)="toggleAll()">All</li>
-  <li *ngFor="let country of countries" [ngClass]="{'select' : defaultcountry == country}" (click)="toggle(country)">{{country}}</li>
-</ul>
-  
+<mat-form-field>
+  <mat-label>Years</mat-label>
+  <mat-select [(ngModel)]="yearSelected">
+    <mat-option [value]="0">All</mat-option>
+    <mat-option *ngFor="let year of years" [value]="year">
+      {{year}}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
 
 <div *ngFor="let movie of movies"> 
-  <div class='movie' *ngIf="movie.shown">
-    <h1 [ngClass]="{'old' : movie.year < 2020, 'title': true }">{{ movie.title }}</h1>
-    <h2>{{ movie.year }}</h2>
-    <button 
-      type = "button" 
-      (click) = "movie.year = movie.year + 1"
-    > 
-      Add 1 year !
-    </button>
-  </div>
+  <mat-card class='movie' *ngIf="movie.year == yearSelected || yearSelected == 0" >
+    <mat-card-title [ngClass]="{'old' : movie.year < 2020, 'title': true }">{{ movie.title }}</mat-card-title>
+    <mat-card-subtitle>{{ movie.year }}</mat-card-subtitle>
+  </mat-card>
 </div>
+

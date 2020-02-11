@@ -3,15 +3,15 @@
 }
 
 $default-font-color : hsl(200, 52%, 25%);
-div {
+mat-card {
     color: $default-font-color;
     &.movie{
         min-width: 20em;
         width: auto;
-        min-height: 10em;
+        min-height: 1em;
         height: auto;
         
-        h1 {
+        mat-card-title {
             &.title{
                 letter-spacing: 0.5em;
                 text-transform: uppercase;
