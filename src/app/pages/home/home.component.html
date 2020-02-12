@@ -1,14 +1,21 @@
 <p>Hey, I'm AppComponent, and my title is {{ title }}.</p>
 
-<mat-form-field>
-  <mat-label>Years</mat-label>
-  <mat-select [(ngModel)]="yearSelected">
-    <mat-option [value]="0">All</mat-option>
-    <mat-option *ngFor="let year of years" [value]="year">
-      {{year}}
-    </mat-option>
-  </mat-select>
-</mat-form-field>
+<p>Voulez vous lancer une recherche par nom ?</p>
+<app-search></app-search>
+
+<p>... ou par années ?</p>
+
+<div>
+  <mat-form-field>
+    <mat-label>Years</mat-label>
+    <mat-select [(ngModel)]="yearSelected">
+      <mat-option [value]="0">All</mat-option>
+      <mat-option *ngFor="let year of years" [value]="year">
+        {{year}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
 
 <div *ngFor="let movie of movies"> 
   <mat-card class='movie' *ngIf="movie.year == yearSelected || yearSelected == 0" >
