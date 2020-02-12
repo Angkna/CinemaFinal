@@ -1,2 +1,12 @@
-<input matInput placeholder="recherche film" value="">
-<button mat-raised-button>Recherche</button>
+<mat-form-field>
+    <mat-label>Titre du film</mat-label>
+    <input 
+        matInput 
+        [(ngModel)]="input" 
+        (keyup.enter)="validSearch(input)" 
+        placeholder="recherche film par nom" 
+        name="searchFieldMovieName" 
+        value=""
+    >
+</mat-form-field>
+<button mat-raised-button (click)="validSearch(input)">Recherche</button>

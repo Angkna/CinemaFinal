@@ -1,13 +1,14 @@
 <p>Hey, I'm AppComponent, and my title is {{ title }}.</p>
 
 <p>Voulez vous lancer une recherche par nom ?</p>
-<app-search></app-search>
+<div id="search">
+  <app-search (movies)="updateListMovies($event)"></app-search>
+</div>
 
-<p>... ou par années ?</p>
-
+<p>... et l'affiner par années ?</p>
 <div>
   <mat-form-field>
-    <mat-label>Years</mat-label>
+    <mat-label>Années existante</mat-label>
     <mat-select [(ngModel)]="yearSelected">
       <mat-option [value]="0">All</mat-option>
       <mat-option *ngFor="let year of years" [value]="year">
@@ -17,6 +18,7 @@
   </mat-form-field>
 </div>
 
+<p>Résultat(s) : </p>
 <div *ngFor="let movie of movies"> 
   <mat-card class='movie' *ngIf="movie.year == yearSelected || yearSelected == 0" >
     <mat-card-title [ngClass]="{'old' : movie.year < 2020, 'title': true }">{{ movie.title }}</mat-card-title>

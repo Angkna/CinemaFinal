@@ -9,20 +9,19 @@ import { Observable } from 'rxjs';
 })
 export class MovieService {
 
-  constructor(private httpClient: HttpClient) { }
+  public movies: Observable<Movie[]>;
 
-  public async allMovies() {
-    const apiRoute: string = `${environment.apiRoot}movie`;
-    let movies;
-    try {
-      movies = await fetch(apiRoute);
-    } catch(error){
-      //cassé
-    }
-  }
+  constructor(private httpClient: HttpClient) { }
 
   public all() : Observable<Movie[]> {
     const apiRoute: string = `${environment.apiRoot}movie`;
-    return this.httpClient.get<Movie[]>(apiRoute);
+    this.movies = this.httpClient.get<Movie[]>(apiRoute);
+    return this.movies;
+  }
+
+  public byTitle(search: string) : Observable<Movie[]> {
+    const apiRoute: string = `${environment.apiRoot}movie/byTitleContaining?t=${search}`;
+    this.movies = this.httpClient.get<Movie[]>(apiRoute);
+    return this.movies;
   }
 }
