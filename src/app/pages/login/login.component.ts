@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
+import { Router } from '@angular/router';
+import { UserService } from 'src/app/core/services/user.service';
 
 @Component({
   selector: 'app-login',
@@ -11,7 +13,11 @@ export class LoginComponent implements OnInit {
 
   public loginForm: FormGroup; 
 
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(
+    private formBuilder: FormBuilder,
+    private router: Router, 
+    private userService: UserService
+  ) { }
   
   public get userTerm(): AbstractControl{
     return this.loginForm.controls.userTerm;
@@ -43,7 +49,15 @@ export class LoginComponent implements OnInit {
   }
 
   public doLogin(): void {
-    console.log('Tu es connecté ! (Si jte jure !)')
+    //local persistance of user
+    if (this.userService.authenticate(this.loginForm.value)) {
+      this.router.navigate(['home']);
+    } else {
+      //todo
+      this.userTerm.setValue('');
+      this.passwordTerm.setValue('');
+
+    }
   }
 
 }
