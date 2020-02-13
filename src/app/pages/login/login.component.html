@@ -1,4 +1,4 @@
-<p>Oula !! faut se connecter là !</p>
+<p>Connectez vous :</p>
 <form [formGroup]="loginForm">
     <mat-form-field>
         <mat-label>Nom d'utilisateur</mat-label>
@@ -9,7 +9,7 @@
             placeholder="username"
             formControlName="userTerm"
         >
-        <mat-error ></mat-error>
+        <mat-error *ngIf='userTerm.invalid && userTerm.touched'>Le nom doit comprendre au moins 5 caractères.</mat-error>
     </mat-form-field>
     <mat-form-field>
         <mat-label>Mot de passe</mat-label>
@@ -20,6 +20,8 @@
             placeholder="password"
             formControlName="passwordTerm"
         >
+        <mat-error *ngIf='passwordTerm.invalid && passwordTerm.touched'>Le mot de passe doit comprendre au moins 8 caractères.</mat-error>
     </mat-form-field>
+    <button mat-raised-button color='primary' (click)='doLogin()' [disabled]="loginForm.invalid" >Se connecter</button>
 </form>
-<button mat-raised-button color='primary' (click)='doLogin()' [disabled]="loginForm.invalid" >Se connecter</button>
+<div class="basdepage"></div>
