@@ -11,6 +11,7 @@ import { take } from 'rxjs/operators';
 export class HomeComponent implements OnInit {
   public title: string = 'movies';
   public movies: Movie[] = [];
+  public moviesYear: Movie[] = [];
   public years: number[];
   public yearsSet: Set<number> = new Set();
   public yearSelected: number = -1;
@@ -42,4 +43,18 @@ export class HomeComponent implements OnInit {
     this.years = Array.from(this.yearsSet).sort();
     this.yearSelected = 0;
   }
+
+  public changeListByYear():void {
+    this.moviesYear = [];
+    if (this.yearSelected != 0){
+      this.movies.forEach((movie:Movie) => {
+        if (movie.year == this.yearSelected) {
+          this.moviesYear.push(movie);
+        }
+      })
+    } else {
+      this.moviesYear = this.movies;
+    }
+  }
+
 }

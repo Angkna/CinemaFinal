@@ -4,7 +4,7 @@
 
 .wrapper {
     display: flex;
-    flex-wrap: wrap;
+    flex-flow: row wrap;
     width: auto; 
     height: auto;
     justify-content: space-between;

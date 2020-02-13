@@ -10,7 +10,7 @@
   <div>
     <mat-form-field>
       <mat-label>Années existante</mat-label>
-      <mat-select [(ngModel)]="yearSelected">
+      <mat-select [(ngModel)]="yearSelected" (ngModelChange)="changeListByYear()">
         <mat-option [value]="0">All</mat-option>
         <mat-option *ngFor="let year of years" [value]="year">
           {{year}}
@@ -22,10 +22,8 @@
 
 <p>Résultat(s) : </p>
 <div class="wrapper">
-  <div *ngFor="let movie of movies"> 
-    <mat-card class='movie' *ngIf="movie.year == yearSelected || yearSelected == 0" >
-      <mat-card-title [ngClass]="{'new' : movie.year >= 2010, 'title': true }">{{ movie.title }}</mat-card-title>
-      <mat-card-subtitle>{{ movie.year }}</mat-card-subtitle>
-    </mat-card>
-  </div>
+  <mat-card class='movie' *ngFor="let movie of moviesYear" >
+    <mat-card-title [ngClass]="{'new' : movie.year >= 2010, 'title': true }">{{ movie.title }}</mat-card-title>
+    <mat-card-subtitle>{{ movie.year }}</mat-card-subtitle>
+  </mat-card>
 </div>
