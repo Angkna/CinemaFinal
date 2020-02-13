@@ -1,12 +1,21 @@
-<mat-form-field>
-    <mat-label>Titre du film</mat-label>
-    <input 
-        matInput 
-        [(ngModel)]="input" 
-        (keyup.enter)="validSearch(input)" 
-        placeholder="recherche film par nom" 
-        name="searchFieldMovieName" 
-        value=""
+<form [formGroup]="searchForm">
+    <mat-form-field>
+        <mat-label>Titre du film</mat-label>
+        <input 
+            matInput
+            type="search"
+            value=""
+            placeholder="recherche film par nom"
+            formControlName="searchTerm"
+            (keyup)="reload()"
+        >
+    </mat-form-field>
+    <button 
+        mat-raised-button
+        color="primary"
+        (click)="validSearch()"
+        [disabled]="searchForm.invalid"
     >
-</mat-form-field>
-<button mat-raised-button (click)="validSearch(input)">Recherche</button>
+        Recherche
+    </button>
+</form>

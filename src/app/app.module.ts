@@ -8,7 +8,7 @@ import { LoginComponent } from './pages/login/login.component';
 import { UiModule } from './shared/ui/ui.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './shared/material/material.module';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { SearchComponent } from './pages/home/search/search.component'
 
@@ -27,6 +27,7 @@ import { SearchComponent } from './pages/home/search/search.component'
     MaterialModule,
     FormsModule,
     HttpClientModule,
+    ReactiveFormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

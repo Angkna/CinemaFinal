@@ -1,28 +1,31 @@
 <p>Hey, I'm AppComponent, and my title is {{ title }}.</p>
 
-<p>Voulez vous lancer une recherche par nom ?</p>
-<div id="search">
-  <app-search (movies)="updateListMovies($event)"></app-search>
-</div>
+<mat-toolbar>
+  <p>Voulez vous lancer une recherche par nom ?</p>
+  <div id="search">
+    <app-search (movies)="updateListMovies($event)"></app-search>
+  </div>
 
-<p>... et l'affiner par années ?</p>
-<div>
-  <mat-form-field>
-    <mat-label>Années existante</mat-label>
-    <mat-select [(ngModel)]="yearSelected">
-      <mat-option [value]="0">All</mat-option>
-      <mat-option *ngFor="let year of years" [value]="year">
-        {{year}}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
-</div>
+  <p> ... et l'affiner par années ?</p>
+  <div>
+    <mat-form-field>
+      <mat-label>Années existante</mat-label>
+      <mat-select [(ngModel)]="yearSelected">
+        <mat-option [value]="0">All</mat-option>
+        <mat-option *ngFor="let year of years" [value]="year">
+          {{year}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+</mat-toolbar>
 
 <p>Résultat(s) : </p>
-<div *ngFor="let movie of movies"> 
-  <mat-card class='movie' *ngIf="movie.year == yearSelected || yearSelected == 0" >
-    <mat-card-title [ngClass]="{'old' : movie.year < 2020, 'title': true }">{{ movie.title }}</mat-card-title>
-    <mat-card-subtitle>{{ movie.year }}</mat-card-subtitle>
-  </mat-card>
+<div class="wrapper">
+  <div *ngFor="let movie of movies"> 
+    <mat-card class='movie' *ngIf="movie.year == yearSelected || yearSelected == 0" >
+      <mat-card-title [ngClass]="{'old' : movie.year < 2020, 'title': true }">{{ movie.title }}</mat-card-title>
+      <mat-card-subtitle>{{ movie.year }}</mat-card-subtitle>
+    </mat-card>
+  </div>
 </div>
-

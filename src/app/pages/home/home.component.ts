@@ -41,6 +41,5 @@ export class HomeComponent implements OnInit {
     })
     this.years = Array.from(this.yearsSet).sort();
     this.yearSelected = 0;
-
   }
 }
