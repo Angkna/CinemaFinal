@@ -1,5 +1,5 @@
-.old {
-    color: palegreen;
+.new {
+    color: rgb(247, 147, 16);
 }
 
 .wrapper {
@@ -7,7 +7,8 @@
     flex-wrap: wrap;
     width: auto; 
     height: auto;
-    justify-content: space-between
+    justify-content: space-between;
+    align-content: space-between;
 }
 
 $default-font-color : hsl(200, 52%, 25%);
@@ -15,7 +16,11 @@ mat-card {
     color: $default-font-color; 
     &.movie {
         width: 20em; 
-        height: 10em; 
+        height: 10em;
+        background-color: rgba(99, 91, 219, 0.5);
+        &.title{
+            color: black;
+        }
     }
 }
 

@@ -24,7 +24,7 @@
 <div class="wrapper">
   <div *ngFor="let movie of movies"> 
     <mat-card class='movie' *ngIf="movie.year == yearSelected || yearSelected == 0" >
-      <mat-card-title [ngClass]="{'old' : movie.year < 2020, 'title': true }">{{ movie.title }}</mat-card-title>
+      <mat-card-title [ngClass]="{'new' : movie.year >= 2010, 'title': true }">{{ movie.title }}</mat-card-title>
       <mat-card-subtitle>{{ movie.year }}</mat-card-subtitle>
     </mat-card>
   </div>

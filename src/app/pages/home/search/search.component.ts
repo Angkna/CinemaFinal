@@ -37,18 +37,12 @@ export class SearchComponent implements OnInit {
   public validSearch(): void {
     var search = this.searchTerm.value.trim();
     if (search.length >= 2) {
-      let movies: Movie[] = [];
-      console.log('je lance une recherche sur :' + search)
       this.movieService.byTitle(search)
         .pipe(
           take(1)
         )
-        .subscribe((reponse: any[]) => {
-          console.log(`Reponse : ${JSON.stringify(reponse)}`);
-          movies = reponse.map((movie: Movie) => {
-            return new Movie().deserialize(movie);
-          });
-          this.movies.emit(movies);
+        .subscribe((reponse: Movie[]) => {
+          this.movies.emit(reponse);
         });
     }
   }
@@ -56,19 +50,12 @@ export class SearchComponent implements OnInit {
   public reload(): void {
     var search = this.searchTerm.value.trim();
     if (search.length == 0) {
-        
-      console.log('faut reload les films !')
-
-      let movies: Movie[] = [];
       this.movieService.all()
         .pipe(
           take(1)
         )
-        .subscribe((reponse: any[]) => {
-          movies = reponse.map((movie: Movie) => {
-            return new Movie().deserialize(movie);
-          });
-          this.movies.emit(movies);
+        .subscribe((reponse: Movie[]) => {
+          this.movies.emit(reponse);
         });
 
     }
