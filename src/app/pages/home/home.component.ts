@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MovieService } from 'src/app/core/services/movie.service';
 import { Movie } from 'src/app/core/models/movie';
 import { take } from 'rxjs/operators';
+import { Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -9,52 +10,50 @@ import { take } from 'rxjs/operators';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  public title: string = 'movies';
+  public title: string = 'Mon application qui cherche des films (parfois)';
+  public moviesOb: Observable<Movie[]>;
   public movies: Movie[] = [];
-  public moviesYear: Movie[] = [];
+  public moviesYear: Movie[];
   public years: number[];
-  public yearsSet: Set<number> = new Set();
   public yearSelected: number = -1;
+  private yearSubsciption: Subscription;
   
   constructor(private movieService: MovieService) { }
 
   ngOnInit(): void {
-    this.movieService.all()
-      .pipe(
-        take(1)
-      )
-      .subscribe((reponse: any[]) => {
-        console.log(`Reponse : ${JSON.stringify(reponse)}`);
-        this.movies = reponse.map((movie: Movie) => {
-          this.yearsSet.add(movie.year);
-          return new Movie().deserialize(movie);
-        });
-        this.years = Array.from(this.yearsSet).sort();
+    this.moviesOb = this.movieService.all();
+
+    this.yearSubsciption = this.movieService.years$
+      .subscribe((_years) => {
+        this.years = _years;
       });
   }
 
-  public updateListMovies($event):void {
-    this.movies = $event;
+  public searchedListMovies($event):void {
+    this.moviesOb = $event;
+    // this.moviesOb.pipe(take(1)).subscribe(listMovie => {
+    //   this.years = this._getYearsList(listMovie);
+    // })
+  }
 
-    this.yearsSet.clear();
-    this.movies.forEach((movie:Movie) => {
-      this.yearsSet.add(movie.year);
+  public updateListMoviesByYear():void {
+    // this.moviesYear = [];
+    // if (this.yearSelected != 0){
+    //   this.movies.forEach((movie:Movie) => {
+    //     if (movie.year == this.yearSelected) {
+    //       this.moviesYear.push(movie);
+    //     }
+    //   })
+    // } else {
+    //   this.moviesYear = this.movies;
+    // }
+  }
+
+  private _getYearsList(listMovie: Movie[]): number[] {
+    var yearsSet: Set<number> = new Set();
+    listMovie.forEach((movie:Movie) => {
+      yearsSet.add(movie.year);
     })
-    this.years = Array.from(this.yearsSet).sort();
-    this.yearSelected = 0;
+    return Array.from(yearsSet).sort();
   }
-
-  public changeListByYear():void {
-    this.moviesYear = [];
-    if (this.yearSelected != 0){
-      this.movies.forEach((movie:Movie) => {
-        if (movie.year == this.yearSelected) {
-          this.moviesYear.push(movie);
-        }
-      })
-    } else {
-      this.moviesYear = this.movies;
-    }
-  }
-
 }

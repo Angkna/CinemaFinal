@@ -1,8 +1,10 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { MovieService } from 'src/app/core/services/movie.service';
 import { Movie } from 'src/app/core/models/movie';
-import { take } from 'rxjs/operators';
+import { tap, debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
+import { Observable } from 'rxjs';
+
 
 @Component({
   selector: 'app-search',
@@ -11,7 +13,7 @@ import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/fo
 })
 export class SearchComponent implements OnInit {
 
-  @Output() movies: EventEmitter<Movie[]> = new EventEmitter<Movie[]>();
+  @Output() movies: EventEmitter<Observable<Movie[]>> = new EventEmitter<Observable<Movie[]>>();
   
   public searchForm: FormGroup;
   
@@ -28,6 +30,14 @@ export class SearchComponent implements OnInit {
         ])
       ]
     });
+
+    this.searchTerm.valueChanges.pipe(
+      debounceTime(400),
+      map(() => {
+        console.log('lancement recherche')
+        this.validSearch();
+      })
+    ).subscribe();
   }
 
   public get searchTerm(): AbstractControl{
@@ -37,28 +47,14 @@ export class SearchComponent implements OnInit {
   public validSearch(): void {
     var search = this.searchTerm.value.trim();
     if (search.length >= 2) {
-      this.movieService.byTitle(search)
-        .pipe(
-          take(1)
-        )
-        .subscribe((reponse: Movie[]) => {
-          this.movies.emit(reponse);
-        });
-    }
+      this.movies.emit(this.movieService.byTitle(search));
+    };
   }
 
   public reload(): void {
     var search = this.searchTerm.value.trim();
     if (search.length == 0) {
-      this.movieService.all()
-        .pipe(
-          take(1)
-        )
-        .subscribe((reponse: Movie[]) => {
-          this.movies.emit(reponse);
-        });
-
-    }
+      this.movies.emit(this.movieService.all());
+    };
   }
-
 }
