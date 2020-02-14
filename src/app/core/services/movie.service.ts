@@ -4,6 +4,7 @@ import { Movie } from '../models/movie';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { take, map } from 'rxjs/operators';
+import { MovieFull } from '../models/movie-full';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +12,7 @@ import { take, map } from 'rxjs/operators';
 export class MovieService {
 
   public movies: Observable<Movie[]>;
+  public movie: Observable<MovieFull>;
   private _years: Set<number> = new Set<number>();
   public years$: BehaviorSubject<number[]> = new BehaviorSubject<number[]>( Array.from(this._years).sort() );
 
@@ -32,6 +34,15 @@ export class MovieService {
       )
     );
     return this.movies;
+  }
+
+  public byId(id: number) : Observable<MovieFull> {
+    const apiRoute: string = `${environment.apiRoot}movie/${id}`;
+    this.movie = this.httpClient.get<any>(apiRoute).pipe(
+      take(1),
+      map( (reponse) => new MovieFull().deserialize(reponse) )
+    );
+    return this.movie 
   }
 
   public byTitle(search: string) : Observable<Movie[]> {

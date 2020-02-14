@@ -12,10 +12,10 @@ import { Observable, Subscription } from 'rxjs';
 export class HomeComponent implements OnInit {
   public title: string = 'Mon application qui cherche des films (parfois)';
   public moviesOb: Observable<Movie[]>;
-  public movies: Movie[] = [];
-  public moviesYear: Movie[];
+  //public movies: Movie[] = [];
+  //public moviesYear: Movie[];
   public years: number[];
-  public yearSelected: number = -1;
+  public yearSelected: number = 0;
   private yearSubsciption: Subscription;
   
   constructor(private movieService: MovieService) { }
@@ -31,29 +31,10 @@ export class HomeComponent implements OnInit {
 
   public searchedListMovies($event):void {
     this.moviesOb = $event;
-    // this.moviesOb.pipe(take(1)).subscribe(listMovie => {
-    //   this.years = this._getYearsList(listMovie);
-    // })
   }
 
-  public updateListMoviesByYear():void {
-    // this.moviesYear = [];
-    // if (this.yearSelected != 0){
-    //   this.movies.forEach((movie:Movie) => {
-    //     if (movie.year == this.yearSelected) {
-    //       this.moviesYear.push(movie);
-    //     }
-    //   })
-    // } else {
-    //   this.moviesYear = this.movies;
-    // }
+  public updateListMoviesByYear(): void {
+
   }
 
-  private _getYearsList(listMovie: Movie[]): number[] {
-    var yearsSet: Set<number> = new Set();
-    listMovie.forEach((movie:Movie) => {
-      yearsSet.add(movie.year);
-    })
-    return Array.from(yearsSet).sort();
-  }
 }
