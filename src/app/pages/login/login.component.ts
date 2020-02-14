@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserService } from 'src/app/core/services/user.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-login',
@@ -16,7 +17,8 @@ export class LoginComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private router: Router, 
-    private userService: UserService
+    private userService: UserService,
+    private _snackBar: MatSnackBar
   ) { }
   
   public get userTerm(): AbstractControl{
@@ -53,10 +55,12 @@ export class LoginComponent implements OnInit {
     if (this.userService.authenticate(this.loginForm.value)) {
       this.router.navigate(['home']);
     } else {
-      //todo
       this.userTerm.setValue('');
       this.passwordTerm.setValue('');
-
+      this._snackBar.open("Désolé, identifiants incorrects.","Error", {
+        duration: 2500,
+        verticalPosition:'top'
+      });
     }
   }
 
