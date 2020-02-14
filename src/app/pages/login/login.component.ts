@@ -21,17 +21,17 @@ export class LoginComponent implements OnInit {
     private _snackBar: MatSnackBar
   ) { }
   
-  public get userTerm(): AbstractControl{
-    return this.loginForm.controls.userTerm;
+  public get userName(): AbstractControl{
+    return this.loginForm.controls.userName;
   }
 
-  public get passwordTerm(): AbstractControl{
-    return this.loginForm.controls.passwordTerm;
+  public get password(): AbstractControl{
+    return this.loginForm.controls.password;
   }
 
   ngOnInit(): void {
     this.loginForm = this.formBuilder.group({
-      userTerm: [
+      userName: [
         '', 
         Validators.compose([
           Validators.required,
@@ -39,7 +39,7 @@ export class LoginComponent implements OnInit {
           Validators.maxLength(255)
         ])
       ],
-      passwordTerm: [
+      password: [
         '', 
         Validators.compose([
           Validators.required,
@@ -55,8 +55,8 @@ export class LoginComponent implements OnInit {
     if (this.userService.authenticate(this.loginForm.value)) {
       this.router.navigate(['home']);
     } else {
-      this.userTerm.setValue('');
-      this.passwordTerm.setValue('');
+      this.userName.setValue('');
+      this.password.setValue('');
       this._snackBar.open("Désolé, identifiants incorrects.","Error", {
         duration: 2500,
         verticalPosition:'top'

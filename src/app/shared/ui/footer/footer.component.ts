@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { UserService } from 'src/app/core/services/user.service';
+import { UserInterface } from 'src/app/core/models/user-interface';
 
 @Component({
   selector: 'app-footer',
@@ -7,9 +9,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FooterComponent implements OnInit {
 
-  constructor() { }
+  public user: UserInterface;
+
+  constructor(private userService: UserService) { }
 
   ngOnInit(): void {
+    this.userService.userSubject$.subscribe((user: UserInterface) => {
+        this.user = user;
+    });
   }
 
 }

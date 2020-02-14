@@ -1,53 +1,71 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { UserInterface } from './../models/user-interface'
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  private _registeredUsers: any[];
-  public isAuthenticated$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  private _registeredUsers: UserInterface[];
+  private _user: UserInterface = null;
+  public userSubject$ : BehaviorSubject<UserInterface> = new BehaviorSubject<UserInterface>(this._user);
 
   constructor() {
-    this._registeredUsers= new Array<any>();
+    this._registeredUsers = new Array<UserInterface>();
     this._registeredUsers.push(
       {
-        userTerm: 'marcel',
-        passwordTerm: 'password'
+        userName: 'marcel',
+        password: 'password',
+        token: '1234',
+        isAuthenticated: false
       },      
       {
-        userTerm: 'michel',
-        passwordTerm: '123456789'
+        userName: 'michel',
+        password: '123456789',
+        isAuthenticated: false
       },
       {
-        userTerm: 'dudule',
-        passwordTerm: 'magrosse'
+        userName: 'dudule',
+        password: 'magrosse',
+        isAuthenticated: false
       }
     );
+    
     const userAsString: string = localStorage.getItem('user');
     if (userAsString !== null) {
-      this.isAuthenticated$.next(true);
+      const userAsObject: any = JSON.parse(userAsString);
+      this._user = this._registeredUsers.find((obj: UserInterface) => obj.token = userAsObject.token);
+      if (this._user !== undefined) {
+        this._user.isAuthenticated = true;
+      } else {
+        this._user = null;
+      }
     }
+    this.userSubject$.next(this._user);
   }
 
-  public authenticate(user: any): BehaviorSubject<boolean> {
-    const registeredUser:any = this._registeredUsers.find((obj:any) => 
-      (obj.userTerm == user.userTerm) && (obj.passwordTerm == user.passwordTerm)
+  public get user(): UserInterface {
+    return this._user;
+  }
+
+  public authenticate(user: UserInterface): boolean {
+    this._user = this._registeredUsers.find((obj:UserInterface) => 
+      (obj.userName == user.userName) && (obj.password == user.password)
     );
     
-    if(registeredUser !== undefined){
-      localStorage.setItem(
-        'user',
-        JSON.stringify(user)
-      );
-      this.isAuthenticated$.next(true);
-    } else this.isAuthenticated$.next(false);
-    
-    return this.isAuthenticated$;
+    if (this._user !== undefined) {
+      localStorage.setItem('user', JSON.stringify({token: this._user.token}));
+      this._user.isAuthenticated = true;
+    } else {
+      this._user = null;
+    }
+    this.userSubject$.next(this._user);
+    return this._user.isAuthenticated;
   }
 
-  public logout():void {
+  public logout(): void {
     localStorage.removeItem('user');
-    this.isAuthenticated$.next(false);
+    this._user = null;
+    this.userSubject$.next(this._user);
   }
 }

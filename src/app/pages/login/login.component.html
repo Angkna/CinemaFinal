@@ -7,9 +7,9 @@
             type="text"
             value=""
             placeholder="username"
-            formControlName="userTerm"
+            formControlName="userName"
         >
-        <mat-error *ngIf='userTerm.invalid && userTerm.touched'>Le nom doit comprendre au moins 5 caractères.</mat-error>
+        <mat-error *ngIf='userName.invalid && userName.touched'>Le nom doit comprendre au moins 5 caractères.</mat-error>
     </mat-form-field>
     <mat-form-field>
         <mat-label>Mot de passe</mat-label>
@@ -18,9 +18,9 @@
             type="password"
             value=""
             placeholder="password"
-            formControlName="passwordTerm"
+            formControlName="password"
         >
-        <mat-error *ngIf='passwordTerm.invalid && passwordTerm.touched'>Le mot de passe doit comprendre au moins 8 caractères.</mat-error>
+        <mat-error *ngIf='password.invalid && password.touched'>Le mot de passe doit comprendre au moins 8 caractères.</mat-error>
     </mat-form-field>
     <button mat-raised-button color='primary' (click)='doLogin()' [disabled]="loginForm.invalid" >Se connecter</button>
 </form>

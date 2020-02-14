@@ -1,13 +1,14 @@
 <header>
     <mat-toolbar>
         <a [routerLink]="['home']">
-            <mat-icon>home</mat-icon>
+            <mat-icon class="home">home</mat-icon>
         </a>
-        <a *ngIf="!isAuthenticated" [routerLink]="['login']">
-            <mat-icon>account_circle</mat-icon>
+        <span class="example-spacer"></span>
+        <a *ngIf="!user" [routerLink]="['login']">
+            <mat-icon class="connect">account_circle</mat-icon>
         </a>
-        <a *ngIf="isAuthenticated" (click)='doLougout()' [routerLink]="['home']">
-            <mat-icon>exit_to_app</mat-icon>
+        <a *ngIf="user" (click)='doLogout()' [routerLink]="['home']">
+            <mat-icon class="disconnect">exit_to_app</mat-icon>
         </a>
     </mat-toolbar>
 </header>
