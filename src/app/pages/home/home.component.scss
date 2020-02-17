@@ -10,6 +10,9 @@ $default-font-color : hsl(200, 52%, 25%);
 
     & mat-card {
         color: $default-font-color; 
+        &.empty {
+            display: none;
+        }
         &.movie {
             width: 20em; 
             height: 10em;

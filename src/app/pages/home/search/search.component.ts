@@ -1,7 +1,7 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { MovieService } from 'src/app/core/services/movie.service';
 import { Movie } from 'src/app/core/models/movie';
-import { tap, debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import { debounceTime, map } from 'rxjs/operators';
 import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 

@@ -64,18 +64,11 @@ export class MovieService {
   }
 
   public byYear(year: number) : Observable<Movie[]> {
-    this._years = new Set<number>();
     const apiRoute: string = `${environment.apiRoot}movie/byYear?y1=${year}`;
     this.movies = this.httpClient.get<any[]>(apiRoute).pipe(
       take(1),
       map(
-        (reponse) => {
-          return reponse.map((item => {
-            this._years.add(item.year);
-            this.years$.next(Array.from(this._years).sort());
-            return new Movie().deserialize(item)
-          }))
-        }
+        (reponse) => reponse.map((item => new Movie().deserialize(item)))
       )
     );
     return this.movies;
@@ -85,18 +78,11 @@ export class MovieService {
     if (searchYear <= 0 ) { 
       return this.byTitle(searchTitle) 
     } else {
-      this._years = new Set<number>();
       const apiRoute: string = `${environment.apiRoot}movie/byTitleContainingAndYear?t=${searchTitle}&y=${searchYear}`;
       this.movies = this.httpClient.get<any[]>(apiRoute).pipe(
         take(1),
         map(
-          (reponse) => {
-            return reponse.map((item => {
-              this._years.add(item.year);
-              this.years$.next(Array.from(this._years).sort());
-              return new Movie().deserialize(item)
-            }))
-          }
+          (reponse) => reponse.map((item => new Movie().deserialize(item)))
         )
       );
       return this.movies;

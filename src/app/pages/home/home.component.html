@@ -10,7 +10,7 @@
   <div>
     <mat-form-field>
       <mat-label>Années existante</mat-label>
-      <mat-select [(ngModel)]="yearSelected" (ngModelChange)="updateListMoviesByYear()">
+      <mat-select [(ngModel)]="yearSelected">
         <mat-option [value]="0">All</mat-option>
         <mat-option *ngFor="let year of years" [value]="year">
           {{year}}
@@ -22,10 +22,14 @@
 
 <p>Résultat(s) : </p>
 <div class="wrapper">
-  <mat-card class='movie' *ngFor="let movie of moviesOb | async" >
-    <mat-card-title [ngClass]="{'new' : movie.year >= 2010, 'title': true }">
-      <a [routerLink]="['../', 'movie', movie.idMovie]">{{ movie.title }}</a>
-    </mat-card-title>
-    <mat-card-subtitle>{{ movie.year }}</mat-card-subtitle>
+  <mat-card [ngClass]="{'movie': true, 'empty' : (movie.year != yearSelected && yearSelected != 0)}" *ngFor="let movie of moviesOb | async">
+    <div *ngIf="( (movie.year == yearSelected) || yearSelected == 0)">
+      <mat-card-title [ngClass]="{'new' : movie.year >= 2010, 'title': true }">
+        {{ movie.title }}
+      </mat-card-title>
+      <mat-card-subtitle>{{ movie.year }}</mat-card-subtitle>
+      <mat-card-actions *ngIf="user" [routerLink]="['../', 'movie', movie.idMovie]">Détails</mat-card-actions>
+      <mat-card-actions *ngIf="!user" (click)='needLogin()'>Détails</mat-card-actions>
+    </div>
   </mat-card>
 </div>

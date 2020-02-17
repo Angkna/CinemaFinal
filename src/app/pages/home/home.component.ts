@@ -3,6 +3,10 @@ import { MovieService } from 'src/app/core/services/movie.service';
 import { Movie } from 'src/app/core/models/movie';
 import { take } from 'rxjs/operators';
 import { Observable, Subscription } from 'rxjs';
+import { UserService } from 'src/app/core/services/user.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { UserInterface } from 'src/app/core/models/user-interface';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -12,16 +16,23 @@ import { Observable, Subscription } from 'rxjs';
 export class HomeComponent implements OnInit {
   public title: string = 'Mon application qui cherche des films (parfois)';
   public moviesOb: Observable<Movie[]>;
-  //public movies: Movie[] = [];
-  //public moviesYear: Movie[];
+  public user: UserInterface;
   public years: number[];
   public yearSelected: number = 0;
   private yearSubsciption: Subscription;
   
-  constructor(private movieService: MovieService) { }
+  constructor(
+    private movieService: MovieService,
+    private userService: UserService,
+    private _snackBar: MatSnackBar,
+    private router: Router
+    ) { }
 
   ngOnInit(): void {
     this.moviesOb = this.movieService.all();
+    this.userService.userSubject$.subscribe((user: UserInterface) => {
+      this.user = user;
+    });
 
     this.yearSubsciption = this.movieService.years$
       .subscribe((_years) => {
@@ -33,8 +44,15 @@ export class HomeComponent implements OnInit {
     this.moviesOb = $event;
   }
 
-  public updateListMoviesByYear(): void {
-
+  public needLogin():void {
+    console.log('need login');
+    this._snackBar.open("Vous devez vous identifier pour consulter les détails","Redirection", {
+      duration: 2500,
+      verticalPosition:'top'
+    }).afterDismissed().subscribe((test) => {
+      console.log(test);
+      this.router.navigate(['login']);
+    })
+    ;
   }
-
 }
