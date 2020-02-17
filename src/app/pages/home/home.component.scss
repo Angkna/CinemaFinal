@@ -24,6 +24,15 @@ $default-font-color : hsl(200, 52%, 25%);
                 color: rgb(247, 147, 16);
             }
         }
+        & mat-card-actions{
+            position: absolute;
+            bottom: -8px;
+            right: 30px;
+            text-align: end;
+            &:hover{
+                cursor: pointer;
+            }
+        }
     }
 }
 

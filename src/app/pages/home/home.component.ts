@@ -46,11 +46,10 @@ export class HomeComponent implements OnInit {
 
   public needLogin():void {
     console.log('need login');
-    this._snackBar.open("Vous devez vous identifier pour consulter les détails","Redirection", {
+    this._snackBar.open("Vous devez être identifié(e) pour consulter les détails !","Redirection en cours...", {
       duration: 2500,
       verticalPosition:'top'
-    }).afterDismissed().subscribe((test) => {
-      console.log(test);
+    }).afterDismissed().pipe(take(1)).subscribe((a) => {
       this.router.navigate(['login']);
     })
     ;
