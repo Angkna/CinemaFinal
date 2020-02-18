@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Movie } from '../models/movie';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
-import { take, map } from 'rxjs/operators';
+import { take, map, catchError } from 'rxjs/operators';
 import { MovieFull } from '../models/movie-full';
 
 @Injectable({
@@ -43,6 +43,27 @@ export class MovieService {
       map( (reponse) => new MovieFull().deserialize(reponse) )
     );
     return this.movie 
+  }
+
+  public modify(movieUpdated: MovieFull) : Observable<HttpResponse<any>> {
+    const apiRoute: string = `${environment.apiRoot}movie/modify`;
+    console.log('movie updated !')
+    return this.httpClient.put<any>(apiRoute, movieUpdated, {observe: 'response'})
+          .pipe( 
+            take(1),
+            map((response: HttpResponse<any>) => {
+              return response;
+            }));
+  }
+
+  public delete(movie: MovieFull) : Observable<HttpResponse<any>> {
+    const apiRoute: string = `${environment.apiRoot}movie/${movie.idMovie}`;
+    return this.httpClient.delete<any>(apiRoute, {observe: 'response'})
+          .pipe( 
+            take(1),
+            map((response: HttpResponse<any>) => {
+              return response;
+            }));
   }
 
   public byTitle(search: string) : Observable<Movie[]> {

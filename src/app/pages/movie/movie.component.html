@@ -1,1 +1,24 @@
-<p>{{ movie | async | json }}</p>
+<p>Movie de la page : {{ movie | json }}</p>
+
+<form [formGroup]="editForm" >
+    <mat-form-field>
+        <mat-label>Titre du film</mat-label>
+        <input 
+                matInput
+                ng-model="text"
+                placeholder="changer le titre du film"
+                formControlName="editTitle"
+            >
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Année du film</mat-label>
+        <input 
+                matInput
+                type="text"
+                placeholder="changer l'année' du film"
+                formControlName="editYear"
+            >
+    </mat-form-field>
+    <button mat-button (click)="update()">Valider</button>
+    <button mat-button (click)="delete()">Delete</button>
+</form>

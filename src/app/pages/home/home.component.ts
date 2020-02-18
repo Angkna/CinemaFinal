@@ -45,7 +45,6 @@ export class HomeComponent implements OnInit {
   }
 
   public needLogin():void {
-    console.log('need login');
     this._snackBar.open("Vous devez être identifié(e) pour consulter les détails !","Redirection en cours...", {
       duration: 2500,
       verticalPosition:'top'
@@ -53,5 +52,9 @@ export class HomeComponent implements OnInit {
       this.router.navigate(['login']);
     })
     ;
+  }
+
+  public addToLike():void {
+    console.log('JE LIKEUH')
   }
 }

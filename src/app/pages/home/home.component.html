@@ -28,8 +28,10 @@
         {{ movie.title }}
       </mat-card-title>
       <mat-card-subtitle>{{ movie.year }}</mat-card-subtitle>
-      <mat-card-actions *ngIf="user" [routerLink]="['../', 'movie', movie.idMovie]">Détails >>></mat-card-actions>
-      <mat-card-actions *ngIf="!user" (click)='needLogin()'>Détails >>></mat-card-actions>
+      <mat-card-actions class="detail" *ngIf="user" [routerLink]="['../', 'movie', movie.idMovie]">Détails >>></mat-card-actions>
+      <mat-card-actions class="detail" *ngIf="!user" (click)='needLogin()'>Détails >>></mat-card-actions>
+      <mat-card-actions class="like" *ngIf="user" (click)='addToLike()'>J'aime ca !</mat-card-actions>
+      <mat-card-actions class="like" *ngIf="!user" (click)='needLogin()'>J'aime ca !</mat-card-actions>
     </div>
   </mat-card>
 </div>

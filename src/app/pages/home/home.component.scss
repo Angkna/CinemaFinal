@@ -25,12 +25,23 @@ $default-font-color : hsl(200, 52%, 25%);
             }
         }
         & mat-card-actions{
-            position: absolute;
-            bottom: -8px;
-            right: 30px;
-            text-align: end;
-            &:hover{
-                cursor: pointer;
+            &.detail{
+                position: absolute;
+                bottom: -8px;
+                right: 30px;
+                text-align: end;
+                &:hover{
+                    cursor: pointer;
+                }
+            }
+            &.like{
+                position: absolute;
+                bottom: -8px;
+                left: 30px;
+                text-align: start;
+                &:hover{
+                    cursor: pointer;
+                }
             }
         }
     }
