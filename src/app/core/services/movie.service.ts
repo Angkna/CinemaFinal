@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Movie } from '../models/movie';
 import { HttpClient, HttpResponse } from '@angular/common/http';
-import { Observable, BehaviorSubject } from 'rxjs';
-import { take, map} from 'rxjs/operators';
+import { Observable, BehaviorSubject, throwError } from 'rxjs';
+import { take, map, catchError} from 'rxjs/operators';
 import { MovieFull } from '../models/movie-full';
 
 @Injectable({
@@ -38,11 +38,16 @@ export class MovieService {
 
   public byId(id: number) : Observable<MovieFull> {
     const apiRoute: string = `${environment.apiRoot}movie/${id}`;
-    this.movie = this.httpClient.get<any>(apiRoute).pipe(
-      take(1),
-      map( (reponse) => new MovieFull().deserialize(reponse) )
-    );
-    return this.movie 
+    return this.httpClient
+      .get<any>(apiRoute,{observe: 'response'})
+      .pipe(
+        take(1),
+        map( (reponse) => new MovieFull().deserialize(reponse.body) ),
+        catchError( (error:any) => {
+          console.log(`Something went wrong : ${JSON.stringify(error)}`);
+          return throwError(error.status);        
+        })
+      ); 
   }
 
   public modify(movieUpdated: MovieFull) : Observable<HttpResponse<any>> {
