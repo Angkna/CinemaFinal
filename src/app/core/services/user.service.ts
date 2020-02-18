@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { UserInterface } from './../models/user-interface'
+import { Movie } from '../models/movie';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,8 @@ export class UserService {
         userName: 'marcel',
         password: 'password',
         token: '1234',
-        isAuthenticated: false
+        isAuthenticated: false,
+        likedMovie: new Set<Movie>()
       },      
       {
         userName: 'michel',

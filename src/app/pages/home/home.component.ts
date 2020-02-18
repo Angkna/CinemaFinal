@@ -54,7 +54,9 @@ export class HomeComponent implements OnInit {
     ;
   }
 
-  public addToLike():void {
-    console.log('JE LIKEUH')
+  public addLike(movie:Movie, user:UserInterface):void {
+    movie.nbLike = movie.nbLike + 1;
+    user.likedMovie.add(movie);
+    console.log('Like de '+ movie.title + ' : ' + movie.nbLike + ' UserListLiked : ' + JSON.stringify(Array.from(user.likedMovie)))
   }
 }

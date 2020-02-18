@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Movie } from '../models/movie';
-import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
-import { take, map, catchError } from 'rxjs/operators';
+import { take, map} from 'rxjs/operators';
 import { MovieFull } from '../models/movie-full';
 
 @Injectable({
@@ -109,4 +109,8 @@ export class MovieService {
       return this.movies;
     }
   } 
+
+  public like(): Observable<Movie> {
+    return null;
+  }
 }
