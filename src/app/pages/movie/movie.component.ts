@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MovieService } from 'src/app/core/services/movie.service';
-import { Observable } from 'rxjs';
 import { MovieFull } from 'src/app/core/models/movie-full';
 import { FormBuilder, Validators, FormGroup, AbstractControl } from '@angular/forms';
 import { take } from 'rxjs/operators';
@@ -28,16 +27,11 @@ export class MovieComponent implements OnInit {
   ) {  }
 
   ngOnInit(): void {
-    let movie: Observable<MovieFull>;
-    this.route.paramMap.subscribe((paramMap: any) => {
-    movie = this.movieService.byId(paramMap.params.id);
-    });
-
-    movie.pipe(take(1)).subscribe((m) => {
-      this.movie = m;
+    this.route.data.subscribe( (data: {movie:MovieFull} ) => {
+      this.movie = data.movie; //on recup le movie que l'on a déja GET dans le movie-resolver
       this.editForm = this.formBuilder.group({
         editTitle: [
-          m.title, //valeur par defaut
+          this.movie.title, //valeur par defaut
           Validators.compose([
             Validators.required,
             Validators.minLength(2),
@@ -45,16 +39,14 @@ export class MovieComponent implements OnInit {
           ])
         ],
         editYear: [
-          m.year, //valeur par defaut
+          this.movie.year, //valeur par defaut
           Validators.compose([
             Validators.required,
-            Validators.minLength(4),
-            Validators.maxLength(4),
-            Validators.pattern('[0-9]')
+            Validators.pattern('[0-9]{4}')
           ])
         ]
       });
-    });
+    })
   }
 
   public get editTitle(): AbstractControl{

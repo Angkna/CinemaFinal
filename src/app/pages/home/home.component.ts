@@ -44,7 +44,7 @@ export class HomeComponent implements OnInit {
     this.moviesOb = $event;
   }
 
-  public needLogin():void {
+  public needLogin(idMovie: number):void {
     this._snackBar.open("Vous devez être identifié(e) pour consulter les détails !","Redirection en cours...", {
       duration: 2500,
       verticalPosition:'top'
