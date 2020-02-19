@@ -1,12 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { MovieService } from 'src/app/core/services/movie.service';
 import { Movie } from 'src/app/core/models/movie';
-import { take } from 'rxjs/operators';
+import { take, map } from 'rxjs/operators';
 import { Observable, Subscription } from 'rxjs';
 import { UserService } from 'src/app/core/services/user.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UserInterface } from 'src/app/core/models/user-interface';
 import { Router } from '@angular/router';
+import { WebSocketSubject } from 'rxjs/webSocket';
+import { environment } from 'src/environments/environment';
+import { Server } from 'ws';
+import * as WebSocket from 'ws';
 
 @Component({
   selector: 'app-home',
@@ -20,15 +24,37 @@ export class HomeComponent implements OnInit {
   public years: number[];
   public yearSelected: number = 0;
   private yearSubsciption: Subscription;
+  private socket$: WebSocketSubject<any> = new WebSocketSubject<any>(environment.wssAddress);
+  public serverMessages: any[];
+
   
   constructor(
     private movieService: MovieService,
     private userService: UserService,
     private _snackBar: MatSnackBar,
     private router: Router
-    ) { }
+    ) {    }
 
   ngOnInit(): void {
+    this.socket$.subscribe(
+      (message) => {
+        console.log('Le serveur envoie : ' + JSON.stringify(message) + ' message.idMovie = ' + message.idMovie);
+        this.moviesOb = this.moviesOb.pipe(
+          map((movies:Movie[]): Movie[] => {
+            movies.forEach((movie:Movie, index:number) => {
+              if (message.idMovie == movie.idMovie) {
+                console.log('TROUVER !!');
+                movies[index] = message;
+              };
+            });
+            return movies;
+          })
+        )
+      },
+      (err) => console.error('Erreur levée : ' + JSON.stringify(err)),
+      () => console.warn('Completed!')
+    );    
+
     this.moviesOb = this.movieService.all();
     this.userService.userSubject$.subscribe((user: UserInterface) => {
       this.user = user;
@@ -65,7 +91,8 @@ export class HomeComponent implements OnInit {
 
   public addLike(movie:Movie, user:UserInterface):void {
     movie.nbLike = movie.nbLike + 1;
-    user.likedMovie.add(movie);
-    console.log('Like de '+ movie.title + ' : ' + movie.nbLike + ' UserListLiked : ' + JSON.stringify(Array.from(user.likedMovie)))
+    this.socket$.next(movie);
+    //user.likedMovie.add(movie);
+    //console.log('Like de '+ movie.title + ' : ' + movie.nbLike + ' UserListLiked : ' + JSON.stringify(Array.from(user.likedMovie)))
   }
 }

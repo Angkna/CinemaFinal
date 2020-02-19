@@ -29,7 +29,9 @@ export class UserService {
       {
         userName: 'dudule',
         password: 'magrosse',
-        isAuthenticated: false
+        token: '0000',
+        isAuthenticated: false,
+        likedMovie: new Set<Movie>()
       }
     );
     
