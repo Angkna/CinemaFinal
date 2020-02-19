@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute} from '@angular/router';
 import { UserService } from 'src/app/core/services/user.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
@@ -18,7 +18,8 @@ export class LoginComponent implements OnInit {
     private formBuilder: FormBuilder,
     private router: Router, 
     private userService: UserService,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    private route: ActivatedRoute
   ) { }
   
   public get userName(): AbstractControl{
@@ -53,7 +54,15 @@ export class LoginComponent implements OnInit {
   public doLogin(): void {
     //local persistance of user
     if (this.userService.authenticate(this.loginForm.value)) {
-      this.router.navigate(['home']);
+      //user exist, on redirige vers home ou vers la page consulté avant
+      this.route.paramMap.subscribe( (param) => {
+        let id:Number = parseInt(param.get('id'));
+        if ( !Object.is(id, NaN) ) {
+          this.router.navigate(['movie', id]);
+        } else {
+          this.router.navigate(['home']);
+        }
+      });
     } else {
       this.userName.setValue('');
       this.password.setValue('');

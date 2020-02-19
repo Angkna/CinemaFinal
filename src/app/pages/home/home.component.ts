@@ -49,6 +49,15 @@ export class HomeComponent implements OnInit {
       duration: 2500,
       verticalPosition:'top'
     }).afterDismissed().pipe(take(1)).subscribe((a) => {
+      this.router.navigate(['login', idMovie]);
+    })
+    ;
+  }
+  public needLogin2():void {
+    this._snackBar.open("Vous devez être identifié(e) pour consulter les détails !","Redirection en cours...", {
+      duration: 2500,
+      verticalPosition:'top'
+    }).afterDismissed().pipe(take(1)).subscribe((a) => {
       this.router.navigate(['login']);
     })
     ;

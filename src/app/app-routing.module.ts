@@ -22,6 +22,12 @@ const routes: Routes = [
     canActivate: [LoginGuard]
   },
   {
+    path: 'login/:id',
+    component: LoginComponent,
+    canActivate: [LoginGuard],
+    pathMatch: 'full'
+  },
+  {
     path: 'movie/:id',
     component: MovieComponent,
     resolve: { 
