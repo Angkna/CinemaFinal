@@ -32,10 +32,14 @@
       <mat-card-actions class="detail" *ngIf="!user" (click)='needLogin(movie.idMovie)'>Détails >>></mat-card-actions>
       <mat-card-actions class="like" *ngIf="user" (click)='addLike(movie, user)'>
         J'aime !
+        <mat-icon *ngIf="movie.nbLike == 0" [@addLike]="movie.animationState">favorite_border</mat-icon>
+        <mat-icon *ngIf="movie.nbLike > 0" matBadge="{{ movie.nbLike }}" matBadgeColor="warn" [@addLike]="movie.animationState">favorite</mat-icon>
+      </mat-card-actions>
+      <mat-card-actions class="like" *ngIf="!user" (click)='needLogin2()'>
+        J'aime !  
         <mat-icon *ngIf="movie.nbLike == 0">favorite_border</mat-icon>
         <mat-icon *ngIf="movie.nbLike > 0" matBadge="{{ movie.nbLike }}" matBadgeColor="warn" >favorite</mat-icon>
       </mat-card-actions>
-      <mat-card-actions class="like" *ngIf="!user" (click)='needLogin2()'>J'aime ca !  </mat-card-actions>
     </div>
   </mat-card>
 </div>

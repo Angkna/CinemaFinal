@@ -1,7 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostBinding } from '@angular/core';
+import {
+  trigger,
+  state,
+  style,
+  animate,
+  transition,
+  // ...
+} from '@angular/animations';
 import { MovieService } from 'src/app/core/services/movie.service';
 import { Movie } from 'src/app/core/models/movie';
-import { take, map } from 'rxjs/operators';
+import { take, map, timeout } from 'rxjs/operators';
 import { Observable, Subscription } from 'rxjs';
 import { UserService } from 'src/app/core/services/user.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -9,14 +17,31 @@ import { UserInterface } from 'src/app/core/models/user-interface';
 import { Router } from '@angular/router';
 import { WebSocketSubject } from 'rxjs/webSocket';
 import { environment } from 'src/environments/environment';
-import { Server } from 'ws';
-import * as WebSocket from 'ws';
+
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  styleUrls: ['./home.component.scss'],
+  animations: [
+    trigger('addLike', [
+      // ...
+      state('big', style({
+        transform: 'scale(3)'
+      })),
+      state('base', style({
+        transform: 'scale(1)'
+      })),
+      transition('base => big', [
+        animate('1s')
+      ]),
+      transition('big => base', [
+        animate('1s')
+      ]),
+    ]
+  )]
 })
+
 export class HomeComponent implements OnInit {
   public title: string = 'Mon application qui cherche des films (parfois)';
   public moviesOb: Observable<Movie[]>;
@@ -26,7 +51,6 @@ export class HomeComponent implements OnInit {
   private yearSubsciption: Subscription;
   private socket$: WebSocketSubject<any>;
   public serverMessages: any[];
-
   
   constructor(
     private movieService: MovieService,
@@ -81,18 +105,26 @@ export class HomeComponent implements OnInit {
     ;
   }
   public needLogin2():void {
-    this._snackBar.open("Vous devez être identifié(e) pour consulter les détails !","Redirection en cours...", {
+    this._snackBar.open("Vous devez être identifié(e) pour like un film...","Désolé !", {
       duration: 2500,
       verticalPosition:'top'
-    }).afterDismissed().pipe(take(1)).subscribe((a) => {
-      this.router.navigate(['login']);
     })
-    ;
+    //.afterDismissed().pipe(take(1)).subscribe((a) => {
+    //this.router.navigate(['login']);
+    //});
   }
 
   public addLike(movie:Movie, user:UserInterface):void {
-    movie.nbLike = movie.nbLike + 1;
-    this.socket$.next(movie);
+    movie.animationState = "big";
+    setTimeout(() => {
+      movie.nbLike = movie.nbLike + 1;
+      setTimeout(() => {
+        movie.animationState = "base";
+        setTimeout(() => {
+          this.socket$.next(movie);
+        }, 1000);
+      }, 1);
+    }, 1000)
     //user.likedMovie.add(movie);
   }
 }
