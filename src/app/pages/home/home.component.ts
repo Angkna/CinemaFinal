@@ -24,7 +24,7 @@ export class HomeComponent implements OnInit {
   public years: number[];
   public yearSelected: number = 0;
   private yearSubsciption: Subscription;
-  private socket$: WebSocketSubject<any> = new WebSocketSubject<any>(environment.wssAddress);
+  private socket$: WebSocketSubject<any>;
   public serverMessages: any[];
 
   
@@ -36,6 +36,7 @@ export class HomeComponent implements OnInit {
     ) {    }
 
   ngOnInit(): void {
+    this.socket$ = new WebSocketSubject<any>(environment.wssAddress);
     this.socket$.subscribe(
       (message) => {
         console.log('Le serveur envoie : ' + JSON.stringify(message) + ' message.idMovie = ' + message.idMovie);
@@ -93,6 +94,5 @@ export class HomeComponent implements OnInit {
     movie.nbLike = movie.nbLike + 1;
     this.socket$.next(movie);
     //user.likedMovie.add(movie);
-    //console.log('Like de '+ movie.title + ' : ' + movie.nbLike + ' UserListLiked : ' + JSON.stringify(Array.from(user.likedMovie)))
   }
 }
