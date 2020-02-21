@@ -8,9 +8,10 @@ import { UiModule } from './shared/ui/ui.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './shared/material/material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { SearchComponent } from './pages/home/search/search.component';
 import { MovieComponent } from './pages/movie/movie.component'
+import { TokenInterceptorService } from './core/services/token-interceptor.service';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,9 @@ import { MovieComponent } from './pages/movie/movie.component'
     HttpClientModule,
     ReactiveFormsModule,
   ],
-  providers: [],
+  providers: [
+    {provide: HTTP_INTERCEPTORS, useClass: TokenInterceptorService, multi: true},
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -3,6 +3,8 @@ import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/fo
 import { Router, ActivatedRoute} from '@angular/router';
 import { UserService } from 'src/app/core/services/user.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Observable } from 'rxjs';
+import { UserInterface } from 'src/app/core/models/user-interface';
 
 @Component({
   selector: 'app-login',
@@ -12,7 +14,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 
 export class LoginComponent implements OnInit {
 
-  public loginForm: FormGroup; 
+  public loginForm: FormGroup;
+  public adminToken: Observable<String> 
 
   constructor(
     private formBuilder: FormBuilder,
@@ -53,24 +56,31 @@ export class LoginComponent implements OnInit {
 
   public doLogin(): void {
     //local persistance of user
-    if (this.userService.authenticate(this.loginForm.value)) {
-      //user exist, on redirige vers home ou vers la page consulté avant
-      this.route.paramMap.subscribe( (param) => {
-        let id:Number = parseInt(param.get('id'));
-        if ( !Object.is(id, NaN) ) {
-          this.router.navigate(['movie', id]);
-        } else {
-          this.router.navigate(['home']);
-        }
-      });
-    } else {
-      this.userName.setValue('');
-      this.password.setValue('');
-      this._snackBar.open("Désolé, identifiants incorrects.","Error", {
-        duration: 2500,
-        verticalPosition:'top'
-      });
-    }
+    this.userService.authenticate(this.loginForm.value).then((status: boolean) => {
+      if (status) {
+        //user exist, on redirige vers home ou vers la page consulté avant
+        this.route.paramMap.subscribe( (param) => {
+          let id:Number = parseInt(param.get('id'));
+          if ( !Object.is(id, NaN) ) {
+            this.router.navigate(['movie', id]);
+          } else {
+            this.router.navigate(['home']);
+          }
+        });
+      } else {
+        this.userName.setValue('');
+        this.password.setValue('');
+        this._snackBar.open("Désolé, identifiants incorrects.","Error", {
+          duration: 2500,
+          verticalPosition:'top'
+        });
+      }
+    })
+  }
+
+  public adminTest(): void {
+    this.adminToken = this.userService.testAdmin();
+    this.router.navigate(['home']);
   }
 
 }
