@@ -24,7 +24,4 @@
     </mat-form-field>
     <button mat-raised-button color='primary' (click)='doLogin()' [disabled]="loginForm.invalid" >Se connecter</button>
 </form>
-<div class="basdepage">
-    <button mat-raised-button color='primary' (click)='adminTest()'>ADMIN</button>
-    <p>Le token de l'admin est : {{ adminToken | async | json }}.</p>
-</div>
+<div class="basdepage"></div>

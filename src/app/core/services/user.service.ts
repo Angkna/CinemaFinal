@@ -51,19 +51,6 @@ export class UserService {
     return this._user;
   }
 
-  public testAdmin() : Observable<String> {
-    const apiRoute: string = `http://localhost:8080/authenticate`;
-    let token: Observable<String> = this.httpClient.post<any>(apiRoute, this._admin).pipe(
-      take(1),
-      map(
-        (obj) => {
-          return obj.jwtToken
-        }
-      )
-    );
-    return token;
-  }
-
   public authenticate(user: UserInterface): Promise<boolean> {    
     const apiRoute: string = `http://localhost:8080/authenticate`;
     return new Promise<boolean> ((resolve) => {

@@ -77,10 +77,5 @@ export class LoginComponent implements OnInit {
       }
     })
   }
-
-  public adminTest(): void {
-    this.adminToken = this.userService.testAdmin();
-    this.router.navigate(['home']);
-  }
-
+  
 }
