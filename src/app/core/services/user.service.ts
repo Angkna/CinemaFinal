@@ -73,7 +73,7 @@ export class UserService {
       if (response.status === 200) {
         localStorage.setItem('user', JSON.stringify({token: response.body.jwtToken}));
         this._user = user;
-        this._user.token = response.body.token
+        this._user.token = response.body.jwttoken
         this._user.isAuthenticated = true;
         resolve(true);
         this.userSubject$.next(this._user);
