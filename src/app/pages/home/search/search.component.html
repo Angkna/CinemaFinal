@@ -1,11 +1,11 @@
 <form [formGroup]="searchForm">
     <mat-form-field>
-        <mat-label>Titre du film</mat-label>
+        <mat-label>{{ 'global.title' | translate }}</mat-label>
         <input 
             matInput
             type="search"
             value=""
-            placeholder="recherche film par nom"
+            placeholder="{{ 'global.title' | translate }}"
             formControlName="searchTerm"
             (keyup)="reload()"
         >

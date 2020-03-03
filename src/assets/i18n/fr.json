@@ -1,5 +1,8 @@
 {
     "global":{
-        "title": "Films"
+        "movies": "Films",
+        "title": "Titre",
+        "years": "Années",
+        "all": "Toutes"
     }
 }

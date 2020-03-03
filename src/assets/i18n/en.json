@@ -1,5 +1,8 @@
 {
     "global":{
-        "title": "Movies"
+        "movies": "Movies",
+        "title": "Title",
+        "years": "Years",
+        "all" : "All"
     }
 }
