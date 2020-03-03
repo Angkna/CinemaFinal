@@ -54,7 +54,7 @@ export class UserService {
   public authenticate(user: UserInterface): Promise<boolean> {    
     const apiRoute: string = `http://localhost:8080/authenticate`;
     return new Promise<boolean> ((resolve) => {
-       this.httpClient.post<any>(apiRoute, this._admin, {observe:'response'}).pipe(
+       this.httpClient.post<any>(apiRoute, user, {observe:'response'}).pipe(
       take(1)
     ).subscribe((response:HttpResponse<any>) => {
       if (response.status === 200) {
