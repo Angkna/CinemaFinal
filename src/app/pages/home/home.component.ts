@@ -68,7 +68,6 @@ export class HomeComponent implements OnInit {
           map((movies:Movie[]): Movie[] => {
             movies.forEach((movie:Movie, index:number) => {
               if (message.idMovie == movie.idMovie) {
-                console.log('TROUVER !!');
                 movies[index] = message;
               };
             });

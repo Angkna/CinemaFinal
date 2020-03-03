@@ -7,10 +7,20 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class TranslationService {
 
+  private _translateService: TranslateService;
   private _language: string;
+  public get language(): string {
+    return this._language;
+  }
+  public set language(language:string){
+    this._language = language;
+    this.switch();
+  }
+
   constructor() { }
 
   public init(translateService: TranslateService, injector: Injector): Promise<void> {
+    this._translateService = translateService; 
     return new Promise<void>( (resolve: any) => {
       injector.get(LOCATION_INITIALIZED, Promise.resolve(null)).then( () => {
         const userLanguage: string = window.navigator.language.split('-')[0];
@@ -22,4 +32,13 @@ export class TranslationService {
       });
     });
   }
+
+  public switch(){
+    return this._translateService.use(this._language);
+  }
+
+  public switchTo(language:string){
+    return this._translateService.use(language).subscribe();
+  }
+
 }

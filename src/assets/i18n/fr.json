@@ -3,6 +3,7 @@
         "movies": "Films",
         "title": "Titre",
         "years": "Années",
-        "all": "Toutes"
+        "all": "Toutes",
+        "language" : "Langue"
     }
 }

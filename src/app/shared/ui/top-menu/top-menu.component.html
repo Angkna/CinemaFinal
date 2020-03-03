@@ -3,6 +3,16 @@
         <a [routerLink]="['home']">
             <mat-icon class="home">home</mat-icon>
         </a>
+
+        <mat-form-field>
+            <mat-label>Langue</mat-label>
+            <mat-select [(ngModel)]="languageSelected" (selectionChange)='switchLanguage()'>
+              <mat-option *ngFor="let language of languages" [value]="language">
+                {{language}}
+              </mat-option>
+            </mat-select>
+        </mat-form-field>
+
         <span class="example-spacer"></span>
         <a *ngIf="!user" [routerLink]="['login']">
             <mat-icon class="connect">account_circle</mat-icon>
