@@ -16,7 +16,7 @@ export class TopMenuComponent implements OnInit {
   public languages: string[] = ['en', 'fr'];
   //private authentificatedSubsciption: Subscription;
 
-  constructor(private userService: UserService, private translationService :TranslationService) { }
+  constructor(private userService: UserService, private translationService: TranslationService) { }
 
   ngOnInit(): void {    
     //this.authentificatedSubsciption = 

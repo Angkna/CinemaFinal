@@ -48,9 +48,9 @@ export class HomeComponent implements OnInit {
   public user: UserInterface;
   public years: number[];
   public yearSelected: number = 0;
-  private yearSubsciption: Subscription;
   private socket$: WebSocketSubject<any>;
   public serverMessages: any[];
+  public nbMovies: number = 0;
   
   constructor(
     private movieService: MovieService,
@@ -66,6 +66,7 @@ export class HomeComponent implements OnInit {
         console.log('Le serveur envoie : ' + JSON.stringify(message) + ' message.idMovie = ' + message.idMovie);
         this.moviesOb = this.moviesOb.pipe(
           map((movies:Movie[]): Movie[] => {
+            this.nbMovies = movies.length;
             movies.forEach((movie:Movie, index:number) => {
               if (message.idMovie == movie.idMovie) {
                 movies[index] = message;
@@ -83,11 +84,9 @@ export class HomeComponent implements OnInit {
     this.userService.userSubject$.subscribe((user: UserInterface) => {
       this.user = user;
     });
-
-    this.yearSubsciption = this.movieService.years$
-      .subscribe((_years) => {
-        this.years = _years;
-      });
+    this.movieService.years$.subscribe((_years) => {
+      this.years = _years;
+    });
   }
 
   public searchedListMovies($event):void {

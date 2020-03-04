@@ -20,7 +20,9 @@
   </div>
 </mat-toolbar>
 
-<p>Résultat(s) : </p>
+<p *ngIf="(moviesOb | async) ?.length > 1"> {{ (moviesOb | async) ?.length }} résultats trouvés : </p>
+<p *ngIf="(moviesOb | async) ?.length == 1"> Un seul résultat trouvé : </p>
+<p *ngIf="(moviesOb | async) ?.length < 1"> Aucun résultat trouvé ! </p>
 <div class="wrapper">
   <mat-card [ngClass]="{'movie': true, 'empty' : (movie.year != yearSelected && yearSelected != 0)}" *ngFor="let movie of moviesOb | async">
     <div *ngIf="( (movie.year == yearSelected) || yearSelected == 0)">
