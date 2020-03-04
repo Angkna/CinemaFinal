@@ -17,6 +17,7 @@ import { UserInterface } from 'src/app/core/models/user-interface';
 import { Router } from '@angular/router';
 import { WebSocketSubject } from 'rxjs/webSocket';
 import { environment } from 'src/environments/environment';
+import { HttpClient } from '@angular/common/http';
 
 
 @Component({
@@ -50,14 +51,26 @@ export class HomeComponent implements OnInit {
   public yearSelected: number = 0;
   private socket$: WebSocketSubject<any>;
   public serverMessages: any[];
-  public nbMovies: number = 0;
+
+  public currentYear: number;
   
   constructor(
     private movieService: MovieService,
     private userService: UserService,
     private _snackBar: MatSnackBar,
-    private router: Router
+    private router: Router,
+
+    private httpClient: HttpClient
     ) {    }
+
+  public getCurrentYear(): void {
+    this.httpClient.get<any>('http://worldclockapi.com/api/json/utc/now')
+        .pipe( take(1) )
+        .subscribe( (utcDateTime:any) => {
+          this.currentYear = parseInt(utcDateTime.currentDateTime.split('-')[0]);
+          console.log(this.currentYear)
+        });
+  }
 
   ngOnInit(): void {
     this.socket$ = new WebSocketSubject<any>(environment.wssAddress);
@@ -66,7 +79,6 @@ export class HomeComponent implements OnInit {
         console.log('Le serveur envoie : ' + JSON.stringify(message) + ' message.idMovie = ' + message.idMovie);
         this.moviesOb = this.moviesOb.pipe(
           map((movies:Movie[]): Movie[] => {
-            this.nbMovies = movies.length;
             movies.forEach((movie:Movie, index:number) => {
               if (message.idMovie == movie.idMovie) {
                 movies[index] = message;
@@ -79,6 +91,8 @@ export class HomeComponent implements OnInit {
       (err) => console.error('Erreur levée : ' + JSON.stringify(err)),
       () => console.warn('Completed!')
     );    
+    
+    this.getCurrentYear();
 
     this.moviesOb = this.movieService.all();
     this.userService.userSubject$.subscribe((user: UserInterface) => {

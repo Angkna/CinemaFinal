@@ -16,6 +16,7 @@ import { LOCATION_INITIALIZED } from '@angular/common';
 import { TranslateModule, TranslateLoader, TranslateService } from '@ngx-translate/core';
 import { TranslationService } from './core/services/translation.service';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { CurrentTimePipe } from './shared/pipes/current-time.pipe';
 
 export function translateInitializerFactory(  
   translateService: TranslateService, 
@@ -42,7 +43,8 @@ export function HttpLoaderFactory(http:HttpClient): TranslateHttpLoader {
     HomeComponent,
     LoginComponent,
     SearchComponent,
-    MovieComponent
+    MovieComponent,
+    CurrentTimePipe
   ],
   imports: [
     BrowserModule,
