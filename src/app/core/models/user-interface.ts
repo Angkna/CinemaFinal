@@ -4,6 +4,6 @@ export interface UserInterface {
     userName: string;
     password: string;
     token?: string;
-    isAuthenticated: boolean;
+    isAuthenticated?: boolean;
     likedMovie?: Set<Movie>;
 }

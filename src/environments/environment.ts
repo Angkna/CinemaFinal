@@ -5,6 +5,7 @@
 export const environment = {
   production: false,
   apiRoot: 'http://localhost:8080/api/',
+  authenticateRoot: 'http://localhost:8080/authenticate',
   wssAddress: 'ws://127.0.0.1:9090'
 };
 

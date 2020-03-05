@@ -60,8 +60,7 @@ export class MovieComponent implements OnInit {
     this.movieUpdate = this.movie;
     this.movieUpdate.title = this.editTitle.value;
     this.movieUpdate.year = this.editYear.value;
-    this.movieService.modify(this.movieUpdate).pipe(take(1)).subscribe((response:HttpResponse<any>)=>{
-    });
+    this.movieService.modify(this.movieUpdate).pipe(take(1)).subscribe((response:HttpResponse<any>)=>{});
   }
 
   public delete(): void{

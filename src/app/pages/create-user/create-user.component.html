@@ -1,1 +1,35 @@
-<p>create-user works!</p>
+<p>Création de compte :</p>
+<form [formGroup]="RegisterForm">
+    <mat-form-field>
+        <mat-label>Nom d'utilisateur</mat-label>
+        <input 
+            matInput
+            type="text"
+            placeholder="username"
+            formControlName="username"
+        >
+        <mat-error *ngIf='username.invalid && username.touched'>Le nom doit comprendre au moins 5 caractères.</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Email</mat-label>
+        <input 
+            matInput
+            type="email"
+            placeholder="Email"
+            formControlName="email"
+        >
+        <mat-error *ngIf='email.invalid && email.touched'>L'adresse doit etre valide.</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Mot de passe</mat-label>
+        <input 
+            matInput
+            type="password"
+            placeholder="password"
+            formControlName="password"
+        >
+        <mat-error *ngIf='password.invalid && password.touched'>Le mot de passe doit comprendre au moins 8 caractères.</mat-error>
+    </mat-form-field>
+    <button mat-raised-button color='primary' (click)='create()' [disabled]="RegisterForm.invalid" >Créer !</button>
+</form>
+<div class="basdepage"></div>

@@ -23,5 +23,6 @@
         <mat-error *ngIf='password.invalid && password.touched'>Le mot de passe doit comprendre au moins 8 caractères.</mat-error>
     </mat-form-field>
     <button mat-raised-button color='primary' (click)='doLogin()' [disabled]="loginForm.invalid" >Se connecter</button>
+    <button mat-raised-button color='primary' (click)='goToCreateAccount()'>Créer un compte !</button>
 </form>
 <div class="basdepage"></div>

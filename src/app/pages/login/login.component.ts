@@ -4,7 +4,6 @@ import { Router, ActivatedRoute} from '@angular/router';
 import { UserService } from 'src/app/core/services/user.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable } from 'rxjs';
-import { UserInterface } from 'src/app/core/models/user-interface';
 
 @Component({
   selector: 'app-login',
@@ -76,6 +75,10 @@ export class LoginComponent implements OnInit {
         });
       }
     })
+  }
+
+  public goToCreateAccount(): void {
+    this.router.navigate(['createAccount']);
   }
   
 }

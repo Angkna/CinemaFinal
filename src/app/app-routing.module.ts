@@ -5,6 +5,7 @@ import { LoginComponent } from './pages/login/login.component';
 import { LoginGuard } from './core/guards/login.guard';
 import { MovieComponent } from './pages/movie/movie.component';
 import { MovieResolver } from './core/resolver/movie-resolver';
+import { CreateUserComponent } from './pages/create-user/create-user.component';
 
 const routes: Routes = [
   {
@@ -26,6 +27,10 @@ const routes: Routes = [
     component: LoginComponent,
     canActivate: [LoginGuard],
     pathMatch: 'full'
+  },
+  {
+    path: 'createAccount',
+    component: CreateUserComponent
   },
   {
     path: 'movie/:id',
