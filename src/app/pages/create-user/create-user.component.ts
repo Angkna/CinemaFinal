@@ -13,7 +13,7 @@ export class CreateUserComponent implements OnInit {
 
   public RegisterForm: FormGroup;
   private _user: UserInterface = {
-    userName: '', password: ''
+    userName: '', password: '', email: ''
   };
 
   constructor(private formBuilder: FormBuilder, private router: Router, private userService: UserService ) { }
@@ -60,7 +60,9 @@ export class CreateUserComponent implements OnInit {
 
   public create(): void {
     this._user.userName = this.username.value;
+    this._user.email = this.email.value;
     this._user.password = this.password.value;
+    this._user.role = 'simpleUser';
     console.log('need to create user : ' + JSON.stringify(this._user));
     this.userService.addUser(this._user);
     //this.router.navigate(['login']);

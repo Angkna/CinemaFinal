@@ -81,8 +81,7 @@ export class UserService {
   }
 
   public addUser(user: UserInterface) :void {
-    const apiRoute: string = `${environment.apiRoot}user`; //TODO
-    console.log('try to add user in backend');
+    const apiRoute: string = `${environment.apiRoot}user`; 
     this.httpClient.post<any>(apiRoute, user, {observe: 'response'})
           .pipe( 
             take(1),

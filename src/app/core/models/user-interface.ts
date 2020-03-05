@@ -5,5 +5,7 @@ export interface UserInterface {
     password: string;
     token?: string;
     isAuthenticated?: boolean;
-    likedMovie?: Set<Movie>;
+    movieLiked?: Set<Movie>;
+    email?: string;
+    role?: string;
 }
