@@ -33,10 +33,19 @@ export class CreateUserComponent implements OnInit {
         '', 
         Validators.compose([
           Validators.required,
+          Validators.email,
           Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$")
         ])
       ],
       password: [
+        '', 
+        Validators.compose([
+          Validators.required,
+          Validators.minLength(8),
+          Validators.maxLength(255)
+        ])
+      ],
+      passwordConfirm: [
         '', 
         Validators.compose([
           Validators.required,
@@ -59,18 +68,30 @@ export class CreateUserComponent implements OnInit {
     return this.RegisterForm.controls.password;
   }
 
+  public get passwordConfirm(): AbstractControl{
+    return this.RegisterForm.controls.passwordConfirm;
+  }
+
   public create(): void {
-    this._user.userName = this.username.value;
-    this._user.email = this.email.value;
-    this._user.password = this.password.value;
-    this._user.role = 'simpleUser';
-    console.log('need to create user : ' + JSON.stringify(this._user));
-    this.userService.addUser(this._user);
-    this._snackBar.open("Compte crée !","Succes !", {
-      duration: 2500,
-      verticalPosition:'top'
-    })
-    this.router.navigate(['login']);
+    if (this.password.value == this.passwordConfirm.value) {
+      this._user.userName = this.username.value;
+      this._user.email = this.email.value;
+      this._user.password = this.password.value;
+      this._user.role = 'simpleUser';
+      console.log('need to create user : ' + JSON.stringify(this._user));
+      this.userService.addUser(this._user);
+      this._snackBar.open("Compte crée !","Succes !", {
+        duration: 2500,
+        verticalPosition:'top'
+      })
+      this.router.navigate(['login']);
+    } else {
+      this._snackBar.open("Champs de confirmation de mot de passe différent","Error !", {
+        duration: 2500,
+        verticalPosition:'top'
+      })
+    }
+    
   }
 
 }
