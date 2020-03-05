@@ -24,26 +24,29 @@
 <p *ngIf="(moviesOb | async) ?.length == 1"> Un seul résultat trouvé : </p>
 <p *ngIf="(moviesOb | async) ?.length < 1"> Aucun résultat trouvé ! </p>
 
-<button (click)='getCurrentYear()'>TEST CURRENT YEAR</button>
-
 <div class="wrapper">
   <mat-card [ngClass]="{'movie': true, 'empty' : (movie.year != yearSelected && yearSelected != 0)}" *ngFor="let movie of moviesOb | async">
     <div *ngIf="( (movie.year == yearSelected) || yearSelected == 0)">
+
       <mat-card-title [ngClass]="{'new' : movie.year >= 2010, 'title': true }">
         {{ movie.title }}
       </mat-card-title>
+
       <mat-card-subtitle >{{ movie.year }} : {{ movie.year | currentTime | async }}</mat-card-subtitle>
       <mat-card-subtitle *ngIf="(currentYear - movie.year) == 0" >{{ movie.year }} : Film de cet année !</mat-card-subtitle>
       <mat-card-subtitle *ngIf="(currentYear - movie.year) == 1" >{{ movie.year }} : Film de l'année dernière !</mat-card-subtitle>
       <mat-card-subtitle *ngIf="((currentYear - movie.year) > 1 && (currentYear - movie.year) < 5)" >{{ movie.year }} : Film de plus de 2ans !</mat-card-subtitle>
       <mat-card-subtitle *ngIf="(currentYear - movie.year) > 4" >{{ movie.year }} : Film de plus de 5ans  !</mat-card-subtitle>
+
       <mat-card-actions class="detail" *ngIf="user" [routerLink]="['../', 'movie', movie.idMovie]">Détails >>></mat-card-actions>
       <mat-card-actions class="detail" *ngIf="!user" (click)='needLogin(movie.idMovie)'>Détails >>></mat-card-actions>
+
       <mat-card-actions class="like" *ngIf="user" (click)='addLike(movie, user)'>
         J'aime !
         <mat-icon *ngIf="movie.nbLike == 0" [@addLike]="movie.animationState">favorite_border</mat-icon>
         <mat-icon *ngIf="movie.nbLike > 0" matBadge="{{ movie.nbLike }}" matBadgeColor="warn" [@addLike]="movie.animationState">favorite</mat-icon>
       </mat-card-actions>
+      
       <mat-card-actions class="like" *ngIf="!user" (click)='needLogin2()'>
         J'aime !  
         <mat-icon *ngIf="movie.nbLike == 0">favorite_border</mat-icon>

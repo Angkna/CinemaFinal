@@ -1,16 +1,9 @@
-import { Component, OnInit, HostBinding } from '@angular/core';
-import {
-  trigger,
-  state,
-  style,
-  animate,
-  transition,
-  // ...
-} from '@angular/animations';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { trigger, state, style, animate, transition  } from '@angular/animations';
 import { MovieService } from 'src/app/core/services/movie.service';
 import { Movie } from 'src/app/core/models/movie';
-import { take, map, timeout } from 'rxjs/operators';
-import { Observable, Subscription } from 'rxjs';
+import { take, map} from 'rxjs/operators';
+import { Observable } from 'rxjs';
 import { UserService } from 'src/app/core/services/user.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UserInterface } from 'src/app/core/models/user-interface';
@@ -18,6 +11,7 @@ import { Router } from '@angular/router';
 import { WebSocketSubject } from 'rxjs/webSocket';
 import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
+import { TranslateService } from '@ngx-translate/core';
 
 
 @Component({
@@ -43,7 +37,8 @@ import { HttpClient } from '@angular/common/http';
   )]
 })
 
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
+
   public title: string = 'Mon application qui cherche des films (parfois)';
   public moviesOb: Observable<Movie[]>;
   public user: UserInterface;
@@ -53,6 +48,7 @@ export class HomeComponent implements OnInit {
   public serverMessages: any[];
 
   public currentYear: number;
+  private translationChange$: any;
   
   constructor(
     private movieService: MovieService,
@@ -60,7 +56,8 @@ export class HomeComponent implements OnInit {
     private _snackBar: MatSnackBar,
     private router: Router,
 
-    private httpClient: HttpClient
+    private httpClient: HttpClient,
+    private translateService: TranslateService
     ) {    }
 
   public getCurrentYear(): void {
@@ -70,6 +67,9 @@ export class HomeComponent implements OnInit {
           this.currentYear = parseInt(utcDateTime.currentDateTime.split('-')[0]);
           console.log(this.currentYear)
         });
+  }
+
+  ngOnDestroy(): void {
   }
 
   ngOnInit(): void {
@@ -91,10 +91,11 @@ export class HomeComponent implements OnInit {
       (err) => console.error('Erreur levée : ' + JSON.stringify(err)),
       () => console.warn('Completed!')
     );    
-    
+
     this.getCurrentYear();
 
     this.moviesOb = this.movieService.all();
+
     this.userService.userSubject$.subscribe((user: UserInterface) => {
       this.user = user;
     });

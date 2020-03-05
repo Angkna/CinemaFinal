@@ -5,5 +5,11 @@
         "years": "Années",
         "all": "Toutes",
         "language" : "Langue"
+    },
+    "movieYear":{
+        "one": "un an ou moins",
+        "two": "deux ans",
+        "threeFive": "entre 3 et 5 ans",
+        "moreFive": "plus de 5ans"
     }
 }
