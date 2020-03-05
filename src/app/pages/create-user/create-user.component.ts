@@ -3,6 +3,7 @@ import { FormBuilder, Validators, FormGroup, AbstractControl } from '@angular/fo
 import { Router } from '@angular/router';
 import { UserInterface } from 'src/app/core/models/user-interface';
 import { UserService } from 'src/app/core/services/user.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-create-user',
@@ -16,7 +17,7 @@ export class CreateUserComponent implements OnInit {
     userName: '', password: '', email: ''
   };
 
-  constructor(private formBuilder: FormBuilder, private router: Router, private userService: UserService ) { }
+  constructor(private _snackBar: MatSnackBar, private formBuilder: FormBuilder, private router: Router, private userService: UserService ) { }
 
   ngOnInit(): void {
     this.RegisterForm = this.formBuilder.group({
@@ -65,7 +66,11 @@ export class CreateUserComponent implements OnInit {
     this._user.role = 'simpleUser';
     console.log('need to create user : ' + JSON.stringify(this._user));
     this.userService.addUser(this._user);
-    //this.router.navigate(['login']);
+    this._snackBar.open("Compte crée !","Succes !", {
+      duration: 2500,
+      verticalPosition:'top'
+    })
+    this.router.navigate(['login']);
   }
 
 }
