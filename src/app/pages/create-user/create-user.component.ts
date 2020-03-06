@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { UserInterface } from 'src/app/core/models/user-interface';
 import { UserService } from 'src/app/core/services/user.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { HttpResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-create-user',
@@ -72,19 +73,27 @@ export class CreateUserComponent implements OnInit {
     return this.RegisterForm.controls.passwordConfirm;
   }
 
-  public create(): void {
+  public async create() {
     if (this.password.value == this.passwordConfirm.value) {
       this._user.userName = this.username.value;
       this._user.email = this.email.value;
       this._user.password = this.password.value;
       this._user.role = 'simpleUser';
       console.log('need to create user : ' + JSON.stringify(this._user));
-      this.userService.addUser(this._user);
-      this._snackBar.open("Compte crée !","Succes !", {
-        duration: 2500,
-        verticalPosition:'top'
-      })
-      this.router.navigate(['login']);
+      const response:HttpResponse<any> = await (this.userService.addUser(this._user));
+      console.log(JSON.stringify(response));
+      if (response.status == 200 ) {
+        this._snackBar.open("Compte crée !","Succes !", {
+          duration: 2500,
+          verticalPosition:'top'
+        })
+        this.router.navigate(['login']);
+      } else {
+        this._snackBar.open("Username ou Email déja utilisé !","Error !", {
+          duration: 2500,
+          verticalPosition:'top'
+        })
+      }
     } else {
       this._snackBar.open("Champs de confirmation de mot de passe différent","Error !", {
         duration: 2500,

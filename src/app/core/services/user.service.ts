@@ -5,6 +5,7 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { take, map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -80,14 +81,10 @@ export class UserService {
     this.userSubject$.next(this._user);
   }
 
-  public addUser(user: UserInterface) :void {
-    const apiRoute: string = `${environment.apiRoot}user`; 
-    this.httpClient.post<any>(apiRoute, user, {observe: 'response'})
-          .pipe( 
-            take(1),
-            map((response: HttpResponse<any>) => {
-              return response;
-            }))
-          .subscribe();
+  public addUser(user: UserInterface) :Promise<HttpResponse<any>>{
+    const apiRoute: string = `${environment.apiRoot}user`;
+    return this.httpClient.post<any>(apiRoute, user, {observe: 'response'})
+          .pipe(take(1))
+          .toPromise().catch(error => {return new Promise<HttpResponse<any>>(resolve => resolve(error))});
   }
 }
