@@ -17,6 +17,7 @@ export class EditMovieComponent implements OnInit {
   public movie: MovieFull;
   public movieUpdate: MovieFull;
   public editForm: FormGroup;
+  public idMovie: number;
 
   constructor(
     private route: ActivatedRoute,
@@ -28,6 +29,7 @@ export class EditMovieComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe((datas: any) => {
+      this.idMovie = datas.id;
 
       this.movieService.byId(datas.id).subscribe((fullmovie: MovieFull) => {
         console.log(`${JSON.stringify(fullmovie)}`);
@@ -75,4 +77,10 @@ export class EditMovieComponent implements OnInit {
       this.movieService.delete(this.movie).pipe(take(1)).subscribe( () => this.router.navigate(['home']) );
     })
   }
+
+  public returnToMoviePage(): void{ 
+    console.log("je retourne à ma page de film precedent ");
+    this.router.navigate([`movie/${this.idMovie}`] );
+  }
+  
 }

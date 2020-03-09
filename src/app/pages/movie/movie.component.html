@@ -1,5 +1,9 @@
+
+<div class='titleMovie'>  {{ movie.title }} </div>
+
+
 <!-- <p>Movie de la page : {{ movie | json }}</p> -->
-<table>
+
 <mat-card class="example-card" style="align-content: center;">
   <mat-card-header>
     <div mat-card-avatar class="example-header-image"></div>
@@ -8,6 +12,8 @@
   </mat-card-header>
   <!-- <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu"> -->
   <mat-card-content>
+   <table>
+
     <td>
       <tr>
         <p>
@@ -25,14 +31,24 @@
         </p>
       </tr>
     </td>
+  </table>
   </mat-card-content>
   <mat-card-actions>
     <button mat-button>LIKE</button>
     <button mat-raised-button color='primary' (click)='doEdit()'>MODIFY THE MOVIE</button>
   </mat-card-actions>
 </mat-card>
-</table>
 
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+<button mat-button (click)="returnToHome()" mat-raised-button color="primary"> Return to home page  </button>
 
 <!-- <form [formGroup]="editForm" >
     <mat-form-field>
@@ -57,3 +73,4 @@
     <br>
     <button mat-button (click)="delete()" mat-raised-button color="warn">Delete</button>
 </form> -->
+
