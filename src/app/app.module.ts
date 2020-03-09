@@ -18,6 +18,7 @@ import { TranslationService } from './core/services/translation.service';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { CurrentTimePipe } from './shared/pipes/current-time.pipe';
 import { CreateUserComponent } from './pages/create-user/create-user.component';
+import { EditMovieComponent } from './pages/edit-movie/edit-movie.component';
 
 export function translateInitializerFactory(  
   translateService: TranslateService, 
@@ -46,7 +47,8 @@ export function HttpLoaderFactory(http:HttpClient): TranslateHttpLoader {
     SearchComponent,
     MovieComponent,
     CurrentTimePipe,
-    CreateUserComponent
+    CreateUserComponent,
+    EditMovieComponent
   ],
   imports: [
     BrowserModule,

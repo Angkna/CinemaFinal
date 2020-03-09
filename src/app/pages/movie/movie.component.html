@@ -1,9 +1,43 @@
-<p>Movie de la page : {{ movie | json }}</p>
+<!-- <p>Movie de la page : {{ movie | json }}</p> -->
+<table>
+<mat-card class="example-card" style="align-content: center;">
+  <mat-card-header>
+    <div mat-card-avatar class="example-header-image"></div>
+    <mat-card-title>{{movie.title}}</mat-card-title>
+    <mat-card-subtitle>{{movie.year}}</mat-card-subtitle>
+  </mat-card-header>
+  <!-- <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu"> -->
+  <mat-card-content>
+    <td>
+      <tr>
+        <p>
+          Synopsis : {{movie.synopsis}}
+        </p>
+      </tr>
+      <tr>
+        <p>
+          Genres : {{movie.genres}}
+        </p>
+      </tr>
+      <tr>
+        <p>
+          Audiance : {{movie.audiance}}
+        </p>
+      </tr>
+    </td>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-button>LIKE</button>
+    <button mat-raised-button color='primary' (click)='doEdit()'>MODIFY THE MOVIE</button>
+  </mat-card-actions>
+</mat-card>
+</table>
 
-<form [formGroup]="editForm" >
+
+<!-- <form [formGroup]="editForm" >
     <mat-form-field>
         <mat-label>Titre du film</mat-label>
-        <input 
+        <input
                 matInput
                 ng-model="text"
                 placeholder="changer le titre du film"
@@ -12,13 +46,14 @@
     </mat-form-field>
     <mat-form-field>
         <mat-label>Année du film</mat-label>
-        <input 
+        <input
                 matInput
                 type="text"
                 placeholder="changer l'année' du film"
                 formControlName="editYear"
             >
     </mat-form-field>
-    <button mat-button (click)="update()">Valider</button>
-    <button mat-button (click)="delete()">Delete</button>
-</form>
+    <button mat-button (click)="update()" mat-raised-button color="primary">Valider</button>
+    <br>
+    <button mat-button (click)="delete()" mat-raised-button color="warn">Delete</button>
+</form> -->
