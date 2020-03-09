@@ -1,6 +1,6 @@
 {
     "global":{
-        "movies": "Movies",
+        "movies": "Welcome on CrazyMovies",
         "title": "Title",
         "years": "Find by years...",
         "all" : "All years",
@@ -36,7 +36,12 @@
         "passwordconfirm": " Confirm password",
         "email": "Email",
         "placeholderemail": "Your email ",
-        "erroremail": "Your Email must be true"
+        "erroremail": "Your Email must be true",
+        "newcompte": "Create a new account!"
+    },
+    
+    "notif": {
+        "needtobelogin": "You need to be login for continue"
     }
 
 

@@ -118,7 +118,9 @@ export class HomeComponent implements OnInit, OnDestroy {
     ;
   }
   public needLogin2():void {
+   
     this._snackBar.open("Vous devez être identifié(e) pour like un film...","Désolé !", {
+      
       duration: 2500,
       verticalPosition:'top'
     })

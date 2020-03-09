@@ -1,5 +1,5 @@
 <!-- <p>Création de compte :</p> -->
-<h1>  {{ 'register.titleregister' | translate }} </h1>
+<div class='title'>  {{ 'register.titleregister' | translate }} </div>
 
 <form [formGroup]="RegisterForm">
     <!-- firstname -->
@@ -79,7 +79,7 @@
     </mat-form-field>
 
     <span class="example-spacer"></span>
-    
+
     <!-- confirm password  -->
     <mat-form-field>
         <mat-label>{{ 'register.passwordconfirm' | translate }}  </mat-label>
@@ -91,7 +91,7 @@
         >
         <mat-error *ngIf='passwordConfirm.invalid && passwordConfirm.touched'>{{ 'register.passwordconfirmerror' | translate }}</mat-error>
     </mat-form-field> <br>
-    <button mat-raised-button color='primary' (click)='create()' [disabled]="RegisterForm.invalid" >Créer !</button>
+    <button mat-raised-button color='primary' (click)='create()' [disabled]="RegisterForm.invalid" > {{ 'register.newcompte' | translate }}</button>
 </form>
 <div class="basdepage"></div>
 

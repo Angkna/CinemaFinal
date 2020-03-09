@@ -16,6 +16,7 @@ export class FooterComponent implements OnInit {
   ngOnInit(): void {
     this.userService.userSubject$.subscribe((user: UserInterface) => {
         this.user = user;
+        console.log("le nom d utilisateur est :" + JSON.stringify(user));
     });
   }
 

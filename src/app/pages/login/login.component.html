@@ -1,4 +1,7 @@
-<p>Connectez vous :</p>
+<div class="logintitle"> Page de connection </div>
+
+<span class="example-spacer"></span>
+
 <form [formGroup]="loginForm">
     <mat-form-field>
         <mat-label>Nom d'utilisateur</mat-label>
@@ -11,6 +14,9 @@
         >
         <mat-error *ngIf='username.invalid && username.touched'>Le nom doit comprendre au moins 5 caractères.</mat-error>
     </mat-form-field>
+
+    <span class="example-spacer"></span>
+
     <mat-form-field>
         <mat-label>Mot de passe</mat-label>
         <input 
@@ -22,7 +28,16 @@
         >
         <mat-error *ngIf='password.invalid && password.touched'>Le mot de passe doit comprendre au moins 8 caractères.</mat-error>
     </mat-form-field>
-    <button mat-raised-button color='primary' (click)='doLogin()' [disabled]="loginForm.invalid" >Se connecter</button>
+    <span class="example-spacer"></span>
+
+    <button mat-raised-button color='primary' (click)='doLogin()' [disabled]="loginForm.invalid" >Se connecter</button> 
+    <span class="example-spacer"></span> <br>
+    <span class="example-spacer"></span> <br>
+    <span class="example-spacer"></span> <br>
+    <span class="example-spacer"></span> 
+    <div> Pas encore de compte ? </div>
+    
+        
     <button mat-raised-button color='primary' (click)='goToCreateAccount()'>Créer un compte !</button>
 </form>
 <div class="basdepage"></div>

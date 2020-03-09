@@ -5,6 +5,7 @@ import { FooterComponent } from './footer/footer.component';
 import { RouterModule } from '@angular/router';
 import { MaterialModule } from '../material/material.module';
 import { FormsModule } from '@angular/forms';
+import { TranslateModule, TranslateLoader, TranslateService } from '@ngx-translate/core';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { FormsModule } from '@angular/forms';
   ],
   exports: [
     TopMenuComponent,
-    FooterComponent
+    FooterComponent,
+    
   ]
 })
 export class UiModule { }

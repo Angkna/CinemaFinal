@@ -1,0 +1,35 @@
+
+.test {
+	position: bottom; 
+    text-align:center;
+    
+    // left: 50%;  
+    // top: 50%; 	
+	// width: 270px;
+	// height: 80px;
+	/*margin-top: 40px;  moitié de la hauteur */ 
+	/*margin-left: 135px;  moitié de la largeur */
+        margin-left: auto; 
+        margin-right: auto; 
+    color: white; 
+   
+	font-size: x-large;
+	background-color:rgb(27, 27, 27) ;
+	 border: 1px solid #000; 
+	}
+
+    #wrap{
+        min-height:100%;
+        position: relative;
+      }
+
+  
+     #footer{
+        width: 100%;
+        height: 40px;
+        position: fixed;
+        bottom: 0;
+        color: white; 
+        background-color:rgb(97, 95, 95) ;
+        text-align : center 
+      }

@@ -1,5 +1,9 @@
-
 <footer>
-    <p *ngIf="user">{{user.userName}}</p>
-    <p *ngIf="!user">Vous n'est pas identifié(e) !</p>
+    
+<div id='footer'>
+
+    <p *ngIf="user"> Connecté en tant que : {{user.userName}}</p>
+    <p *ngIf="!user">Vous n'êtes pas identifié(e) !</p>
+</div>
+
 </footer>
