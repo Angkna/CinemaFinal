@@ -30,6 +30,15 @@
 <p *ngIf="(moviesOb | async) ?.length == 1"> Un seul résultat trouvé : </p>
 <p *ngIf="(moviesOb | async) ?.length < 1"> Aucun résultat trouvé ! </p>
 
+<div> Persons sont la : </div>
+
+<div>
+  <mat-card *ngFor="let person of personsOb | async">
+    <mat-card-title > {{ person.name }} </mat-card-title>
+</mat-card>
+</div>
+
+
 <div class="wrapper py-3">
   <mat-card [ngClass]="{'movie': true, 'empty' : (movie.year != yearSelected && yearSelected != 0)}" *ngFor="let movie of moviesOb | async">
     <div *ngIf="( (movie.year == yearSelected) || yearSelected == 0)">
@@ -37,6 +46,8 @@
       <mat-card-title [ngClass]="{'new' : movie.year >= 2010, 'title': true }">
         {{ movie.title }}
       </mat-card-title>
+
+  
 
       <mat-card-subtitle >{{ movie.year }} : {{ movie.year | currentTime | async }}</mat-card-subtitle>
       <mat-card-subtitle *ngIf="(currentYear - movie.year) == 0" >{{ movie.year }} : Film de cet année !</mat-card-subtitle>

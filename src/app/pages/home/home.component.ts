@@ -12,7 +12,8 @@ import { WebSocketSubject } from 'rxjs/webSocket';
 import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { TranslateService } from '@ngx-translate/core';
-
+import { Person } from 'src/app/core/models/person';
+import { PersonService } from 'src/app/core/services/person.service';
 
 @Component({
   selector: 'app-home',
@@ -46,6 +47,9 @@ export class HomeComponent implements OnInit, OnDestroy {
   public yearSelected: number = 0;
   private socket$: WebSocketSubject<any>;
   public serverMessages: any[];
+// person 
+  public personsOb: Observable<Person[]>;
+  public name: string;
 
   public currentYear: number;
   private translationChange$: any;
@@ -55,6 +59,8 @@ export class HomeComponent implements OnInit, OnDestroy {
     private userService: UserService,
     private _snackBar: MatSnackBar,
     private router: Router,
+
+    private personService: PersonService,
 
     private httpClient: HttpClient,
     private translateService: TranslateService
@@ -102,11 +108,49 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.movieService.years$.subscribe((_years) => {
       this.years = _years;
     });
+///////////////////////////////////PERSON/////////////
+
+this.socket$ = new WebSocketSubject<any>(environment.wssAddress);
+    this.socket$.subscribe(
+      (message) => {
+        console.log('Le serveur envoie : ' + JSON.stringify(message) + ' message.idPerson = ' + message.idPerson);
+        this.personsOb = this.personsOb.pipe(
+          map((persons:Person[]): Person[] => {
+            persons.forEach((person:Person, index:number) => {
+              if (message.idPerson == person.idPerson) {
+                persons[index] = message;
+              };
+            });
+            return persons;
+          })
+        )
+      },
+      (err) => console.error('Erreur levée : ' + JSON.stringify(err)),
+      () => console.warn('Completed!')
+    );    
+    this.personsOb = this.personService.all();
+
+    
+
+    // this.userService.userSubject$.subscribe((user: UserInterface) => {
+    //   this.user = user;
+    // });
+    
+
+
   }
+
+
+
+
+
 
   public searchedListMovies($event):void {
     this.moviesOb = $event;
   }
+
+
+
 
   public needLogin(idMovie: number):void {
     this._snackBar.open("Vous devez être identifié(e) pour consulter les détails !","Redirection en cours...", {
@@ -117,6 +161,9 @@ export class HomeComponent implements OnInit, OnDestroy {
     })
     ;
   }
+
+
+
   public needLogin2():void {
    
     this._snackBar.open("Vous devez être identifié(e) pour like un film...","Désolé !", {
