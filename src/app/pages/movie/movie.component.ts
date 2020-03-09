@@ -76,4 +76,10 @@ export class MovieComponent implements OnInit {
   public doEdit(): void {
     this.router.navigate(['editMovie', this.movie.idMovie]);
   }
+
+  public returnToHome(): void {
+    this.router.navigate(['home' ]);
+  }
+
+
 }

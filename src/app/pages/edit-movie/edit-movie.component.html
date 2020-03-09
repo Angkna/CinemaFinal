@@ -1,3 +1,8 @@
+<div class="edittitle"> Page d'édition du film "{{movie.title}}" </div>
+
+<br>
+<br> 
+
 <form [formGroup]="editForm" >
   <mat-form-field>
       <mat-label>Titre du film</mat-label>
@@ -8,6 +13,9 @@
               formControlName="editTitle"
           >
   </mat-form-field>
+
+  <span class="example-spacer"></span>
+
   <mat-form-field>
       <mat-label>Année du film</mat-label>
       <input
@@ -17,7 +25,31 @@
               formControlName="editYear"
           >
   </mat-form-field>
-  <button mat-button (click)="update()" mat-raised-button color="primary">Valider</button>
+  
+  <span class="example-spacer"></span>
+ 
+
+  <button mat-button (click)="update()" mat-raised-button color="primary">Valider les modifications</button>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+
+  <div>Mauvais film ? Supprimez le !</div>
   <br>
   <button mat-button (click)="delete()" mat-raised-button color="warn">Delete</button>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+
+  <button mat-button (click)="returnToMoviePage()" mat-raised-button color="primary"> Return to "{{movie.title}}" page  </button>
+
+  
 </form>
