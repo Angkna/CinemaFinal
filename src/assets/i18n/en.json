@@ -2,14 +2,42 @@
     "global":{
         "movies": "Movies",
         "title": "Title",
-        "years": "Years",
-        "all" : "All",
+        "years": "Find by years...",
+        "all" : "All years",
         "language" : "Language"
     },
     "movieYear":{
         "one": "one year or less",
-        "two": "two years",
-        "threeFive": "3 to 5 years",
-        "moreFive": "more than 5 years"
+        "two": "Two years or less",
+        "threeFive": "Five years or less",
+        "moreFive": "More than five years"
+    },
+
+
+   
+    "register":{
+        "titleregister": "Welcome on the register page !",
+        "firstname" : "Firstname",
+        "lastname" : "Lastname",
+        "username" : "Username",
+        "password" : "Password",
+        "Registerbutton" : "Register",
+        "placeholderfristname" : "Your firstname",
+        "firstnameinvalid": "Your FirstName is required and must have at least 3 chars.",
+        "placeholderlastname" : "Your lastname",
+        "lastnameinvalid": "Your LastName is required and must have at least 3 chars.",
+        "placeholdersurname" : "Your surname",
+        "surnameinvalid": "Your Surname is required and must have at least 3 chars.",
+        "placeholderpassword" : "Your password",
+        "passwordinvalid": "Your password is required and must have at least 4 chars.",
+        "youarenotlogin": "You are not Login",
+        "connecteentantque": " Connected with the name : ",
+        "passwordconfirmerror": " Is not the same password !",
+        "passwordconfirm": " Confirm password",
+        "email": "Email",
+        "placeholderemail": "Your email ",
+        "erroremail": "Your Email must be true"
     }
+
+
 }

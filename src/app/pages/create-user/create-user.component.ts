@@ -16,6 +16,7 @@ export class CreateUserComponent implements OnInit {
   public RegisterForm: FormGroup;
   private _user: UserInterface = {
     userName: '', password: '', email: ''
+    //  lastname: '', firstname: ''
   };
 
   constructor(private _snackBar: MatSnackBar, private formBuilder: FormBuilder, private router: Router, private userService: UserService ) { }
@@ -53,7 +54,19 @@ export class CreateUserComponent implements OnInit {
           Validators.minLength(8),
           Validators.maxLength(255)
         ])
-      ]
+      ],
+      firstname: [
+        '',
+        Validators.compose(
+          [Validators.required, Validators.minLength(3)]
+        )
+      ],
+      lastname: [
+        '',
+        Validators.compose(
+          [Validators.required, Validators.minLength(3)]
+        )
+      ],
     });
   }
 
@@ -71,6 +84,14 @@ export class CreateUserComponent implements OnInit {
 
   public get passwordConfirm(): AbstractControl{
     return this.RegisterForm.controls.passwordConfirm;
+  }
+
+  public get lastname(): AbstractControl{
+    return this.RegisterForm.controls.lastname;
+  }
+
+  public get firstname(): AbstractControl{
+    return this.RegisterForm.controls.lastname;
   }
 
   public async create() {
