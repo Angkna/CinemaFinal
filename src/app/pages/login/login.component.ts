@@ -14,18 +14,20 @@ import { Observable } from 'rxjs';
 export class LoginComponent implements OnInit {
 
   public loginForm: FormGroup;
-  public adminToken: Observable<String> 
+  public adminToken: Observable<String>
 
   constructor(
     private formBuilder: FormBuilder,
-    private router: Router, 
+    private router: Router,
     private userService: UserService,
     private _snackBar: MatSnackBar,
     private route: ActivatedRoute
   ) { }
+
   
   public get userName(): AbstractControl{
     return this.loginForm.controls.userName;
+
   }
 
   public get password(): AbstractControl{
@@ -36,6 +38,7 @@ export class LoginComponent implements OnInit {
     this.loginForm = this.formBuilder.group({
       userName: [
         '', 
+
         Validators.compose([
           Validators.required,
           Validators.minLength(5),
@@ -43,7 +46,7 @@ export class LoginComponent implements OnInit {
         ])
       ],
       password: [
-        '', 
+        '',
         Validators.compose([
           Validators.required,
           Validators.minLength(8),
@@ -80,5 +83,5 @@ export class LoginComponent implements OnInit {
   public goToCreateAccount(): void {
     this.router.navigate(['createAccount']);
   }
-  
+
 }

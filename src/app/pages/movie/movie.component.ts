@@ -28,6 +28,7 @@ export class MovieComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.data.subscribe( (data: {movie:MovieFull} ) => {
+      console.log(`Full movie : ${JSON.stringify(data.movie)}`);
       this.movie = data.movie; //on recup le movie que l'on a déja GET dans le movie-resolver
       this.editForm = this.formBuilder.group({
         editTitle: [
@@ -70,5 +71,9 @@ export class MovieComponent implements OnInit {
     }).onAction().pipe(take(1)).subscribe( () => {
       this.movieService.delete(this.movie).pipe(take(1)).subscribe( () => this.router.navigate(['home']) );
     })
+  }
+
+  public doEdit(): void {
+    this.router.navigate(['editMovie', this.movie.idMovie]);
   }
 }

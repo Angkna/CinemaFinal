@@ -1,0 +1,78 @@
+import { Component, OnInit } from '@angular/core';
+import { MovieFull } from 'src/app/core/models/movie-full';
+import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { MovieService } from 'src/app/core/services/movie.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { take } from 'rxjs/operators';
+import { HttpResponse } from '@angular/common/http';
+
+@Component({
+  selector: 'app-edit-movie',
+  templateUrl: './edit-movie.component.html',
+  styleUrls: ['./edit-movie.component.scss']
+})
+export class EditMovieComponent implements OnInit {
+
+  public movie: MovieFull;
+  public movieUpdate: MovieFull;
+  public editForm: FormGroup;
+
+  constructor(
+    private route: ActivatedRoute,
+    private movieService: MovieService,
+    private formBuilder: FormBuilder,
+    private router: Router,
+    private _snackBar: MatSnackBar,
+  ) {  }
+
+  ngOnInit(): void {
+    this.route.params.subscribe((datas: any) => {
+
+      this.movieService.byId(datas.id).subscribe((fullmovie: MovieFull) => {
+        console.log(`${JSON.stringify(fullmovie)}`);
+        this.movie = fullmovie;
+        this.editForm = this.formBuilder.group({
+          editTitle: [
+            this.movie.title, //valeur par defaut
+            Validators.compose([
+              Validators.required,
+              Validators.minLength(2),
+              Validators.maxLength(255)
+            ])
+          ],
+          editYear: [
+            this.movie.year, //valeur par defaut
+            Validators.compose([
+              Validators.required,
+              Validators.pattern('[0-9]{4}')
+            ])
+          ]
+        });
+      });
+    });
+  }
+
+  public get editTitle(): AbstractControl {
+    return this.editForm.controls.editTitle;
+  }
+  public get editYear(): AbstractControl {
+    return this.editForm.controls.editYear;
+  }
+
+  public update(): void {
+    this.movieUpdate = this.movie;
+    this.movieUpdate.title = this.editTitle.value;
+    this.movieUpdate.year = this.editYear.value;
+    this.movieService.modify(this.movieUpdate).pipe(take(1)).subscribe((response: HttpResponse<any>) => {});
+  }
+
+  public delete(): void{
+    this._snackBar.open("Etes vous sure de vouloir supprimer ce film ? Cette action ne pourra pas être annulée.","Confirmation", {
+      duration: 4000,
+      verticalPosition:'top'
+    }).onAction().pipe(take(1)).subscribe( () => {
+      this.movieService.delete(this.movie).pipe(take(1)).subscribe( () => this.router.navigate(['home']) );
+    })
+  }
+}
