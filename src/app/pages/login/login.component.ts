@@ -24,8 +24,8 @@ export class LoginComponent implements OnInit {
     private route: ActivatedRoute
   ) { }
   
-  public get username(): AbstractControl{
-    return this.loginForm.controls.username;
+  public get userName(): AbstractControl{
+    return this.loginForm.controls.userName;
   }
 
   public get password(): AbstractControl{
@@ -34,7 +34,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     this.loginForm = this.formBuilder.group({
-      username: [
+      userName: [
         '', 
         Validators.compose([
           Validators.required,
@@ -67,7 +67,7 @@ export class LoginComponent implements OnInit {
           }
         });
       } else {
-        this.username.setValue('');
+        this.userName.setValue('');
         this.password.setValue('');
         this._snackBar.open("Désolé, identifiants incorrects.","Error", {
           duration: 2500,

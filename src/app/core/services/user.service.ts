@@ -53,13 +53,15 @@ export class UserService {
   }
 
   public authenticate(user: UserInterface): Promise<boolean> {    
-    const apiRoute: string = environment.authenticateRoot;
+    const apiRoute: string = environment.authenticateRoot; 
+    const userBis = { username: user.userName, password: user.password}
     return new Promise<boolean> ((resolve) => {
-       this.httpClient.post<any>(apiRoute, user, {observe:'response'}).pipe(
+       this.httpClient.post<any>(apiRoute, userBis, {observe:'response'}).pipe(
       take(1)
       ).subscribe((response:HttpResponse<any>) => {
         if (response.status === 200) {
           localStorage.setItem('user', JSON.stringify({token: response.body.jwtToken}));
+        
           this._user = user;
           this._user.token = response.body.jwttoken
           this._user.isAuthenticated = true;
