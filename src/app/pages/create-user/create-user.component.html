@@ -1,45 +1,98 @@
-<p>Création de compte :</p>
+<!-- <p>Création de compte :</p> -->
+<h1>  {{ 'register.titleregister' | translate }} </h1>
+
 <form [formGroup]="RegisterForm">
+    <!-- firstname -->
+     
+        <mat-form-field class="">
+        <mat-label>{{ 'register.firstname' | translate }}</mat-label>
+        <input 
+            matInput 
+            type="text" 
+            placeholder="{{ 'register.placeholderfristname' | translate }}"
+            formControlName="firstname"
+        >
+        <mat-error *ngIf="firstname.touched && firstname.invalid">
+            {{ 'register.firstnameinvalid' | translate }}
+        </mat-error>
+    </mat-form-field>
+
+    <span class="example-spacer"></span>
+
+     <!-- lastname -->
+   
+     <mat-form-field class="">
+        <mat-label>{{ 'register.lastname' | translate }}</mat-label>
+        <input 
+            matInput 
+            type="text" 
+            placeholder="{{ 'register.placeholderlastname' | translate }}"
+            formControlName="lastname"
+        >
+        <mat-error *ngIf="lastname.touched && lastname.invalid">
+            {{ 'register.lastnameinvalid' | translate }} 
+        </mat-error>
+    </mat-form-field> 
+
+    <br>
+    
+
+
+    <!-- nom d utilisateur -->
     <mat-form-field>
-        <mat-label>Nom d'utilisateur</mat-label>
+        <mat-label>{{ 'register.username' | translate }}</mat-label> 
         <input 
             matInput
             type="text"
             placeholder="username"
             formControlName="username"
         >
-        <mat-error *ngIf='username.invalid && username.touched'>Le nom doit comprendre au moins 5 caractères.</mat-error>
+        <mat-error *ngIf='username.invalid && username.touched'>   {{ 'register.surnameinvalid' | translate }} </mat-error>
     </mat-form-field>
+
+    <span class="example-spacer"></span>
+
+    <!-- email -->
     <mat-form-field>
-        <mat-label>Email</mat-label>
+        <mat-label>{{ 'register.email' | translate }}</mat-label>
         <input 
             matInput
             type="email"
-            placeholder="Email"
+            placeholder="{{ 'register.placeholderemail' | translate }}"
             formControlName="email"
         >
-        <mat-error *ngIf='email.invalid && email.touched'>L'adresse doit etre valide.</mat-error>
-    </mat-form-field>
+        <mat-error *ngIf='email.invalid && email.touched'>{{ 'register.erroremail' | translate }}</mat-error>
+    </mat-form-field> <br>
+
+    
+
+    <!-- password -->
     <mat-form-field>
-        <mat-label>Mot de passe</mat-label>
+        <mat-label>{{ 'register.password' | translate }}</mat-label>
         <input 
             matInput
             type="password"
             placeholder="password"
             formControlName="password"
         >
-        <mat-error *ngIf='password.invalid && password.touched'>Le mot de passe doit comprendre au moins 8 caractères.</mat-error>
+        <mat-error *ngIf='password.invalid && password.touched'>  {{ 'register.passwordinvalid' | translate }} </mat-error>
     </mat-form-field>
+
+    <span class="example-spacer"></span>
+    
+    <!-- confirm password  -->
     <mat-form-field>
-        <mat-label>Confirmer le mot de passe</mat-label>
+        <mat-label>{{ 'register.passwordconfirm' | translate }}  </mat-label>
         <input 
             matInput
             type="password"
             placeholder="Confirm password"
             formControlName="passwordConfirm"
         >
-        <mat-error *ngIf='passwordConfirm.invalid && passwordConfirm.touched'>Ce n'est pas identique au mot de passe !</mat-error>
-    </mat-form-field>
+        <mat-error *ngIf='passwordConfirm.invalid && passwordConfirm.touched'>{{ 'register.passwordconfirmerror' | translate }}</mat-error>
+    </mat-form-field> <br>
     <button mat-raised-button color='primary' (click)='create()' [disabled]="RegisterForm.invalid" >Créer !</button>
 </form>
 <div class="basdepage"></div>
+
+

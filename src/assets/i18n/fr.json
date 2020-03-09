@@ -2,14 +2,42 @@
     "global":{
         "movies": "Films",
         "title": "Titre",
-        "years": "Années",
-        "all": "Toutes",
-        "language" : "Langue"
+        "years": "Rechercher par années",
+        "all": "Toutes les années",
+        "language" : "Language"
     },
     "movieYear":{
-        "one": "un an ou moins",
-        "two": "deux ans",
-        "threeFive": "entre 3 et 5 ans",
-        "moreFive": "plus de 5ans"
+        "one": "Sorti il y a un an ou moins",
+        "two": "Sorti il y a deux ans ou moins",
+        "threeFive": "Sorti entre trois et cinq ans",
+        "moreFive": "Sorti il y a plus de cinq ans"
+    },
+
+
+    "register":{
+        "titleregister": "Bienvenue sur la page d'enregistrement !"  ,
+        "firstname" : "Prénom",
+        "lastname" : "Nom",
+        "username" : "Pseudo",
+        "password" : "Mot de passe",
+        "Registerbutton" : "Enregistrement",
+        "placeholderfristname" : "Votre nom",
+        "firstnameinvalid": "Votre nom est requis et doit contenir au moins 3 charactères.",
+        "placeholderlastname" : "Votre prénom",
+        "lastnameinvalid": "Votre prénom est requis et doit contenir au moins 3 charactères.",
+        "placeholdersurname" : "Votre surnom",
+        "surnameinvalid": "Votre pseudo est requis et doit contenir au moins 3 charactères.",
+        "placeholderpassword" : "Votre mot de passe",
+        "passwordinvalid": "Votre mot de passe est requis et doit contenir au moins 4 charactères.",
+        "youarenotlogin": "Vous n'êtes actuellement pas connecté",
+        "connecteentantque": " Connecté en tant que : ",
+        "passwordconfirmerror": " Ce n'est pas identique au mot de passe précedent",
+        "passwordconfirm": " Confirmer le mot de passe ",
+        "email": "Adresse mail",
+        "placeholderemail": "Votre adresse mail",
+        "erroremail": "Votre adresse mail doit être réel"
+
+     
     }
+    
 }
