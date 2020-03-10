@@ -10,42 +10,29 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class UserService {
-  private _registeredUsers: UserInterface[];
-  private _admin: Object;
-  private _user: UserInterface = null;
+  private _user: UserInterface = { userName: '', password: ''};
+
   public userSubject$ : BehaviorSubject<UserInterface> = new BehaviorSubject<UserInterface>(this._user);
 
   constructor(private httpClient: HttpClient) {
-    // this._admin = {username: 'administrator', password: 'password'}
-    // this._registeredUsers = new Array<UserInterface>();
-    // this._registeredUsers.push(
-    //   {
-    //     userName: 'marcel',
-    //     password: 'password',
-    //     token: '1234',
-    //     isAuthenticated: false,
-    //     likedMovie: new Set<Movie>()
-    //   },      
-    //   {
-    //     userName: 'dudule',
-    //     password: 'magrosse',
-    //     token: '0000',
-    //     isAuthenticated: false,
-    //     likedMovie: new Set<Movie>()
-    //   }
-    // );
-    //
-    // const userAsString: string = localStorage.getItem('user');
-    // if (userAsString !== null) {
-    //   const userAsObject: any = JSON.parse(userAsString);
-    //   this._user = this._registeredUsers.find((user: UserInterface) => user.token = userAsObject.token);
-    //   if (this._user !== undefined) {
-    //     this._user.isAuthenticated = true;
-    //   } else {
-    //     this._user = null;
-    //   }
-    // }
-    // this.userSubject$.next(this._user);
+
+    const userAsString: string = localStorage.getItem('user');
+    console.log("recherche token ...")
+    if (userAsString !== null) {
+      console.log("token trouvé !")
+      const userAsObject: any = JSON.parse(userAsString);
+      const apiRoute: string = `${environment.apiRoot}user/token?t=${userAsObject.token}`;
+      this.httpClient.get<any>(apiRoute).pipe(
+        take(1)
+      ).subscribe((user) => {
+        console.log("Reponse : " + JSON.stringify(user));
+        this._user.userName = user.userName;
+        this._user.password = user.password;
+      })
+      this._user.token = userAsObject.token;
+      this._user.isAuthenticated = true;
+      this.userSubject$.next(this._user);
+    }  
   }
 
   public get user(): UserInterface {
