@@ -15,6 +15,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { Person } from 'src/app/core/models/person';
 import { PersonService } from 'src/app/core/services/person.service';
 
+
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -39,14 +41,17 @@ import { PersonService } from 'src/app/core/services/person.service';
 })
 
 export class HomeComponent implements OnInit, OnDestroy {
+  private static readonly API: string = 'http://worldclockapi.com/api/json/utc/now';
+  public age : number ;
 
   public title: string = 'Mon application qui cherche des films (parfois)';
   public moviesOb: Observable<Movie[]>;
   public user: UserInterface;
   public years: number[];
   public yearSelected: number = 0;
+  public birthdate: number =0;
   public birthdates: number[];
-  public birthdatesSlected: number = 0;
+  public birthdatesSelected: number = 0;
   private socket$: WebSocketSubject<any>;
   public serverMessages: any[];
 // person 
@@ -151,22 +156,15 @@ this.socket$ = new WebSocketSubject<any>(environment.wssAddress);
     this.personService.birthdate$.subscribe((_birthdate) => {
       this.birthdates = _birthdate;
     });
-/////////////////////////////////////////////end Person////////////
-      
-
 
   }
-
-
-
+/////////////////////////////////////////////end Person////////////
 
 
 
   public searchedListMovies($event):void {
     this.moviesOb = $event;
   }
-
-
 
 
   public needLogin(idMovie: number):void {
@@ -180,7 +178,7 @@ this.socket$ = new WebSocketSubject<any>(environment.wssAddress);
   }
 
   public needLoginPerson(idPerson: number):void {
-    this._snackBar.open("TEST Vous devez être identifié(e) pour consulter les détails d'une personne!","Redirection en cours...", {
+    this._snackBar.open("Vous devez être identifié(e) pour consulter les détails d'une personne!", "Redirection en cours...", {
       duration: 2500,
       verticalPosition:'top'
     }).afterDismissed().pipe(take(1)).subscribe((a) => {
@@ -215,4 +213,72 @@ this.socket$ = new WebSocketSubject<any>(environment.wssAddress);
     }, 1000)
     //user.likedMovie.add(movie);
   }
+  
+////////////calculage/////////
+
+  //  public CalculAge() {
+  //   this.httpClient.get<any>(CurrentTimePipe.API)
+  //   .pipe( take(1) )
+  //   .subscribe( (utcDateTime:any) => {
+  //   const now: moment.Moment= moment(utcDateTime.currentDateTime);
+
+
+//     this.age = 0 ;
+//     ////année en cours
+//     var td = new Date() ; 
+//     var fullyear = td.getFullYear();
+
+//     /////année du mec 
+//     var bd =  this.birthdate; 
+//     //var bd2 = bd.getFullYear();
+// return console.log('messgage pour vérifier la date de naissance : '+ bd);
+//     // var annee = td.substr(0.4);
+    
+    
+   
+    //console.log(bd)
+   // var persbd = this.birthdates.getFullYear();
+    
+  //   this.personService.birthdate$.subscribe((_birthdate) => {
+  //  var bd  =   this.birthdates = _birthdate; 
+   //age = this.getCurrentBirthdate(); 
+  // this.age = bd - fullyear; 
+
+    // Le date d'ouverture de la page (aujourd'hui)
+    // var dtn = birthdate('Birthdate').value; // on lit la date de naissance
+    // var an = dtn.substr(0,4); 
+    // var age = td.getFullYear()-an; // l'âge du joueur
+    // return document.getElementById('Age').innerHTML=age+' ans'; /
+    // return console.log('je calcul lage');
+    //return (this.age);
+    // return (this.bd);
+// }
+
+
+// CalculAge (value: any, ...args: any[]): Promise<string> {
+//   return new Promise<string>( (resolve) => {
+//     let transformValue: string;
+
+//     this.httpClient.get<any>(CurrentTimePipe.API)
+//       .pipe( take(1) )
+//       .subscribe( (utcDateTime:any) => {
+//         const now: moment.Moment= moment(utcDateTime.currentDateTime);
+//         const person.birthdate: number = parseInt(now.format('YYYY')) - value;
+
+//         // if (elapsedTime <= 1) {
+//         //   transformValue = this.translateService.instant('movieYear.one');
+//         // } else if (elapsedTime == 2) {
+//         //   transformValue = this.translateService.instant('movieYear.two');
+//         // } else if (elapsedTime <= 5) {
+//         //   transformValue = this.translateService.instant('movieYear.threeFive');
+//         // } else {
+//         //   transformValue = this.translateService.instant('movieYear.moreFive');
+//         // }
+
+//         resolve(`Sorti il y a ${transformValue}.`)
+//       });
+
+//   });
+// }
+
 }

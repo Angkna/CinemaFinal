@@ -19,7 +19,9 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { CurrentTimePipe } from './shared/pipes/current-time.pipe';
 import { CreateUserComponent } from './pages/create-user/create-user.component';
 import { EditMovieComponent } from './pages/edit-movie/edit-movie.component';
-import { PersonComponent } from './pages/person/person.component'
+import { PersonComponent } from './pages/person/person.component';
+import { AgePipe } from './shared/pipes/age.pipe';
+import { EditPersonComponent } from './pages/edit-person/edit-person.component'
 
 export function translateInitializerFactory(  
   translateService: TranslateService, 
@@ -50,7 +52,9 @@ export function HttpLoaderFactory(http:HttpClient): TranslateHttpLoader {
     CurrentTimePipe,
     CreateUserComponent,
     EditMovieComponent,
-    PersonComponent
+    PersonComponent,
+    AgePipe,
+    EditPersonComponent
   ],
   imports: [
     BrowserModule,
@@ -66,7 +70,7 @@ export function HttpLoaderFactory(http:HttpClient): TranslateHttpLoader {
     })
   ],
   providers: [
-    //{provide: HTTP_INTERCEPTORS, useClass: TokenInterceptorService, multi: true},
+    {provide: HTTP_INTERCEPTORS, useClass: TokenInterceptorService, multi: true},
     {provide: APP_INITIALIZER, useFactory: translateInitializerFactory, deps:[TranslateService, TranslationService, Injector], multi: true},
   ],
   bootstrap: [AppComponent]

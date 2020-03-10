@@ -124,4 +124,8 @@ export class CreateUserComponent implements OnInit {
     
   }
 
+  public returnToLogin(): void{ 
+    this.router.navigate(['login']);
+  }
+
 }

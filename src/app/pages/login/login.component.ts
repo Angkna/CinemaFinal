@@ -84,4 +84,9 @@ export class LoginComponent implements OnInit {
     this.router.navigate(['createAccount']);
   }
 
+  public returnToHome(): void {
+    this.router.navigate(['home']);
+  }
+
+
 }

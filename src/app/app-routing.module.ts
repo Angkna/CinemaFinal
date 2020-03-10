@@ -9,6 +9,7 @@ import { MovieResolver } from './core/resolver/movie-resolver';
 import { CreateUserComponent } from './pages/create-user/create-user.component';
 import { PersonComponent } from './pages/person/person.component';
 import { PersonResolver } from './core/resolver/person-resolver';
+import { EditPersonComponent } from './pages/edit-person/edit-person.component';
 
 const routes: Routes = [
   {
@@ -52,6 +53,10 @@ const routes: Routes = [
   {
     path: 'editMovie/:id',
     component: EditMovieComponent
+  },
+  {
+    path: 'editPerson/:id',
+    component: EditPersonComponent
   },
   {
     path: '**',

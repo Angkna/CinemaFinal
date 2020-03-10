@@ -10,6 +10,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { Person } from 'src/app/core/models/person';
+import { PersonService } from 'src/app/core/services/person.service';
+import { $ } from 'protractor';
 
 @Component({
   selector: 'app-person',
@@ -17,55 +19,34 @@ import { Person } from 'src/app/core/models/person';
   styleUrls: ['./person.component.scss']
 })
 export class PersonComponent implements OnInit {
-  // public actors: Actors[];
-  // public director: Director;
-  public personsOb: Observable<Person[]>;
-  public name: string;
+  public person: Person;
   public editForm: FormGroup;
-  private socket$: WebSocketSubject<any>;
-  public serverMessages: any[];
 
 
   constructor(
     private route: ActivatedRoute,
+    private movieService: PersonService,
     private formBuilder: FormBuilder,
     private router: Router,
     private _snackBar: MatSnackBar,
-
-    private httpClient: HttpClient,
-    private translateService: TranslateService
+    
   ) { }
 
   ngOnInit(): void {
-    // this.socket$ = new WebSocketSubject<any>(environment.wssAddress);
-    // this.socket$.subscribe(
-    //   (message) => {
-    //     console.log('Le serveur envoie : ' + JSON.stringify(message) + ' message.idPerson = ' + message.idPerson);
-    //     this.personsOb = this.personsOb.pipe(
-    //       map((persons:Person[]): Person[] => {
-    //         persons.forEach((person:Person, index:number) => {
-    //           if (message.idPerson == person.idPerson) {
-    //             persons[index] = message;
-    //           };
-    //         });
-    //         return persons;
-    //       })
-    //     )
-    //   },
-    //   (err) => console.error('Erreur levée : ' + JSON.stringify(err)),
-    //   () => console.warn('Completed!')
-    // );    
-
-   
-
-    // this.moviesOb = this.movieService.all();
-
-    // this.userService.userSubject$.subscribe((user: UserInterface) => {
-    //   this.user = user;
-    // });
-    // this.movieService.years$.subscribe((_years) => {
-    //   this.years = _years;
-    // });
+    this.route.data.subscribe((data: { person: Person }) => {
+      console.log(`Person : ${JSON.stringify(data.person)}`);
+      this.person = data.person; 
+      console.log(`test name $(data.person)`)
+    });
   }
+
+    public doEditPerson(): void {
+    this.router.navigate(['editPerson', this.person.idPerson]);
+  }
+
+    public returnToHome(): void {
+    this.router.navigate(['home']);
+   }
+  
 
 }
