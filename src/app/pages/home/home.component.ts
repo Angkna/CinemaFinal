@@ -47,7 +47,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   public yearSelected: number = 0;
   private socket$: WebSocketSubject<any>;
   public serverMessages: any[];
-// person 
+
   public personsOb: Observable<Person[]>;
   public name: string;
 
@@ -189,4 +189,11 @@ this.socket$ = new WebSocketSubject<any>(environment.wssAddress);
     }, 1000)
     //user.likedMovie.add(movie);
   }
+
+/**
+ * goAdvencedSearch()*/
+public goAdvencedSearch() {
+  this.router.navigate(['advencedSearch']);
+}
+
 }
