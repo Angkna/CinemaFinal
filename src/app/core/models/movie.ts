@@ -1,4 +1,6 @@
-export class Movie {
+import { Data } from './data';
+
+export class Movie extends Data {
     public idMovie: number;
     public title: string;
     public year: number;

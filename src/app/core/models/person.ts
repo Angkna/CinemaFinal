@@ -1,4 +1,6 @@
-export class Person {
+import { Data } from './data';
+
+export class Person extends Data {
 
 
     public idPerson: number;

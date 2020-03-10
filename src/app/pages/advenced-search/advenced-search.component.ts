@@ -48,9 +48,6 @@ export class AdvencedSearchComponent implements OnInit {
     return this.advencedSearchForm.controls.searchPerson;
   }
 
-
-
-
   public validSearch(): void {
     console.log("Recherche lancé au backend !")
   }
