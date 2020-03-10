@@ -1,19 +1,16 @@
 
-<div class='titleMovie'>  {{ movie.title }} </div>
 
 
 <!-- <p>Movie de la page : {{ movie | json }}</p> -->
 
-<mat-card class="example-card" style="align-content: center;">
+<mat-card class="example-card">
   <mat-card-header>
-    <div mat-card-avatar class="example-header-image"></div>
     <mat-card-title>{{movie.title}}</mat-card-title>
     <mat-card-subtitle>{{movie.year}}</mat-card-subtitle>
   </mat-card-header>
   <!-- <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu"> -->
   <mat-card-content>
    <table>
-
     <td>
       <tr>
         <p>
@@ -35,7 +32,7 @@
   </mat-card-content>
   <mat-card-actions>
     <button mat-button>LIKE</button>
-    <button mat-raised-button color='primary' (click)='doEdit()'>MODIFY THE MOVIE</button>
+    <button mat-button (click)='doEdit()'>MODIFY</button>
   </mat-card-actions>
 </mat-card>
 
