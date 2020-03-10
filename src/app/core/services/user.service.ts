@@ -11,16 +11,27 @@ import { environment } from 'src/environments/environment';
 })
 export class UserService {
   private _user: UserInterface = { userName: '', password: ''};
+
   public userSubject$ : BehaviorSubject<UserInterface> = new BehaviorSubject<UserInterface>(this._user);
 
   constructor(private httpClient: HttpClient) {
 
     const userAsString: string = localStorage.getItem('user');
+    console.log("recherche token ...")
     if (userAsString !== null) {
-        const userAsObject: any = JSON.parse(userAsString);
-        this._user.isAuthenticated = true;
-        this._user.token = userAsObject.token;
-        this.userSubject$.next(this._user);
+      console.log("token trouvé !")
+      const userAsObject: any = JSON.parse(userAsString);
+      const apiRoute: string = `${environment.apiRoot}user/token?t=${userAsObject.token}`;
+      this.httpClient.get<any>(apiRoute).pipe(
+        take(1)
+      ).subscribe((user) => {
+        console.log("Reponse : " + JSON.stringify(user));
+        this._user.userName = user.userName;
+        this._user.password = user.password;
+      })
+      this._user.token = userAsObject.token;
+      this._user.isAuthenticated = true;
+      this.userSubject$.next(this._user);
     }  
   }
 

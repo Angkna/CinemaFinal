@@ -17,7 +17,6 @@ export class TokenInterceptorService implements HttpInterceptor{
 
     if (token) {
       const bearer: string = "Bearer " + token;
-      console.log("add bearer : " + bearer);
       const newRequest: HttpRequest<any> = req.clone({
         setHeaders : {
           Authorization : bearer
