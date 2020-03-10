@@ -45,16 +45,16 @@ export class MovieService {
         map( (reponse) => new MovieFull().deserialize(reponse.body) ),
         catchError( (error:any) => {
           console.log(`Something went wrong : ${JSON.stringify(error)}`);
-          return throwError(error.status);        
+          return throwError(error.status);
         })
-      ); 
+      );
   }
 
   public modify(movieUpdated: MovieFull) : Observable<HttpResponse<any>> {
     const apiRoute: string = `${environment.apiRoot}movie/modify`;
     console.log('movie updated !')
     return this.httpClient.put<any>(apiRoute, movieUpdated, {observe: 'response'})
-          .pipe( 
+          .pipe(
             take(1),
             map((response: HttpResponse<any>) => {
               return response;
@@ -64,7 +64,7 @@ export class MovieService {
   public delete(movie: MovieFull) : Observable<HttpResponse<any>> {
     const apiRoute: string = `${environment.apiRoot}movie/${movie.idMovie}`;
     return this.httpClient.delete<any>(apiRoute, {observe: 'response'})
-          .pipe( 
+          .pipe(
             take(1),
             map((response: HttpResponse<any>) => {
               return response;
@@ -101,8 +101,8 @@ export class MovieService {
   }
 
   public byTitleAndYear(searchTitle: string, searchYear: number) : Observable<Movie[]> {
-    if (searchYear <= 0 ) { 
-      return this.byTitle(searchTitle) 
+    if (searchYear <= 0 ) {
+      return this.byTitle(searchTitle)
     } else {
       const apiRoute: string = `${environment.apiRoot}movie/byTitleContainingAndYear?t=${searchTitle}&y=${searchYear}`;
       this.movies = this.httpClient.get<any[]>(apiRoute).pipe(
@@ -113,7 +113,7 @@ export class MovieService {
       );
       return this.movies;
     }
-  } 
+  }
 
   public like(): Observable<Movie> {
     return null;

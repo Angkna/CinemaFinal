@@ -32,15 +32,15 @@ export class UserService {
       this._user.token = userAsObject.token;
       this._user.isAuthenticated = true;
       this.userSubject$.next(this._user);
-    }  
+    }
   }
 
   public get user(): UserInterface {
     return this._user;
   }
 
-  public authenticate(user: UserInterface): Promise<boolean> {    
-    const apiRoute: string = environment.authenticateRoot; 
+  public authenticate(user: UserInterface): Promise<boolean> {
+    const apiRoute: string = environment.authenticateRoot;
     const userBis = { username: user.userName, password: user.password}
     return new Promise<boolean> ((resolve) => {
        this.httpClient.post<any>(apiRoute, userBis, {observe:'response'}).pipe(
@@ -48,13 +48,13 @@ export class UserService {
       ).subscribe((response:HttpResponse<any>) => {
         if (response.status === 200) {
           localStorage.setItem('user', JSON.stringify({token: response.body.jwtToken}));
-        
+
           this._user = user;
           this._user.token = response.body.jwttoken
           this._user.isAuthenticated = true;
           resolve(true);
           this.userSubject$.next(this._user);
-        } 
+        }
       }, (error) => {
         this._user = null;
         resolve(false);
@@ -76,4 +76,5 @@ export class UserService {
           .pipe(take(1))
           .toPromise().catch(error => {return new Promise<HttpResponse<any>>(resolve => resolve(error))});
   }
+
 }
