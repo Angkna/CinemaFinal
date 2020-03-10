@@ -45,6 +45,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   public user: UserInterface;
   public years: number[];
   public yearSelected: number = 0;
+  public birthdates: number[];
+  public birthdatesSlected: number = 0;
   private socket$: WebSocketSubject<any>;
   public serverMessages: any[];
 // person 
@@ -53,6 +55,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   public currentYear: number;
   private translationChange$: any;
+  public currentBirthdate: number;
   
   constructor(
     private movieService: MovieService,
@@ -72,6 +75,15 @@ export class HomeComponent implements OnInit, OnDestroy {
         .subscribe( (utcDateTime:any) => {
           this.currentYear = parseInt(utcDateTime.currentDateTime.split('-')[0]);
           console.log(this.currentYear)
+        });
+  }
+
+  public getCurrentBirthdate(): void {
+    this.httpClient.get<any>('http://worldclockapi.com/api/json/utc/now')
+        .pipe( take(1) )
+        .subscribe( (utcDateTime:any) => {
+          this.currentBirthdate = parseInt(utcDateTime.currentDateTime.split('-')[0]);
+          console.log(this.currentBirthdate)
         });
   }
 
@@ -128,14 +140,19 @@ this.socket$ = new WebSocketSubject<any>(environment.wssAddress);
       (err) => console.error('Erreur levée : ' + JSON.stringify(err)),
       () => console.warn('Completed!')
     );    
+
+    this.getCurrentBirthdate();
+
     this.personsOb = this.personService.all();
 
-    
-
-    // this.userService.userSubject$.subscribe((user: UserInterface) => {
-    //   this.user = user;
-    // });
-    
+    this.userService.userSubject$.subscribe((user: UserInterface) => {
+      this.user = user;
+    });
+    this.personService.birthdate$.subscribe((_birthdate) => {
+      this.birthdates = _birthdate;
+    });
+/////////////////////////////////////////////end Person////////////
+      
 
 
   }
@@ -162,6 +179,15 @@ this.socket$ = new WebSocketSubject<any>(environment.wssAddress);
     ;
   }
 
+  public needLoginPerson(idPerson: number):void {
+    this._snackBar.open("TEST Vous devez être identifié(e) pour consulter les détails d'une personne!","Redirection en cours...", {
+      duration: 2500,
+      verticalPosition:'top'
+    }).afterDismissed().pipe(take(1)).subscribe((a) => {
+      this.router.navigate(['login', idPerson]);
+    })
+    ;
+  }
 
 
   public needLogin2():void {

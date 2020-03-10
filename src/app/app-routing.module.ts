@@ -8,6 +8,7 @@ import { EditMovieComponent} from './pages/edit-movie/edit-movie.component';
 import { MovieResolver } from './core/resolver/movie-resolver';
 import { CreateUserComponent } from './pages/create-user/create-user.component';
 import { PersonComponent } from './pages/person/person.component';
+import { PersonResolver } from './core/resolver/person-resolver';
 
 const routes: Routes = [
   {
@@ -34,7 +35,7 @@ const routes: Routes = [
     path: 'person/:id',
     component: PersonComponent,
     resolve: {
-      movie: MovieResolver
+      person: PersonResolver
     }
   },
   {

@@ -29,7 +29,21 @@ $default-font-color : hsl(200, 52%, 25%);
             & .new {
                 color: rgb(247, 147, 16);
             }
+            
         }
+        &.person {
+            width: 20em; 
+            height: 10em;
+            background-color: rgba(99, 91, 219, 0.5);
+            & .title{
+                font-size: 32px;
+            }
+            & .new {
+                color: rgb(247, 147, 16);
+            }
+            
+        }
+        
         & mat-card-actions{
             &.detail{
                 position: absolute;

@@ -30,15 +30,22 @@
 <p *ngIf="(moviesOb | async) ?.length == 1"> Un seul résultat trouvé : </p>
 <p *ngIf="(moviesOb | async) ?.length < 1"> Aucun résultat trouvé ! </p>
 
-<div> Persons sont la : </div>
+<!-- PERSON/////////////////////////// -->
+<div class="wrapper py-3">
 
-<div>
   <mat-card [ngClass]="{'person': true}" *ngFor="let person of personsOb | async">
     <mat-card-title > {{ person.name }} </mat-card-title>
+    <mat-card-subtitle > {{ person.birthdate }} : xxx (TODO) ans </mat-card-subtitle>
+
+    <mat-card-actions class="detail" *ngIf="user" [routerLink]="['../', 'person', person.idPerson]">Détails >>> </mat-card-actions>
+   <mat-card-actions class="detail" *ngIf="!user" (click)='needLoginPerson(person.idPerson)'>Détails >>> </mat-card-actions> 
+
 </mat-card>
 </div>
 
 
+
+<!-- Movie/////////////////////////// -->
 <div class="wrapper py-3">
   <mat-card [ngClass]="{'movie': true, 'empty' : (movie.year != yearSelected && yearSelected != 0)}" *ngFor="let movie of moviesOb | async">
     <div *ngIf="( (movie.year == yearSelected) || yearSelected == 0)">
