@@ -3,7 +3,7 @@ export class Person {
 
     public idPerson: number;
     public name: string;
-    public birthdate?: number;
+    // public birthdate?: number;
     
     public animationState: String= "base";
 

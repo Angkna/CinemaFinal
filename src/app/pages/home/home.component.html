@@ -33,7 +33,7 @@
 <div> Persons sont la : </div>
 
 <div>
-  <mat-card *ngFor="let person of personsOb | async">
+  <mat-card [ngClass]="{'person': true}" *ngFor="let person of personsOb | async">
     <mat-card-title > {{ person.name }} </mat-card-title>
 </mat-card>
 </div>
