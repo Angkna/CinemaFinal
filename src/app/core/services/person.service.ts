@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { Observable, BehaviorSubject, of } from 'rxjs';
 import { Person } from '../models/person';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
@@ -19,19 +19,34 @@ export class PersonService {
 
 constructor(private httpClient: HttpClient) { }
 
-public all() : Observable<Person[]> {
-  
-  const apiRoute: string = `${environment.apiRoot}person`;
-  this.persons = this.httpClient.get<any[]>(apiRoute).pipe(
-    take(1),
-    map(
-      (reponse) => {
-        return reponse.map((item => {
-         
-          return new Person().deserialize(item)
-        }))
-      }
-    )
-  );
-  return this.persons;
-}}
+  public all() : Observable<Person[]> {
+    const apiRoute: string = `${environment.apiRoot}person`;
+    this.persons = this.httpClient.get<any[]>(apiRoute).pipe(
+      take(1),
+      map(
+        (reponse) => {
+          return reponse.map((item => {
+            return new Person().deserialize(item)
+          }))
+        }
+      )
+    );
+    return this.persons? this.persons:of([]);
+  }
+
+  public byName(search: string) : Observable<Person[]> {
+    const apiRoute: string = `${environment.apiRoot}person/byNamePartial?n=${search}`;
+    this.persons = this.httpClient.get<any[]>(apiRoute).pipe(
+      take(1),
+      map(
+        (reponse) => {
+          console.log("testreponse obs person by name" + reponse)
+          return reponse.map((item => {
+            return new Person().deserialize(item)
+          }))
+        }
+      )
+    );
+    return this.persons? this.persons:of([]);
+  }
+}
