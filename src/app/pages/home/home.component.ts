@@ -47,13 +47,13 @@ export class HomeComponent implements OnInit, OnDestroy {
   public yearSelected: number = 0;
   private socket$: WebSocketSubject<any>;
   public serverMessages: any[];
-// person 
+// person
   public personsOb: Observable<Person[]>;
   public name: string;
 
   public currentYear: number;
   private translationChange$: any;
-  
+
   constructor(
     private movieService: MovieService,
     private userService: UserService,
@@ -96,7 +96,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       },
       (err) => console.error('Erreur levée : ' + JSON.stringify(err)),
       () => console.warn('Completed!')
-    );    
+    );
 
     this.getCurrentYear();
 
@@ -127,15 +127,15 @@ this.socket$ = new WebSocketSubject<any>(environment.wssAddress);
       },
       (err) => console.error('Erreur levée : ' + JSON.stringify(err)),
       () => console.warn('Completed!')
-    );    
+    );
     this.personsOb = this.personService.all();
 
-    
+
 
     // this.userService.userSubject$.subscribe((user: UserInterface) => {
     //   this.user = user;
     // });
-    
+
 
 
   }
@@ -165,9 +165,9 @@ this.socket$ = new WebSocketSubject<any>(environment.wssAddress);
 
 
   public needLogin2():void {
-   
+
     this._snackBar.open("Vous devez être identifié(e) pour like un film...","Désolé !", {
-      
+
       duration: 2500,
       verticalPosition:'top'
     })
