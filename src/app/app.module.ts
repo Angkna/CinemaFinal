@@ -22,7 +22,8 @@ import { PersonComponent } from './pages/person/person.component';
 import { AgePipe } from './shared/pipes/age.pipe';
 import { EditPersonComponent } from './pages/edit-person/edit-person.component'
 import { UserComponent } from './pages/user/user.component'
-import { AdvencedSearchComponent } from './pages/advenced-search/advenced-search.component'
+import { AdvencedSearchComponent } from './pages/advenced-search/advenced-search.component';
+
 
 export function translateInitializerFactory(
   translateService: TranslateService,
@@ -57,7 +58,9 @@ export function HttpLoaderFactory(http:HttpClient): TranslateHttpLoader {
     AgePipe,
     EditPersonComponent,
     UserComponent,
-    AdvencedSearchComponent
+    AdvencedSearchComponent,
+    
+
   ],
   imports: [
     BrowserModule,

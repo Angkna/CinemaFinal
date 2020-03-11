@@ -63,6 +63,7 @@ export class EditMovieComponent implements OnInit {
   }
 
   public update(): void {
+    //console.log('uptate il faudrait')
     this.movieUpdate = this.movie;
     this.movieUpdate.title = this.editTitle.value;
     this.movieUpdate.year = this.editYear.value;

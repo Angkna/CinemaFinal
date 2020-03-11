@@ -212,4 +212,11 @@ export class HomeComponent implements OnInit {
     this.router.navigate(['advencedSearch']);
   }
 
+  public goAddMovie() {
+    this.router.navigate(['home']);
+  }
+  public goAddPerson() {
+    this.router.navigate(['home']);
+  }
+  
 }

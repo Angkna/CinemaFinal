@@ -9,13 +9,20 @@
     <app-search (datas)="searchedListMovies($event)"></app-search>
     
   </div>
-  <mat-card-actions (click)='goAdvencedSearch()'> Recherche Avancé </mat-card-actions>
-  
+  <span class='example-spacer' ></span>
+  <!-- <mat-card-actions (click)='goAdvencedSearch()'> Recherche Avancé </mat-card-actions> -->
+  <button mat-raised-button color='black' (click)='goAdvencedSearch()'>Recherche Avancé </button>
 </mat-toolbar>
 
 <p *ngIf="(moviesOb | async) ?.length > 1"> {{ (moviesOb | async) ?.length }} résultats trouvés : </p>
 <p *ngIf="(moviesOb | async) ?.length == 1"> Un seul résultat trouvé : </p>
 <p *ngIf="(moviesOb | async) ?.length < 1"> Aucun résultat trouvé ! </p>
+<p *ngIf="(moviesOb | async) ?.length < 1"> Voulez vous rajouter votre recherche ?</p>
+<p *ngIf="(moviesOb | async) ?.length < 1"> 
+  <button mat-raised-button color='primary' (click)='goAddMovie()'>Ajouter un film </button>  
+  <span class='example-spacer' ></span>
+  <button mat-raised-button color='primary' (click)='goAddPerson()'>Ajouter une personne (TODO) </button>
+</p>
 
 <!-- PERSON/////////////////////////// -->
 <div class="wrapper py-3">

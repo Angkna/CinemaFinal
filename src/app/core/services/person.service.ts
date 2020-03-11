@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject, throwError, of } from 'rxjs';
 import { Person } from '../models/person';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { take, map, catchError } from 'rxjs/operators';
 
@@ -59,5 +59,28 @@ public byName(search: string) : Observable<Person[]> {
     );
     return this.persons? this.persons:of([]);
   }
+
+  public modify(personUpdated: Person) : Observable<HttpResponse<any>> {
+    const apiRoute: string = `${environment.apiRoot}person/modify`;
+    console.log('person updated !')
+    return this.httpClient.put<any>(apiRoute, personUpdated, {observe: 'response'})
+          .pipe(
+            take(1),
+            map((response: HttpResponse<any>) => {
+              return response;
+            }));
+  }
+
+  public delete(person: Person) : Observable<HttpResponse<any>> {
+    const apiRoute: string = `${environment.apiRoot}person/${person.idPerson}`;
+    return this.httpClient.delete<any>(apiRoute, {observe: 'response'})
+          .pipe(
+            take(1),
+            map((response: HttpResponse<any>) => {
+              return response;
+            }));
+  }
+
+
 
 }

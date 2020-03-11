@@ -57,6 +57,14 @@ export class EditPersonComponent implements OnInit {
               Validators.minLength(2),
               Validators.pattern('255')
             ])
+          ],
+          editNationality: [
+            this.person.nationalities, //valeur par defaut
+            Validators.compose([
+              Validators.required,
+              Validators.minLength(2),
+              Validators.pattern('255')
+            ])
           ]
         });
       });
@@ -72,13 +80,19 @@ export class EditPersonComponent implements OnInit {
   public get editBio(): AbstractControl {
     return this.editForm.controls.editBio;
   }
+  public get editNationalities(): AbstractControl {
+    return this.editForm.controls.editNationalities;
+  }
+  
 
-  public update(): void {
+  public updatePerson(): void {
+    console.log('uptate il faudrait')
     this.personUpdate = this.person;
     this.personUpdate.name = this.editName.value;
     this.personUpdate.birthdate = this.editBirthdate.value;
-    // TODO
-    // this.personService.modify(this.personUpdate).pipe(take(1)).subscribe((response: HttpResponse<any>) => {});
+    this.personUpdate.biography = this.editBio.value;
+    this.personUpdate.nationalities = this.editNationalities.value;
+    this.personService.modify(this.personUpdate).pipe(take(1)).subscribe((response: HttpResponse<any>) => {});
   }
 
 
@@ -87,8 +101,7 @@ export class EditPersonComponent implements OnInit {
       duration: 4000,
       verticalPosition:'top'
     }).onAction().pipe(take(1)).subscribe( () => {
-      // TODO
-      // this.personService.delete(this.person).pipe(take(1)).subscribe( () => this.router.navigate(['home']) );
+      this.personService.delete(this.person).pipe(take(1)).subscribe( () => this.router.navigate(['home']) );
     })
   }
 
