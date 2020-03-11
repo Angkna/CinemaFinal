@@ -1,14 +1,13 @@
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { Data } from '../models/data';
-import { Subject, Observable, from } from 'rxjs';
 import { Movie } from '../models/movie';
 import { Person } from '../models/person';
-import { partition } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
-export class DataServiceService {
+export class DataService {
 
   datasOb: Observable<Data[]>
   moviesOb: Observable<Movie[]>;
@@ -24,5 +23,5 @@ export class DataServiceService {
 
     return null;
   }
-  
+
 }
