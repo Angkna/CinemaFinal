@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Movie } from '../models/movie';
 import { HttpClient, HttpResponse } from '@angular/common/http';
-import { Observable, BehaviorSubject, throwError } from 'rxjs';
+import { Observable, BehaviorSubject, throwError, of } from 'rxjs';
 import { take, map, catchError} from 'rxjs/operators';
 import { MovieFull } from '../models/movie-full';
 
@@ -33,7 +33,7 @@ export class MovieService {
         }
       )
     );
-    return this.movies;
+    return this.movies? this.movies:of([]);
   }
 
   public byId(id: number) : Observable<MovieFull> {
@@ -45,16 +45,16 @@ export class MovieService {
         map( (reponse) => new MovieFull().deserialize(reponse.body) ),
         catchError( (error:any) => {
           console.log(`Something went wrong : ${JSON.stringify(error)}`);
-          return throwError(error.status);        
+          return throwError(error.status);
         })
-      ); 
+      );
   }
 
   public modify(movieUpdated: MovieFull) : Observable<HttpResponse<any>> {
     const apiRoute: string = `${environment.apiRoot}movie/modify`;
     console.log('movie updated !')
     return this.httpClient.put<any>(apiRoute, movieUpdated, {observe: 'response'})
-          .pipe( 
+          .pipe(
             take(1),
             map((response: HttpResponse<any>) => {
               return response;
@@ -64,7 +64,7 @@ export class MovieService {
   public delete(movie: MovieFull) : Observable<HttpResponse<any>> {
     const apiRoute: string = `${environment.apiRoot}movie/${movie.idMovie}`;
     return this.httpClient.delete<any>(apiRoute, {observe: 'response'})
-          .pipe( 
+          .pipe(
             take(1),
             map((response: HttpResponse<any>) => {
               return response;
@@ -86,7 +86,7 @@ export class MovieService {
         }
       )
     );
-    return this.movies;
+    return this.movies? this.movies:of([]);
   }
 
   public byYear(year: number) : Observable<Movie[]> {
@@ -97,12 +97,12 @@ export class MovieService {
         (reponse) => reponse.map((item => new Movie().deserialize(item)))
       )
     );
-    return this.movies;
+    return this.movies? this.movies:of([]);
   }
 
   public byTitleAndYear(searchTitle: string, searchYear: number) : Observable<Movie[]> {
-    if (searchYear <= 0 ) { 
-      return this.byTitle(searchTitle) 
+    if (searchYear <= 0 ) {
+      return this.byTitle(searchTitle)
     } else {
       const apiRoute: string = `${environment.apiRoot}movie/byTitleContainingAndYear?t=${searchTitle}&y=${searchYear}`;
       this.movies = this.httpClient.get<any[]>(apiRoute).pipe(
@@ -113,7 +113,7 @@ export class MovieService {
       );
       return this.movies;
     }
-  } 
+  }
 
   public like(): Observable<Movie> {
     return null;

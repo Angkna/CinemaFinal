@@ -1,9 +1,10 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { MovieService } from 'src/app/core/services/movie.service';
-import { Movie } from 'src/app/core/models/movie';
-import { debounceTime, map } from 'rxjs/operators';
+import { debounceTime, map, mergeAll } from 'rxjs/operators';
 import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { Observable, forkJoin } from 'rxjs';
+import { Data } from 'src/app/core/models/data';
+import { PersonService } from 'src/app/core/services/person.service';
 
 
 @Component({
@@ -13,11 +14,11 @@ import { Observable } from 'rxjs';
 })
 export class SearchComponent implements OnInit {
 
-  @Output() movies: EventEmitter<Observable<Movie[]>> = new EventEmitter<Observable<Movie[]>>();
+  @Output() datas: EventEmitter<Observable<Data[]>> = new EventEmitter<Observable<Data[]>>();
   
   public searchForm: FormGroup;
   
-  constructor(private movieService: MovieService, private formBuilder: FormBuilder) { }
+  constructor(private movieService: MovieService, private personService: PersonService, private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
     this.searchForm = this.formBuilder.group({
@@ -47,14 +48,14 @@ export class SearchComponent implements OnInit {
   public validSearch(): void {
     var search = this.searchTerm.value.trim();
     if (search.length >= 2) {
-      this.movies.emit(this.movieService.byTitle(search));
+      this.datas.emit( forkJoin(this.movieService.byTitle(search), this.personService.byName(search)).pipe(map(([s1, s2]) => [...s1, ...s2]))  );
     };
   }
 
   public reload(): void {
     var search = this.searchTerm.value.trim();
     if (search.length == 0) {
-      this.movies.emit(this.movieService.all());
+      this.datas.emit( forkJoin(this.movieService.all(), this.personService.all()).pipe(map(([s1, s2]) => [...s1, ...s2]))  );
     };
   }
 }

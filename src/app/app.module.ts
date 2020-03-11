@@ -12,7 +12,6 @@ import { HttpClientModule, HTTP_INTERCEPTORS, HttpClient } from '@angular/common
 import { SearchComponent } from './pages/home/search/search.component';
 import { MovieComponent } from './pages/movie/movie.component'
 import { TokenInterceptorService } from './core/services/token-interceptor.service';
-import { LOCATION_INITIALIZED } from '@angular/common';
 import { TranslateModule, TranslateLoader, TranslateService } from '@ngx-translate/core';
 import { TranslationService } from './core/services/translation.service';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
@@ -22,13 +21,15 @@ import { EditMovieComponent } from './pages/edit-movie/edit-movie.component';
 import { PersonComponent } from './pages/person/person.component';
 import { AgePipe } from './shared/pipes/age.pipe';
 import { EditPersonComponent } from './pages/edit-person/edit-person.component'
+import { UserComponent } from './pages/user/user.component'
+import { AdvencedSearchComponent } from './pages/advenced-search/advenced-search.component'
 
-export function translateInitializerFactory(  
-  translateService: TranslateService, 
+export function translateInitializerFactory(
+  translateService: TranslateService,
   translationService: TranslationService,
   injector: Injector
 ) {
-  return ():Promise<void> => { 
+  return ():Promise<void> => {
     return translationService.init(translateService, injector);
   }
 }
@@ -54,7 +55,9 @@ export function HttpLoaderFactory(http:HttpClient): TranslateHttpLoader {
     EditMovieComponent,
     PersonComponent,
     AgePipe,
-    EditPersonComponent
+    EditPersonComponent,
+    UserComponent,
+    AdvencedSearchComponent
   ],
   imports: [
     BrowserModule,

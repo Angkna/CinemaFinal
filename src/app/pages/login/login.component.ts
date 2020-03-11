@@ -95,7 +95,10 @@ export class LoginComponent implements OnInit {
         if (!(this._idPerson === undefined)) {
           this.router.navigate(['../', 'person', this._idPerson]);
         } 
-        // this.router.navigate(['home']);
+        if ( (this._idMovie === undefined) && (this._idPerson === undefined) )  {
+           this.router.navigate(['home']);
+        } 
+       
       } else {
         this._snackBar.open(
           'Sorry, your identification failed!',
