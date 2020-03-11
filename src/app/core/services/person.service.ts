@@ -40,7 +40,6 @@ constructor(private httpClient: HttpClient) { }
       take(1),
       map(
         (reponse) => {
-          console.log("testreponse obs person by name" + reponse)
           return reponse.map((item => {
             return new Person().deserialize(item)
           }))

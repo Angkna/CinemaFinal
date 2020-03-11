@@ -1,27 +1,33 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, Subject, of } from 'rxjs';
 import { Data } from '../models/data';
 import { Movie } from '../models/movie';
 import { Person } from '../models/person';
+import { partition, take } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
+  
+  constructor() {  }
 
-  datasOb: Observable<Data[]>
-  moviesOb: Observable<Movie[]>;
-  personsOb: Observable<Person[]>;
-
-  constructor() {
+  public splitData(datasOb: Observable<Data[]>): [Observable<Movie[]>, Observable<Person[]>] {
+    let movies: Movie[] = [];
+    let persons: Person[] = [];
+    datasOb
+      .pipe(take(1))
+      .subscribe(datas => {
+        datas.forEach(data => {
+          if (data.type === 'Movie') {
+            movies.push(new Movie().deserialize(data));
+          } 
+          if (data.type === 'Person') {
+            persons.push(new Person().deserialize(data));
+          }
+        });
+      })
+    return [of(movies), of(persons)];
   }
-
-  public split(datasObs: Observable<Data[]>) : [Observable<Movie[]>, Observable<Person[]>] {
-
-    // datasObs.pipe(datas => {this.datasOb = from(datas); return datas;})
-    // this.datasOb.pipe(partition(data => data.values.type === 'Movie'));
-
-    return null;
-  }
-
+ 
 }

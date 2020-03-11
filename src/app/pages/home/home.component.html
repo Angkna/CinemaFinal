@@ -13,9 +13,6 @@
   
 </mat-toolbar>
 
-<p> {{ (dataOb | async) ?.length }} dans la liste recu</p>
-<p> {{ dataOb | async | json }} </p>
-
 <p *ngIf="(moviesOb | async) ?.length > 1"> {{ (moviesOb | async) ?.length }} résultats trouvés : </p>
 <p *ngIf="(moviesOb | async) ?.length == 1"> Un seul résultat trouvé : </p>
 <p *ngIf="(moviesOb | async) ?.length < 1"> Aucun résultat trouvé ! </p>

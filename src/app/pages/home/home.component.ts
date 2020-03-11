@@ -14,6 +14,7 @@ import { HttpClient } from '@angular/common/http';
 import { Person } from 'src/app/core/models/person';
 import { PersonService } from 'src/app/core/services/person.service';
 import { Data } from 'src/app/core/models/data';
+import { DataService } from 'src/app/core/services/data.service';
 
 @Component({
   selector: 'app-home',
@@ -44,7 +45,6 @@ export class HomeComponent implements OnInit {
 
   public personsOb: Observable<Person[]>;
   public moviesOb: Observable<Movie[]>;
-  public dataOb: Observable<Data[]>;
 
   public user: UserInterface;
 
@@ -57,6 +57,9 @@ export class HomeComponent implements OnInit {
     private movieService: MovieService,
     private personService: PersonService,
     private userService: UserService,
+
+    private dataService: DataService,
+
     private _snackBar: MatSnackBar,
     private router: Router,
     private httpClient: HttpClient
@@ -105,10 +108,7 @@ export class HomeComponent implements OnInit {
   }
 
   public searchedListMovies($event):void {
-    this.dataOb = $event;
-
-    //TODO charger liste movie + person séparer !!
-
+    [this.moviesOb, this.personsOb] = this.dataService.splitData($event);
   }
 
   public needLogin(idMovie: number):void {
