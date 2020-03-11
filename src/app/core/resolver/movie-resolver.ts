@@ -14,20 +14,45 @@ export class MovieResolver implements Resolve<any> {
         private router: Router
     ) {}
 
+
+    // avant 
+    // public resolve(
+    //     route: import("@angular/router").ActivatedRouteSnapshot,
+    //     state: import("@angular/router").RouterStateSnapshot
+    // ): Observable<any> {
+    //     const id: number = parseInt(route.paramMap.get('id'));
+    //     return this.movieService.byId(id)
+    //         .pipe(
+    //             take(1),
+    //             map((response) => { return response }),
+    //             catchError((error: any): Observable<any> => {
+    //                 return this._errorHandler(error);
+    //             })
+    //         );
+    // }
+
     public resolve(
-        route: import("@angular/router").ActivatedRouteSnapshot,
+        route: import("@angular/router").ActivatedRouteSnapshot, 
         state: import("@angular/router").RouterStateSnapshot
     ): Observable<any> {
         const id: number = parseInt(route.paramMap.get('id'));
+
+        console.log(`Hello resolver : ${id}`);
+
         return this.movieService.byId(id)
             .pipe(
                 take(1),
-                map((response) => { return response }),
+                map((response) => {
+                    return response
+                }),
                 catchError((error: any): Observable<any> => {
+                    console.log(`Resolver failed with : ${JSON.stringify(error)}`);
                     return this._errorHandler(error);
                 })
             );
     }
+
+    
 
     private _errorHandler(error: number): Observable<any> {
         if (error === 404){

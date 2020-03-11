@@ -5,9 +5,9 @@ import { Movie } from 'src/app/core/models/movie';
 import { take, map} from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { UserService } from 'src/app/core/services/user.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatSnackBar, MatSnackBarRef, SimpleSnackBar } from '@angular/material/snack-bar';
 import { UserInterface } from 'src/app/core/models/user-interface';
-import { Router } from '@angular/router';
+import { Router, NavigationExtras } from '@angular/router';
 import { WebSocketSubject } from 'rxjs/webSocket';
 import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
@@ -167,30 +167,44 @@ this.socket$ = new WebSocketSubject<any>(environment.wssAddress);
   }
 
 
-  public needLogin(idMovie: number):void {
-    this._snackBar.open("Vous devez être identifié(e) pour consulter les détails !","Redirection en cours...", {
-      duration: 2500,
-      verticalPosition:'top'
-    }).afterDismissed().pipe(take(1)).subscribe((a) => {
-      this.router.navigate(['login', idMovie]);
-    })
-    ;
-  }
 
-  public needLoginPerson(idPerson: number):void {
-    this._snackBar.open("Vous devez être identifié(e) pour consulter les détails d'une personne!", "Redirection en cours...", {
-      duration: 2500,
-      verticalPosition:'top'
-    }).afterDismissed().pipe(take(1)).subscribe((a) => {
-      this.router.navigate(['login', idPerson]);
-    })
-    ;
+  public needLoginMovie(idMovie: number): void {
+    if (this.userService.user && this.userService.user !== null) {
+      this.router.navigate(['../', 'movie', idMovie]);
+    } else {
+      this._snackBar.open("Vous devez être identifié(e) pour consulter les détails d'un film !", "Redirection en cours...", {
+        duration: 2500,
+        verticalPosition:'top'
+      }).afterDismissed().subscribe((status: any) => {
+        const navigationExtras: NavigationExtras = { state: { movie: idMovie } };
+        this.router.navigate(['../', 'login'], navigationExtras);
+      });
+
+    }
   }
 
 
-  public needLogin2():void {
+  public needLoginPerson(idPerson: number): void {
+    if (this.userService.user && this.userService.user !== null) {
+      this.router.navigate(['../', 'person', idPerson]);
+    } else {
+      this._snackBar.open("Vous devez être identifié(e) pour consulter les détails d'une personne !", "Redirection en cours...", {
+        duration: 2500,
+        verticalPosition:'top'
+      }).afterDismissed().subscribe((status: any) => {
+        const navigationExtras: NavigationExtras = { state: { person: idPerson } };
+        this.router.navigate(['../', 'login'], navigationExtras);
+      });
+
+    }
+  }
+
+
+
+
+  public needLoginForLike():void {
    
-    this._snackBar.open("Vous devez être identifié(e) pour like un film...","Désolé !", {
+    this._snackBar.open("Vous devez être identifié(e) pour aimer un film...", "Désolé !", {
       
       duration: 2500,
       verticalPosition:'top'
@@ -214,71 +228,5 @@ this.socket$ = new WebSocketSubject<any>(environment.wssAddress);
     //user.likedMovie.add(movie);
   }
   
-////////////calculage/////////
-
-  //  public CalculAge() {
-  //   this.httpClient.get<any>(CurrentTimePipe.API)
-  //   .pipe( take(1) )
-  //   .subscribe( (utcDateTime:any) => {
-  //   const now: moment.Moment= moment(utcDateTime.currentDateTime);
-
-
-//     this.age = 0 ;
-//     ////année en cours
-//     var td = new Date() ; 
-//     var fullyear = td.getFullYear();
-
-//     /////année du mec 
-//     var bd =  this.birthdate; 
-//     //var bd2 = bd.getFullYear();
-// return console.log('messgage pour vérifier la date de naissance : '+ bd);
-//     // var annee = td.substr(0.4);
-    
-    
-   
-    //console.log(bd)
-   // var persbd = this.birthdates.getFullYear();
-    
-  //   this.personService.birthdate$.subscribe((_birthdate) => {
-  //  var bd  =   this.birthdates = _birthdate; 
-   //age = this.getCurrentBirthdate(); 
-  // this.age = bd - fullyear; 
-
-    // Le date d'ouverture de la page (aujourd'hui)
-    // var dtn = birthdate('Birthdate').value; // on lit la date de naissance
-    // var an = dtn.substr(0,4); 
-    // var age = td.getFullYear()-an; // l'âge du joueur
-    // return document.getElementById('Age').innerHTML=age+' ans'; /
-    // return console.log('je calcul lage');
-    //return (this.age);
-    // return (this.bd);
-// }
-
-
-// CalculAge (value: any, ...args: any[]): Promise<string> {
-//   return new Promise<string>( (resolve) => {
-//     let transformValue: string;
-
-//     this.httpClient.get<any>(CurrentTimePipe.API)
-//       .pipe( take(1) )
-//       .subscribe( (utcDateTime:any) => {
-//         const now: moment.Moment= moment(utcDateTime.currentDateTime);
-//         const person.birthdate: number = parseInt(now.format('YYYY')) - value;
-
-//         // if (elapsedTime <= 1) {
-//         //   transformValue = this.translateService.instant('movieYear.one');
-//         // } else if (elapsedTime == 2) {
-//         //   transformValue = this.translateService.instant('movieYear.two');
-//         // } else if (elapsedTime <= 5) {
-//         //   transformValue = this.translateService.instant('movieYear.threeFive');
-//         // } else {
-//         //   transformValue = this.translateService.instant('movieYear.moreFive');
-//         // }
-
-//         resolve(`Sorti il y a ${transformValue}.`)
-//       });
-
-//   });
-// }
 
 }

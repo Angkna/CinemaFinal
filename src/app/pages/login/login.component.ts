@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
-import { Router, ActivatedRoute} from '@angular/router';
+import { Router, ActivatedRoute, Navigation } from '@angular/router';
 import { UserService } from 'src/app/core/services/user.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable } from 'rxjs';
@@ -15,6 +15,10 @@ export class LoginComponent implements OnInit {
 
   public loginForm: FormGroup;
   public adminToken: Observable<String>
+  private _navigation: Navigation;
+  private _idMovie: number;
+  private _idPerson: number;
+  public processing: boolean = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -22,22 +26,41 @@ export class LoginComponent implements OnInit {
     private userService: UserService,
     private _snackBar: MatSnackBar,
     private route: ActivatedRoute
-  ) { }
+  ) {
+    this._navigation = this.router.getCurrentNavigation();
+  }
 
-  
-  public get userName(): AbstractControl{
+  public get login(): AbstractControl {
+    return this.loginForm.controls.login;
+  }
+
+  public get userName(): AbstractControl {
     return this.loginForm.controls.userName;
 
   }
 
-  public get password(): AbstractControl{
+  public get password(): AbstractControl {
     return this.loginForm.controls.password;
   }
 
   ngOnInit(): void {
+
+    if (this._navigation.extras && this._navigation.extras.state) {
+      const state = this._navigation.extras.state ; 
+      // as { movie: number };
+      if (state.hasOwnProperty('movie')) {
+        this._idMovie = state.movie;
+      }
+      if (state.hasOwnProperty('person')) {
+        this._idPerson = state.person;
+      }
+      //console.log('navigation route state'  + JSON.stringify(this._navigation.extras.state))
+    }
+
+
     this.loginForm = this.formBuilder.group({
       userName: [
-        '', 
+        '',
 
         Validators.compose([
           Validators.required,
@@ -56,29 +79,38 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  public doLogin(): void {
-    //local persistance of user
+
+
+  public doLoginNewVersion(): void {
+    // Local persistence of user
+    this.processing = true;
+
     this.userService.authenticate(this.loginForm.value).then((status: boolean) => {
+      this.processing = false;
+      console.log('Never say never!');
       if (status) {
-        //user exist, on redirige vers home ou vers la page consulté avant
-        this.route.paramMap.subscribe( (param) => {
-          let id:Number = parseInt(param.get('id'));
-          if ( !Object.is(id, NaN) ) {
-            this.router.navigate(['movie', id]);
-          } else {
-            this.router.navigate(['home']);
-          }
-        });
+        if (!(this._idMovie === undefined)) {
+          this.router.navigate(['../', 'movie', this._idMovie]);
+        } 
+        if (!(this._idPerson === undefined)) {
+          this.router.navigate(['../', 'person', this._idPerson]);
+        } 
+        // this.router.navigate(['home']);
       } else {
-        this.userName.setValue('');
+        this._snackBar.open(
+          'Sorry, your identification failed!',
+          '',
+          {
+            duration: 2500,
+            verticalPosition: 'top'
+          }
+        );
+        this.login.setValue('');
         this.password.setValue('');
-        this._snackBar.open("Désolé, identifiants incorrects.","Error", {
-          duration: 2500,
-          verticalPosition:'top'
-        });
       }
-    })
+    });
   }
+
 
   public goToCreateAccount(): void {
     this.router.navigate(['createAccount']);

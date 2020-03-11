@@ -31,6 +31,8 @@ export class PersonResolver implements Resolve<any> {
             );
     }
 
+
+
     private _errorHandler(error: number): Observable<any> {
         if (error === 404){
             this.router.navigate(['home'],{});
