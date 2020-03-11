@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Movie } from '../models/movie';
 import { HttpClient, HttpResponse } from '@angular/common/http';
-import { Observable, BehaviorSubject, throwError } from 'rxjs';
+import { Observable, BehaviorSubject, throwError, of } from 'rxjs';
 import { take, map, catchError} from 'rxjs/operators';
 import { MovieFull } from '../models/movie-full';
 
@@ -33,7 +33,7 @@ export class MovieService {
         }
       )
     );
-    return this.movies;
+    return this.movies? this.movies:of([]);
   }
 
   public byId(id: number) : Observable<MovieFull> {
@@ -86,7 +86,7 @@ export class MovieService {
         }
       )
     );
-    return this.movies;
+    return this.movies? this.movies:of([]);
   }
 
   public byYear(year: number) : Observable<Movie[]> {
@@ -97,7 +97,7 @@ export class MovieService {
         (reponse) => reponse.map((item => new Movie().deserialize(item)))
       )
     );
-    return this.movies;
+    return this.movies? this.movies:of([]);
   }
 
   public byTitleAndYear(searchTitle: string, searchYear: number) : Observable<Movie[]> {

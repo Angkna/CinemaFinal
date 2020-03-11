@@ -1,4 +1,6 @@
-export class Person {
+import { Data } from './data';
+
+export class Person extends Data {
 
 
     public idPerson: number;
@@ -6,6 +8,7 @@ export class Person {
     // public birthdate?: number;
     
     public animationState: String= "base";
+    type = 'Person';
 
     public deserialize(datas: any): Person {
         Object.assign(this, datas);

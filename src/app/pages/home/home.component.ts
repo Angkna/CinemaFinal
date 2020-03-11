@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { trigger, state, style, animate, transition  } from '@angular/animations';
 import { MovieService } from 'src/app/core/services/movie.service';
 import { Movie } from 'src/app/core/models/movie';
@@ -11,9 +11,9 @@ import { Router } from '@angular/router';
 import { WebSocketSubject } from 'rxjs/webSocket';
 import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
-import { TranslateService } from '@ngx-translate/core';
 import { Person } from 'src/app/core/models/person';
 import { PersonService } from 'src/app/core/services/person.service';
+import { DataService } from 'src/app/core/services/data.service';
 
 @Component({
   selector: 'app-home',
@@ -38,32 +38,32 @@ import { PersonService } from 'src/app/core/services/person.service';
   )]
 })
 
-export class HomeComponent implements OnInit, OnDestroy {
+export class HomeComponent implements OnInit {
 
   public title: string = 'Mon application qui cherche des films (parfois)';
+
+  public personsOb: Observable<Person[]>;
   public moviesOb: Observable<Movie[]>;
+
   public user: UserInterface;
-  public years: number[];
-  public yearSelected: number = 0;
+
   private socket$: WebSocketSubject<any>;
   public serverMessages: any[];
-// person
-  public personsOb: Observable<Person[]>;
-  public name: string;
 
+  public name: string;
   public currentYear: number;
-  private translationChange$: any;
+
 
   constructor(
     private movieService: MovieService,
+    private personService: PersonService,
     private userService: UserService,
+
+    private dataService: DataService,
+
     private _snackBar: MatSnackBar,
     private router: Router,
-
-    private personService: PersonService,
-
-    private httpClient: HttpClient,
-    private translateService: TranslateService
+    private httpClient: HttpClient
     ) {    }
 
   public getCurrentYear(): void {
@@ -75,11 +75,19 @@ export class HomeComponent implements OnInit, OnDestroy {
         });
   }
 
-  ngOnDestroy(): void {
-  }
-
   ngOnInit(): void {
+
+    this.getCurrentYear();
+
+    this.moviesOb = this.movieService.all();
+    this.personsOb = this.personService.all();
+
+    this.userService.userSubject$.subscribe((user: UserInterface) => {
+      this.user = user;
+    });
+
     this.socket$ = new WebSocketSubject<any>(environment.wssAddress);
+
     this.socket$.subscribe(
       (message) => {
         console.log('Le serveur envoie : ' + JSON.stringify(message) + ' message.idMovie = ' + message.idMovie);
@@ -98,59 +106,11 @@ export class HomeComponent implements OnInit, OnDestroy {
       () => console.warn('Completed!')
     );
 
-    this.getCurrentYear();
-
-    this.moviesOb = this.movieService.all();
-
-    this.userService.userSubject$.subscribe((user: UserInterface) => {
-      this.user = user;
-    });
-    this.movieService.years$.subscribe((_years) => {
-      this.years = _years;
-    });
-///////////////////////////////////PERSON/////////////
-
-this.socket$ = new WebSocketSubject<any>(environment.wssAddress);
-    this.socket$.subscribe(
-      (message) => {
-        console.log('Le serveur envoie : ' + JSON.stringify(message) + ' message.idPerson = ' + message.idPerson);
-        this.personsOb = this.personsOb.pipe(
-          map((persons:Person[]): Person[] => {
-            persons.forEach((person:Person, index:number) => {
-              if (message.idPerson == person.idPerson) {
-                persons[index] = message;
-              };
-            });
-            return persons;
-          })
-        )
-      },
-      (err) => console.error('Erreur levée : ' + JSON.stringify(err)),
-      () => console.warn('Completed!')
-    );
-    this.personsOb = this.personService.all();
-
-
-
-    // this.userService.userSubject$.subscribe((user: UserInterface) => {
-    //   this.user = user;
-    // });
-
-
-
   }
-
-
-
-
-
 
   public searchedListMovies($event):void {
-    this.moviesOb = $event;
+    [this.moviesOb, this.personsOb] = this.dataService.splitData($event);
   }
-
-
-
 
   public needLogin(idMovie: number):void {
     this._snackBar.open("Vous devez être identifié(e) pour consulter les détails !","Redirection en cours...", {
@@ -162,17 +122,13 @@ this.socket$ = new WebSocketSubject<any>(environment.wssAddress);
     ;
   }
 
-
-
   public needLogin2():void {
-
     this._snackBar.open("Vous devez être identifié(e) pour like un film...","Désolé !", {
-
       duration: 2500,
       verticalPosition:'top'
     })
-    //.afterDismissed().pipe(take(1)).subscribe((a) => {
-    //this.router.navigate(['login']);
+    //.afterDismissed().pipe(take(1)).subscribe( () => {
+    //  this.router.navigate(['login']);
     //});
   }
 
@@ -189,4 +145,9 @@ this.socket$ = new WebSocketSubject<any>(environment.wssAddress);
     }, 1000)
     //user.likedMovie.add(movie);
   }
+
+  public goAdvencedSearch() {
+    this.router.navigate(['advencedSearch']);
+  }
+
 }

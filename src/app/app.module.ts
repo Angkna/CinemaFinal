@@ -12,7 +12,6 @@ import { HttpClientModule, HTTP_INTERCEPTORS, HttpClient } from '@angular/common
 import { SearchComponent } from './pages/home/search/search.component';
 import { MovieComponent } from './pages/movie/movie.component'
 import { TokenInterceptorService } from './core/services/token-interceptor.service';
-import { LOCATION_INITIALIZED } from '@angular/common';
 import { TranslateModule, TranslateLoader, TranslateService } from '@ngx-translate/core';
 import { TranslationService } from './core/services/translation.service';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
@@ -21,13 +20,14 @@ import { CreateUserComponent } from './pages/create-user/create-user.component';
 import { EditMovieComponent } from './pages/edit-movie/edit-movie.component';
 import { PersonComponent } from './pages/person/person.component';
 import { UserComponent } from './pages/user/user.component'
+import { AdvencedSearchComponent } from './pages/advenced-search/advenced-search.component'
 
-export function translateInitializerFactory(  
-  translateService: TranslateService, 
+export function translateInitializerFactory(
+  translateService: TranslateService,
   translationService: TranslationService,
   injector: Injector
 ) {
-  return ():Promise<void> => { 
+  return ():Promise<void> => {
     return translationService.init(translateService, injector);
   }
 }
@@ -52,7 +52,8 @@ export function HttpLoaderFactory(http:HttpClient): TranslateHttpLoader {
     CreateUserComponent,
     EditMovieComponent,
     PersonComponent,
-    UserComponent
+    UserComponent,
+    AdvencedSearchComponent
   ],
   imports: [
     BrowserModule,

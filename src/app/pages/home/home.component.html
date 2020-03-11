@@ -6,24 +6,11 @@
   <p>Voulez vous lancer une recherche par nom ?</p>
   <span class="example-spacer"></span>
   <div id="search">
-    <app-search (movies)="searchedListMovies($event)"></app-search>
+    <app-search (datas)="searchedListMovies($event)"></app-search>
+    
   </div>
-
-  <span class="example-spacer"></span>
-
-  <p> ... et l'affiner par années ?</p>
-  <span class="example-spacer"></span>
-  <div>
-    <mat-form-field>
-      <mat-label>{{ 'global.years' | translate }}</mat-label>
-      <mat-select [(ngModel)]="yearSelected">
-        <mat-option [value]="0">{{ 'global.all' | translate }}</mat-option>
-        <mat-option *ngFor="let year of years" [value]="year">
-          {{year}}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-  </div>
+  <mat-card-actions (click)='goAdvencedSearch()'> Recherche Avancé </mat-card-actions>
+  
 </mat-toolbar>
 
 <p *ngIf="(moviesOb | async) ?.length > 1"> {{ (moviesOb | async) ?.length }} résultats trouvés : </p>
@@ -40,15 +27,11 @@
 
 
 <div class="wrapper py-3">
-  <mat-card [ngClass]="{'movie': true, 'empty' : (movie.year != yearSelected && yearSelected != 0)}" *ngFor="let movie of moviesOb | async">
-    <div *ngIf="( (movie.year == yearSelected) || yearSelected == 0)">
-
-      <mat-card-title [ngClass]="{'new' : movie.year >= 2010, 'title': true }">
+  <mat-card [ngClass]="{'movie': true}" *ngFor="let movie of moviesOb | async">
+    <div>
+      <mat-card-title [ngClass]="{'new' : movie.year >= 2016, 'title': true }">
         {{ movie.title }}
       </mat-card-title>
-
-  
-
       <mat-card-subtitle >{{ movie.year }} : {{ movie.year | currentTime | async }}</mat-card-subtitle>
       <mat-card-subtitle *ngIf="(currentYear - movie.year) == 0" >{{ movie.year }} : Film de cet année !</mat-card-subtitle>
       <mat-card-subtitle *ngIf="(currentYear - movie.year) == 1" >{{ movie.year }} : Film de l'année dernière !</mat-card-subtitle>

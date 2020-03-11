@@ -9,6 +9,8 @@ import { MovieResolver } from './core/resolver/movie-resolver';
 import { CreateUserComponent } from './pages/create-user/create-user.component';
 import { PersonComponent } from './pages/person/person.component';
 import { UserComponent } from './pages/user/user.component';
+import { AdvencedSearchComponent } from './pages/advenced-search/advenced-search.component';
+
 
 const routes: Routes = [
   {
@@ -45,6 +47,10 @@ const routes: Routes = [
   {
     path: 'user/:username',
     component: UserComponent
+  },
+  {
+    path: 'advencedSearch',
+    component: AdvencedSearchComponent
   },
   {
     path: 'movie/:id',
