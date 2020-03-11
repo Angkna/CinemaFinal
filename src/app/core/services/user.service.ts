@@ -10,9 +10,9 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class UserService {
-  private _user: UserInterface = { userName: '', password: '', email: '', role: ''};
+  private _user: UserInterface = { userName: '', password: '', email: '', role: '' };
 
-  public userSubject$ : BehaviorSubject<UserInterface> = new BehaviorSubject<UserInterface>(this._user);
+  public userSubject$: BehaviorSubject<UserInterface> = new BehaviorSubject<UserInterface>(this._user);
 
   constructor(private httpClient: HttpClient) {
 
@@ -21,15 +21,27 @@ export class UserService {
     if (userAsString !== null) {
       console.log("token trouvé !")
       const userAsObject: any = JSON.parse(userAsString);
+      // http://localhost:8080/api/user/token?t=TONTOKEN
       const apiRoute: string = `${environment.apiRoot}user/token?t=${userAsObject.token}`;
-      this.httpClient.get<any>(apiRoute).pipe(
+
+      this.httpClient.get<any>(
+        apiRoute,
+        { observe: 'response' }
+      ).pipe(
         take(1)
-      ).subscribe((user) => {
-        console.log("Reponse : " + JSON.stringify(user));
-        this._user.userName = user.userName;
-        this._user.password = user.password;
-        this._user.email = user.email;
-        this._user.role = user.role;
+      ).subscribe((response: HttpResponse<any>) => {
+
+        console.log('Reponse : ' + JSON.stringify(response));
+        if (response.status === 200 ) {
+
+          this._user.userName = response.body.userName;
+          this._user.password = response.body.password;
+          this._user.email = response.body.email;
+          this._user.role = response.body.role;
+
+        }
+        this.userSubject$.next(this._user);
+
       })
       this._user.token = userAsObject.token;
       this._user.isAuthenticated = true;
@@ -44,12 +56,12 @@ export class UserService {
   public authenticate(user: UserInterface): Promise<boolean> {
     const apiRoute: string = environment.authenticateRoot;
     const userBis = { username: user.userName, password: user.password, email: user.email, role: user.role }
-    return new Promise<boolean> ((resolve) => {
-       this.httpClient.post<any>(apiRoute, userBis, {observe:'response'}).pipe(
-      take(1)
-      ).subscribe((response:HttpResponse<any>) => {
+    return new Promise<boolean>((resolve) => {
+      this.httpClient.post<any>(apiRoute, userBis, { observe: 'response' }).pipe(
+        take(1)
+      ).subscribe((response: HttpResponse<any>) => {
         if (response.status === 200) {
-          localStorage.setItem('user', JSON.stringify({token: response.body.jwtToken}));
+          localStorage.setItem('user', JSON.stringify({ token: response.body.jwtToken }));
           console.log("la reponse body est :" + JSON.stringify(response.body));
           this._user = user;
           console.log('user = ' + JSON.stringify(user));
@@ -67,17 +79,18 @@ export class UserService {
     })
   }
 
-  public logout(): void {
-    localStorage.removeItem('user');
-    this._user = null;
-    this.userSubject$.next(this._user);
-  }
 
-  public addUser(user: UserInterface) :Promise<HttpResponse<any>>{
-    const apiRoute: string = `${environment.apiRoot}user`;
-    return this.httpClient.post<any>(apiRoute, user, {observe: 'response'})
-          .pipe(take(1))
-          .toPromise().catch(error => {return new Promise<HttpResponse<any>>(resolve => resolve(error))});
-  }
+  public logout(): void {
+      localStorage.removeItem('user');
+      this._user = null;
+      this.userSubject$.next(this._user);
+    }
+
+  public addUser(user: UserInterface) : Promise < HttpResponse < any >> {
+      const apiRoute: string = `${environment.apiRoot}user`;
+      return this.httpClient.post<any>(apiRoute, user, { observe: 'response' })
+        .pipe(take(1))
+        .toPromise().catch(error => { return new Promise<HttpResponse<any>>(resolve => resolve(error)) });
+    }
 
 }

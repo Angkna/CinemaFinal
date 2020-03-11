@@ -73,7 +73,7 @@ export function HttpLoaderFactory(http:HttpClient): TranslateHttpLoader {
     })
   ],
   providers: [
-    {provide: HTTP_INTERCEPTORS, useClass: TokenInterceptorService, multi: true},
+    // {provide: HTTP_INTERCEPTORS, useClass: TokenInterceptorService, multi: true},
     {provide: APP_INITIALIZER, useFactory: translateInitializerFactory, deps:[TranslateService, TranslationService, Injector], multi: true},
   ],
   bootstrap: [AppComponent]
