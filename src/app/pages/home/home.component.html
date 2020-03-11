@@ -13,28 +13,22 @@
   
 </mat-toolbar>
 
-<p *ngIf="(moviesOb | async) ?.length > 1"> {{ (moviesOb | async) ?.length }} résultats trouvés : </p>
-<p *ngIf="(moviesOb | async) ?.length == 1"> Un seul résultat trouvé : </p>
-<p *ngIf="(moviesOb | async) ?.length < 1"> Aucun résultat trouvé ! </p>
-
-<!-- PERSON/////////////////////////// -->
-<div class="wrapper py-3">
-
-  <mat-card [ngClass]="{'person': true}" *ngFor="let person of personsOb | async">
-    <mat-card-title > {{ person.name }} </mat-card-title>
-    <mat-card-subtitle > {{ person.birthdate | date : 'd MMM yyyy' }} : {{ person.birthdate | age }} </mat-card-subtitle >
-   
-
-
-    <mat-card-actions class="detail" *ngIf="user" [routerLink]="['../', 'person', person.idPerson]">Détails >>> </mat-card-actions>
-   <mat-card-actions class="detail" *ngIf="!user" (click)='needLoginPerson(person.idPerson)'>Détails >>> </mat-card-actions> 
-
-</mat-card>
-</div>
-
+<p> 
+  <span *ngIf="(moviesOb | async) ?.length > 1"> {{ (moviesOb | async) ?.length }} films </span>
+  <span *ngIf="(moviesOb | async) ?.length == 1"> Un seul film </span>
+  <span *ngIf="(moviesOb | async) ?.length < 1"> Pas de film </span>
+  et 
+  <span *ngIf="(personsOb | async) ?.length > 1"> {{ (personsOb | async) ?.length }} personnes </span>
+  <span *ngIf="(personsOb | async) ?.length == 1"> une seule personne </span>
+  <span *ngIf="(personsOb | async) ?.length < 1"> pas de personne </span>
+  correspondent à votre recherche dans notre base de donnée !
+  <a *ngIf="((moviesOb | async) ?.length > 8) && ((personsOb | async) ?.length > 0)" href="home#person"> GO TO PERSON </a>
+</p>
 
 
 <!-- Movie/////////////////////////// -->
+<p *ngIf="(moviesOb | async) ?.length > 1"> Les films :</p>
+<p *ngIf="(moviesOb | async) ?.length == 1"> Le film :</p>
 <div class="wrapper py-3">
   <mat-card [ngClass]="{'movie': true}" *ngFor="let movie of moviesOb | async">
     <div>
@@ -64,3 +58,18 @@
     </div>
   </mat-card>
 </div>
+
+<div class="example-spacer" id="person"></div>
+<p *ngIf="(personsOb | async) ?.length > 1"> Les personnes :</p>
+<p *ngIf="(personsOb | async) ?.length == 1"> La personne :</p>
+<!-- PERSON/////////////////////////// -->
+<div class="wrapper py-3">
+  <mat-card [ngClass]="{'person': true}" *ngFor="let person of personsOb | async">
+    <mat-card-title > {{ person.name }} </mat-card-title>
+    <mat-card-subtitle > {{ person.birthdate | date : 'd MMM yyyy' }} : {{ person.birthdate | age }} </mat-card-subtitle >
+
+    <mat-card-actions class="detail" *ngIf="user" [routerLink]="['../', 'person', person.idPerson]">Détails >>> </mat-card-actions>
+    <mat-card-actions class="detail" *ngIf="!user" (click)='needLoginPerson(person.idPerson)'>Détails >>> </mat-card-actions> 
+</mat-card>
+</div>
+
