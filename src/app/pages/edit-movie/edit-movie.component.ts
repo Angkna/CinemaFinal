@@ -57,6 +57,14 @@ export class EditMovieComponent implements OnInit {
               Validators.minLength(2),
               Validators.maxLength(255)
             ])
+          ],
+          editDuration: [
+            this.movie.duration, //valeur par defaut
+            Validators.compose([
+              Validators.required,
+              Validators.minLength(2),
+              Validators.maxLength(3)
+            ])
           ]
         });
       });
@@ -78,6 +86,9 @@ export class EditMovieComponent implements OnInit {
   public get editAudiance(): AbstractControl {
     return this.editForm.controls.editAudiance;
   }
+  public get editDuration(): AbstractControl {
+    return this.editForm.controls.editDuration;
+  }
 
   public update(): void {
     //console.log('uptate il faudrait')
@@ -85,6 +96,7 @@ export class EditMovieComponent implements OnInit {
     this.movieUpdate.title = this.editTitle.value;
     this.movieUpdate.year = this.editYear.value;
     this.movieUpdate.synopsis = this.editSynopsis.value;
+    this.movieUpdate.duration = this.editDuration.value;
     // this.movieUpdate.genres = this.editGenres.value;
     // this.movieUpdate.audiance = this.editAudiance.value;
     

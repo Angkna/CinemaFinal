@@ -2,45 +2,55 @@
 
 <br>
 <br> 
-
-<form [formGroup]="editForm" >
-  <span class="example-spacer"></span>
+<form [formGroup]="addMovieForm" >
+   <span class="example-spacer"></span>
   <mat-form-field>
-      <mat-label>Titre du film</mat-label>
+       <mat-label>Titre du film</mat-label> 
       <input
               matInput
               ng-model="text"
               placeholder="Ajouter un titre au film"
-              formControlName="addTitle"
-          >
-  </mat-form-field> <br>
+    >
+  </mat-form-field> <br> 
 
-  <span class="example-spacer"></span>
+    <span class="example-spacer"></span>  
 
   <mat-form-field>
       <mat-label>Année du film</mat-label>
       <input
               matInput
               type="text"
-              placeholder="ajouter l'année du film"
-              formControlName="addYear"
+              placeholder="Ajouter l'année du film"
+              
           >
-  </mat-form-field> <br>
+  </mat-form-field> <br> 
 
-  <span class="example-spacer"></span>
+ <!-- <span class="example-spacer"></span> 
+
+   <mat-form-field>
+    <mat-label>Durée du film</mat-label>
+    <input
+            matInput
+            type="text"
+            placeholder="Ajouter la durée du film"
+            formControlName="addDuration"
+        >
+</mat-form-field> <br> -->
+
+<span class="example-spacer"></span>
   
-  <!-- <mat-form-field>
+<!-- <mat-form-field>
     <mat-label>Synopsis du film</mat-label>
     <input
             matInput
             type="text"
-            placeholder="changer le Synopsis du film"
-            formControlName="editSynopsis"
-        >
-</mat-form-field> <br>
+            placeholder="Ajouter le Synopsis du film"
+            formControlName="addSynopsis"
+    >
+</mat-form-field> <br>  -->
   
-  <span class="example-spacer"></span>
-
+  <span class="example-spacer"></span> 
+<!-- 
   <mat-form-field>
     <mat-label>Genre(s) du film</mat-label>
     <input
@@ -59,11 +69,11 @@
           placeholder="changer l'audiance du film"
           formControlName="editAudiance"
       >
-</mat-form-field> <br> -->
+</mat-form-field> <br> 
  
-<span class="example-spacer"></span>
+<span class="example-spacer"></span> -->
 
-  <button mat-button (click)="addMovie()" mat-raised-button color="primary">Valider ces données</button>
+  <button mat-button (click)="addMovie(title, year)" mat-raised-button color="primary">Valider ces données</button>
   <br>
   <br>
   <br>
@@ -72,4 +82,5 @@
   <span class="example-spacer"></span>
   <button mat-button [routerLink]="['../', 'Home']" mat-raised-button color="primary"> Return to Home page  </button>
   
+
 </form>

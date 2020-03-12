@@ -1,11 +1,11 @@
 import { Data } from './data';
 
 export class Movie extends Data {
-    public idMovie: number;
+    public idMovie: string;
     public title: string;
-    public year: number;
-    public nbLike: number = 0;
-    public animationState: String= "base";
+    public year: string;
+    public nbLike?: number = 0;
+    public animationState?: String= "base";
     type = 'Movie';
 
     public deserialize(datas: any): Movie {

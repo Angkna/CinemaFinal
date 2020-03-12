@@ -213,7 +213,7 @@ export class HomeComponent implements OnInit {
   }
 
   public goAddMovie() {
-    //onsole.log('addmoVie ???')
+    console.log('addmoVie ???')
     this.router.navigate(['app-add-movie']);
   }
   public goAddPerson() {

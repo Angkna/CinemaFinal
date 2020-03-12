@@ -82,10 +82,11 @@ export class MovieService {
               return response;
             }));
   }
-// TODOOOOOOOOOOOO
-  public addMovie(movie: Movie) : Observable<HttpResponse<any>> {
-    const apiRoute: string = `${environment.apiRoot}movie/${movie.idMovie}`;
-    return this.httpClient.delete<any>(apiRoute, {observe: 'response'})
+// TODOOOOOOOOOOOO GOOD
+  public addMovie(movie: MovieFull) : Observable<HttpResponse<any>> {
+    const movieBofbof = {title: movie.title, year: movie.year, idMovie: movie.idMovie }
+    const apiRoute: string = `${environment.apiRoot}movie`;
+    return this.httpClient.post<any>(apiRoute, movieBofbof, {observe: 'response'})
           .pipe(
             take(1),
             map((response: HttpResponse<any>) => {
