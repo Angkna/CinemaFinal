@@ -62,9 +62,7 @@ export class UserService {
       ).subscribe((response: HttpResponse<any>) => {
         if (response.status === 200) {
           localStorage.setItem('user', JSON.stringify({ token: response.body.jwtToken }));
-          console.log("la reponse body est :" + JSON.stringify(response.body));
           this._user = user;
-          console.log('user = ' + JSON.stringify(user));
           this._user.token = response.body.jwttoken
           this._user.isAuthenticated = true;
           resolve(true);
