@@ -75,7 +75,7 @@
 <!-- PERSON/////////////////////////// -->
 <div class="wrapper py-3">
   <mat-card [ngClass]="{'person': true}" *ngFor="let person of personsOb | async">
-    <mat-card-title > {{ person.name }} </mat-card-title>
+    <mat-card-title class="title"> {{ person.name }} </mat-card-title>
     <mat-card-subtitle > {{ person.birthdate | date : 'd MMM yyyy' }} : {{ person.birthdate | age }} </mat-card-subtitle >
 
     <mat-card-actions class="detail" *ngIf="user" [routerLink]="['../', 'person', person.idPerson]">Détails >>> </mat-card-actions>
