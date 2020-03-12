@@ -47,7 +47,7 @@ $default-font-color : hsl(200, 52%, 25%);
         & mat-card-actions{
             &.detail{
                 position: absolute;
-               // bottom: -8px;
+                bottom: -8px;
                 right: 30px;
                 text-align: end;
                 &:hover{
