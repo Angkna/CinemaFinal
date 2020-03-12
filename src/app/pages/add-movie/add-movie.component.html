@@ -1,4 +1,4 @@
-<div class="edittitle"> Page d'édition du film "{{movie.title}}" </div>
+<div class="edittitle"> Page d'ajout de film </div>
 
 <br>
 <br> 
@@ -10,8 +10,8 @@
       <input
               matInput
               ng-model="text"
-              placeholder="changer le titre du film"
-              formControlName="editTitle"
+              placeholder="Ajouter un titre au film"
+              formControlName="addTitle"
           >
   </mat-form-field> <br>
 
@@ -22,14 +22,14 @@
       <input
               matInput
               type="text"
-              placeholder="changer l'année' du film"
-              formControlName="editYear"
+              placeholder="ajouter l'année du film"
+              formControlName="addYear"
           >
   </mat-form-field> <br>
 
   <span class="example-spacer"></span>
   
-  <mat-form-field>
+  <!-- <mat-form-field>
     <mat-label>Synopsis du film</mat-label>
     <input
             matInput
@@ -59,25 +59,17 @@
           placeholder="changer l'audiance du film"
           formControlName="editAudiance"
       >
-</mat-form-field> <br>
+</mat-form-field> <br> -->
  
 <span class="example-spacer"></span>
 
-  <button mat-button (click)="update()" mat-raised-button color="primary">Valider les modifications</button>
+  <button mat-button (click)="addMovie()" mat-raised-button color="primary">Valider ces données</button>
   <br>
   <br>
   <br>
   
-  <br>
-
-  <div>Mauvais film ? Supprimez le !</div>
-  <br><span class="example-spacer"></span>
-  <button mat-button (click)="delete()" mat-raised-button color="warn">Delete</button>
-  <br>
-  <br>
-  <br>
-  <br>
+  
   <span class="example-spacer"></span>
-  <button mat-button (click)="returnToMoviePage()" mat-raised-button color="primary"> Return to "{{movie.title}}" page  </button>
+  <button mat-button [routerLink]="['../', 'Home']" mat-raised-button color="primary"> Return to Home page  </button>
   
 </form>

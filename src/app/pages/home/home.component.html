@@ -9,8 +9,9 @@
     <app-search (datas)="searchedListMovies($event)"></app-search>
     
   </div>
-  <mat-card-actions (click)='goAdvencedSearch()'> Recherche Avancé </mat-card-actions>
-  
+  <span class='example-spacer' ></span>
+  <!-- <mat-card-actions (click)='goAdvencedSearch()'> Recherche Avancé </mat-card-actions> -->
+  <button mat-raised-button color='black' (click)='goAdvencedSearch()'>Recherche Avancé </button>
 </mat-toolbar>
 
 <p> 
@@ -25,6 +26,14 @@
   <a *ngIf="((moviesOb | async) ?.length > 8) && ((personsOb | async) ?.length > 0)" href="home#person"> GO TO PERSON </a>
 </p>
 
+<div *ngIf="(moviesOb | async) ?.length < 1 && (personsOb | async) ?.length < 1">
+  <p> Votre recherche n'existe pas ? Rajoutez la !</p>
+  <p> 
+    <button mat-raised-button color='primary' [routerLink]="['../', 'addMovie']" >Ajouter un film </button>  
+    <span class='example-spacer' ></span>
+    <button mat-raised-button color='primary' [routerLink]="['../', 'addPerson']">Ajouter une personne (TODO) </button>
+  </p>
+</div>
 
 <!-- Movie/////////////////////////// -->
 <p *ngIf="(moviesOb | async) ?.length > 1"> Les films :</p>
@@ -62,6 +71,7 @@
 <div class="example-spacer" id="person"></div>
 <p *ngIf="(personsOb | async) ?.length > 1"> Les personnes :</p>
 <p *ngIf="(personsOb | async) ?.length == 1"> La personne :</p>
+
 <!-- PERSON/////////////////////////// -->
 <div class="wrapper py-3">
   <mat-card [ngClass]="{'person': true}" *ngFor="let person of personsOb | async">

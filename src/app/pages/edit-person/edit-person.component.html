@@ -1,4 +1,4 @@
-<p>edit-person works!</p>
+
 
 <div class="edittitle"> Page d'édition de la personne "{{person.name}}" </div>
 
@@ -6,6 +6,7 @@
 <br> 
 
 <form [formGroup]="editForm" >
+    <span class="example-spacer"></span>
     <mat-form-field>
         <mat-label>Nom de la personne</mat-label>
         <input
@@ -39,25 +40,35 @@
                 formControlName="editBio"
             >
     </mat-form-field> <br>
-   
+    <span class="example-spacer"></span>
+    <mat-form-field>
+        <mat-label>Nationality</mat-label>
+        <input
+                matInput
+                type="text"
+                placeholder="changer la biography"
+                formControlName="editNationality"
+            >
+    </mat-form-field> <br>
   
-    <button mat-button (click)="update()" mat-raised-button color="primary">Valider les modifications</button>
+    <span class="example-spacer"></span>
+    <button mat-button (click)="updatePerson()" mat-raised-button color="primary">Valider les modifications</button>
     <br>
     <br>
     <br>
+    
     <br>
     <br>
-    <br>
-    <br>
-
+    <span class="example-spacer"></span>
     <div>Mauvais acteur/actrice ? Supprimez le/la !</div>
     <br>
+    <span class="example-spacer"></span>
     <button mat-button (click)="deletePerson()" mat-raised-button color="warn">Delete</button>
     <br>
     
     <br>
 
-
+    <span class="example-spacer"></span>
 <button mat-button (click)="returnToPersonPage()" mat-raised-button color="primary"> Return to  "{{person.name}}"  page  </button>
 
 
