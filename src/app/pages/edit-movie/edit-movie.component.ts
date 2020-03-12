@@ -49,6 +49,14 @@ export class EditMovieComponent implements OnInit {
               Validators.required,
               Validators.pattern('[0-9]{4}')
             ])
+          ],
+          editSynopsis: [
+            this.movie.synopsis, //valeur par defaut
+            Validators.compose([
+              Validators.required,
+              Validators.minLength(2),
+              Validators.maxLength(255)
+            ])
           ]
         });
       });
@@ -61,12 +69,25 @@ export class EditMovieComponent implements OnInit {
   public get editYear(): AbstractControl {
     return this.editForm.controls.editYear;
   }
+  public get editSynopsis(): AbstractControl {
+    return this.editForm.controls.editSynopsis;
+  }
+  public get editGenres(): AbstractControl {
+    return this.editForm.controls.editGenre;
+  }
+  public get editAudiance(): AbstractControl {
+    return this.editForm.controls.editAudiance;
+  }
 
   public update(): void {
     //console.log('uptate il faudrait')
     this.movieUpdate = this.movie;
     this.movieUpdate.title = this.editTitle.value;
     this.movieUpdate.year = this.editYear.value;
+    this.movieUpdate.synopsis = this.editSynopsis.value;
+    // this.movieUpdate.genres = this.editGenres.value;
+    // this.movieUpdate.audiance = this.editAudiance.value;
+    
     this.movieService.modify(this.movieUpdate).pipe(take(1)).subscribe((response: HttpResponse<any>) => {});
   }
 

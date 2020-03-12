@@ -19,9 +19,10 @@
 <p *ngIf="(moviesOb | async) ?.length < 1"> Aucun résultat trouvé ! </p>
 <p *ngIf="(moviesOb | async) ?.length < 1"> Voulez vous rajouter votre recherche ?</p>
 <p *ngIf="(moviesOb | async) ?.length < 1"> 
-  <button mat-raised-button color='primary' (click)='goAddMovie()'>Ajouter un film </button>  
+  <button mat-raised-button color='primary' [routerLink]="['../', 'addMovie']" >Ajouter un film </button>  
+ 
   <span class='example-spacer' ></span>
-  <button mat-raised-button color='primary' (click)='goAddPerson()'>Ajouter une personne (TODO) </button>
+  <button mat-raised-button color='primary' [routerLink]="['../', 'addPerson']">Ajouter une personne (TODO) </button>
 </p>
 
 <!-- PERSON/////////////////////////// -->

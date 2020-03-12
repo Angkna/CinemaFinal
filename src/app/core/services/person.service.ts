@@ -4,6 +4,7 @@ import { Person } from '../models/person';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { take, map, catchError } from 'rxjs/operators';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,9 @@ export class PersonService {
 private _birthdate: Set<number> = new Set<number>();
 public birthdate$: BehaviorSubject<number[]> = new BehaviorSubject<number[]>( Array.from(this._birthdate).sort() );
 
-constructor(private httpClient: HttpClient) { }
+constructor(
+  private httpClient: HttpClient,
+  private _snackBar: MatSnackBar) { }
 
 public all() : Observable<Person[]> {
   const apiRoute: string = `${environment.apiRoot}person`;
@@ -63,6 +66,9 @@ public byName(search: string) : Observable<Person[]> {
   public modify(personUpdated: Person) : Observable<HttpResponse<any>> {
     const apiRoute: string = `${environment.apiRoot}person/modify`;
     console.log('person updated !')
+    this._snackBar.open("Update!", "", {
+      duration: 2500,
+      verticalPosition:'bottom'})
     return this.httpClient.put<any>(apiRoute, personUpdated, {observe: 'response'})
           .pipe(
             take(1),
