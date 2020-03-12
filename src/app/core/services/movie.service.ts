@@ -5,6 +5,7 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable, BehaviorSubject, throwError, of } from 'rxjs';
 import { take, map, catchError} from 'rxjs/operators';
 import { MovieFull } from '../models/movie-full';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,11 @@ export class MovieService {
   private _years: Set<number> = new Set<number>();
   public years$: BehaviorSubject<number[]> = new BehaviorSubject<number[]>( Array.from(this._years).sort() );
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(
+    private httpClient: HttpClient,
+    private _snackBar: MatSnackBar) { 
+    
+  }
 
   public all() : Observable<Movie[]> {
     this._years = new Set<number>();
@@ -53,15 +58,32 @@ export class MovieService {
   public modify(movieUpdated: MovieFull) : Observable<HttpResponse<any>> {
     const apiRoute: string = `${environment.apiRoot}movie/modify`;
     console.log('movie updated !')
+     this._snackBar.open("Update!", "", {
+              duration: 2500,
+              verticalPosition:'bottom'})
     return this.httpClient.put<any>(apiRoute, movieUpdated, {observe: 'response'})
+          .pipe(
+            take(1),
+            map((response: HttpResponse<any>) => {
+            
+        return response;
+              
+            }));
+
+            
+  }
+
+  public delete(movie: MovieFull) : Observable<HttpResponse<any>> {
+    const apiRoute: string = `${environment.apiRoot}movie/${movie.idMovie}`;
+    return this.httpClient.delete<any>(apiRoute, {observe: 'response'})
           .pipe(
             take(1),
             map((response: HttpResponse<any>) => {
               return response;
             }));
   }
-
-  public delete(movie: MovieFull) : Observable<HttpResponse<any>> {
+// TODOOOOOOOOOOOO
+  public addMovie(movie: Movie) : Observable<HttpResponse<any>> {
     const apiRoute: string = `${environment.apiRoot}movie/${movie.idMovie}`;
     return this.httpClient.delete<any>(apiRoute, {observe: 'response'})
           .pipe(

@@ -12,6 +12,8 @@ import { PersonResolver } from './core/resolver/person-resolver';
 import { EditPersonComponent } from './pages/edit-person/edit-person.component';
 import { UserComponent } from './pages/user/user.component';
 import { AdvencedSearchComponent } from './pages/advenced-search/advenced-search.component';
+import { AddMovieComponent } from './pages/add-movie/add-movie.component';
+import { AddPersonComponent } from './pages/add-person/add-person.component';
 
 
 const routes: Routes = [
@@ -60,6 +62,14 @@ const routes: Routes = [
     resolve: {
       movie: MovieResolver
     }
+  },
+  {
+    path: 'addMovie',
+    component: AddMovieComponent
+  },
+  {
+    path: 'addPerson',
+    component: AddPersonComponent
   },
   {
     path: 'editMovie/:id',
