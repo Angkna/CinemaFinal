@@ -28,10 +28,9 @@ export class UserService {
       ).pipe(
         take(1)
       ).subscribe((response: HttpResponse<any>) => {
-        console.log('Reponse : ' + JSON.stringify(response));
         if (response.status === 200 ) {
           this._user.userName = response.body.userName;
-          this._user.password = response.body.password;
+          this._user.password = null;
           this._user.email = response.body.email;
           this._user.role = response.body.role;
           this._user.movieLiked = response.body.movieLiked;
@@ -51,18 +50,19 @@ export class UserService {
 
   public authenticate(user: UserInterface): Promise<boolean> {
     const apiRoute: string = environment.authenticateRoot;
-    const userBis = { username: user.userName, password: user.password, email: user.email, role: user.role }
+    const userBis = { username: user.userName, password: user.password }
     return new Promise<boolean>((resolve) => {
       this.httpClient.post<any>(apiRoute, userBis, { observe: 'response' }).pipe(
         take(1)
       ).subscribe((response: HttpResponse<any>) => {
         if (response.status === 200) {
           localStorage.setItem('user', JSON.stringify({ token: response.body.jwtToken }));
-          this._user = user;
-          this._user.token = response.body.jwttoken
-          this._user.isAuthenticated = true;
           resolve(true);
-          this.userSubject$.next(this._user);
+          // this._user = user;
+          // this._user.password = null;
+          // this._user.token = response.body.jwttoken;
+          // this._user.isAuthenticated = true;
+          // this.userSubject$.next(this._user);
         }
       }, (error) => {
         this._user = null;
@@ -85,6 +85,25 @@ export class UserService {
     return this.httpClient.post<any>(apiRoute, user, { observe: 'response' })
       .pipe(take(1))
       .toPromise().catch(error => { return new Promise<HttpResponse<any>>(resolve => resolve(error)) });
+  }
+
+  public updateUserFromToken(token:string): void {
+    const apiRoute: string = `${environment.apiRoot}user/token?t=${token}`;
+    this.httpClient.get<any>(
+      apiRoute,
+      { observe: 'response' }
+    ).pipe(
+      take(1)
+    ).subscribe((response: HttpResponse<any>) => {
+      if (response.status === 200 ) {
+        this._user = response.body;
+        this._user.password = null;
+        // this._user.email = response.body.email;
+        // this._user.role = response.body.role;
+        // this._user.movieLiked = response.body.movieLiked;
+        this.userSubject$.next(this._user);
+      }    
+    })
   }
 
 }

@@ -44,7 +44,7 @@
       <mat-card-title [ngClass]="{'new' : movie.year >= 2016, 'title': true }">
         {{ movie.title }}
       </mat-card-title>
-      <mat-card-subtitle >{{ movie.year }} : {{ movie.year | currentTime | async }}</mat-card-subtitle>
+      <!--<mat-card-subtitle >{{ movie.year }} : {{ movie.year | currentTime | async }}</mat-card-subtitle>-->
       <mat-card-subtitle *ngIf="(currentYear - movie.year) == 0" >{{ movie.year }} : Film de cet année !</mat-card-subtitle>
       <mat-card-subtitle *ngIf="(currentYear - movie.year) == 1" >{{ movie.year }} : Film de l'année dernière !</mat-card-subtitle>
       <mat-card-subtitle *ngIf="((currentYear - movie.year) > 1 && (currentYear - movie.year) < 5)" >{{ movie.year }} : Film de plus de 2ans !</mat-card-subtitle>
