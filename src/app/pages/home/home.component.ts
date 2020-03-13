@@ -173,18 +173,21 @@ export class HomeComponent implements OnInit {
 
   public addLike(movie:Movie, user:UserInterface):void {
     movie.animationState = "big";
+    setTimeout(() => {
+      user.movieLiked.push(movie);
+      console.log('liste des likes apres ajout  : ' + JSON.stringify(user.movieLiked));
+      this.userService.addMovieLiked(movie.idMovie, user.userName);
       setTimeout(() => {
         movie.animationState = "base";
-        setTimeout(() => {
-          this.socket$.next(movie);
-        }, 1000);
+        this.socket$.next(movie);
       }, 1000);
-    //user.likedMovie.add(movie);
+    }, 1000); 
   }
 
   public unlike(movie:Movie, user:UserInterface): void{
-    //TODO
-    console.log('need to unlike this ' + JSON.stringify(movie) + ' for user ' + JSON.stringify(user) );
+    user.movieLiked = user.movieLiked.filter(m => m.idMovie != movie.idMovie);
+    console.log('liste des like apres suppression : ' + JSON.stringify(user.movieLiked));
+    this.userService.deleteMovieLiked(movie.idMovie, user.userName);
   }
 
   public goAdvencedSearch() {

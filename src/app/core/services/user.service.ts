@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { UserInterface } from './../models/user-interface'
 import { HttpClient, HttpResponse } from '@angular/common/http';
-import { take } from 'rxjs/operators';
+import { take, map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Movie } from '../models/movie';
 
@@ -105,6 +105,26 @@ export class UserService {
         this.userSubject$.next(this._user);
       }
     })
+  }
+
+  public addMovieLiked(idMovie: number, userName: string): void {
+    const apiRoute: string = `${environment.apiRoot}user/addMovieLiked?idMovie=${idMovie}&idUser=${userName}`
+    this.httpClient.put<any>(apiRoute, {observe: 'response'})
+      .pipe(
+        take(1)
+      ).subscribe((response: HttpResponse<any>) => {
+        // NOOP
+      });
+  }
+
+  public deleteMovieLiked(idMovie: number, userName: string): void {
+    const apiRoute: string = `${environment.apiRoot}user/deleteMovieLiked?idMovie=${idMovie}&idUser=${userName}`
+    this.httpClient.put<any>(apiRoute, {observe: 'response'})
+      .pipe(
+        take(1)
+      ).subscribe((response: HttpResponse<any>) => {
+        // NOOP
+      });
   }
 
 }
