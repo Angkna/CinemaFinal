@@ -177,6 +177,7 @@ export class HomeComponent implements OnInit {
 
   public unlike(movie:Movie, user:UserInterface): void{
     //TODO
+    console.log('need to unlike this ' + JSON.stringify(movie) + ' for user ' + JSON.stringify(user) );
   }
 
   public goAdvencedSearch() {
@@ -186,7 +187,7 @@ export class HomeComponent implements OnInit {
   public goAddMovie() {
     this.router.navigate(['app-add-movie']);
   }
-  
+
   public goAddPerson() {
     this.router.navigate(['home']);
   }

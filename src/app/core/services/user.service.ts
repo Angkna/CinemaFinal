@@ -35,11 +35,14 @@ export class UserService {
           this._user.role = response.body.role;
           this._user.movieLiked = response.body.movieLiked;
         }
-        this.userSubject$.next(this._user);
-
       })
       this._user.token = userAsObject.token;
       this._user.isAuthenticated = true;
+      this.userSubject$.next(this._user);
+    } else {
+      console.log("pas de token trouvé :(")
+      this._user = null;
+      console.log("Utilisateur : " + JSON.stringify(this._user));
       this.userSubject$.next(this._user);
     }
   }
@@ -58,11 +61,6 @@ export class UserService {
         if (response.status === 200) {
           localStorage.setItem('user', JSON.stringify({ token: response.body.jwtToken }));
           resolve(true);
-          // this._user = user;
-          // this._user.password = null;
-          // this._user.token = response.body.jwttoken;
-          // this._user.isAuthenticated = true;
-          // this.userSubject$.next(this._user);
         }
       }, (error) => {
         this._user = null;
