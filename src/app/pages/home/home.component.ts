@@ -74,6 +74,7 @@ export class HomeComponent implements OnInit {
     private httpClient: HttpClient
     ) {    }
 
+
   public getCurrentYear(): void {
     this.httpClient.get<any>('http://worldclockapi.com/api/json/utc/now')
         .pipe( take(1) )
@@ -83,29 +84,17 @@ export class HomeComponent implements OnInit {
         });
   }
 
-  public getCurrentBirthdate(): void {
-    this.httpClient.get<any>('http://worldclockapi.com/api/json/utc/now')
-        .pipe( take(1) )
-        .subscribe( (utcDateTime:any) => {
-          this.currentBirthdate = parseInt(utcDateTime.currentDateTime.split('-')[0]);
-          console.log(this.currentBirthdate)
-        });
-  }
-
-  // ngOnDestroy(): void {
-  // }
-
   ngOnInit(): void {
-
-    this.getCurrentYear();
 
     this.moviesOb = this.movieService.all();
     this.personsOb = this.personService.all();
-
+    this.getCurrentYear();
     this.userService.userSubject$.subscribe((user: UserInterface) => {
       this.user = user;
     });
-
+    this.personService.birthdate$.subscribe((_birthdate) => {
+      this.birthdates = _birthdate;
+    });
     this.socket$ = new WebSocketSubject<any>(environment.wssAddress);
 
     this.socket$.subscribe(
@@ -126,27 +115,11 @@ export class HomeComponent implements OnInit {
       () => console.warn('Completed!')
     );    
 
-    this.getCurrentBirthdate();
-
-    this.personsOb = this.personService.all();
-
-    this.userService.userSubject$.subscribe((user: UserInterface) => {
-      this.user = user;
-    });
-    this.personService.birthdate$.subscribe((_birthdate) => {
-      this.birthdates = _birthdate;
-    });
-
   }
-/////////////////////////////////////////////end Person////////////
-
-
 
   public searchedListMovies($event):void {
     [this.moviesOb, this.personsOb] = this.dataService.splitData($event);
   }
-
-
 
   public needLoginMovie(idMovie: number): void {
     if (this.userService.user && this.userService.user !== null) {
@@ -163,7 +136,6 @@ export class HomeComponent implements OnInit {
     }
   }
 
-
   public needLoginPerson(idPerson: number): void {
     if (this.userService.user && this.userService.user !== null) {
       this.router.navigate(['../', 'person', idPerson]);
@@ -179,13 +151,8 @@ export class HomeComponent implements OnInit {
     }
   }
 
-
-
-
   public needLoginForLike():void {
-   
     this._snackBar.open("Vous devez être identifié(e) pour aimer un film...", "Désolé !", {
-      
       duration: 2500,
       verticalPosition:'top'
     })
@@ -208,14 +175,18 @@ export class HomeComponent implements OnInit {
     //user.likedMovie.add(movie);
   }
 
+  public unlike(movie:Movie, user:UserInterface): void{
+    //TODO
+  }
+
   public goAdvencedSearch() {
     this.router.navigate(['advencedSearch']);
   }
 
   public goAddMovie() {
-    //onsole.log('addmoVie ???')
     this.router.navigate(['app-add-movie']);
   }
+  
   public goAddPerson() {
     this.router.navigate(['home']);
   }

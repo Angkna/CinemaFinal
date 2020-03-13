@@ -18,7 +18,6 @@ export class LoginComponent implements OnInit {
   private _navigation: Navigation;
   private _idMovie: number;
   private _idPerson: number;
-  public processing: boolean = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -80,15 +79,11 @@ export class LoginComponent implements OnInit {
   }
 
 
-
   public doLoginNewVersion(): void {
     // Local persistence of user
-    this.processing = true;
-
     this.userService.authenticate(this.loginForm.value).then((status: boolean) => {
-      this.processing = false;
-      console.log('Never say never!');
       if (status) {
+        this.userService.updateUserFromToken(JSON.parse(localStorage.getItem("user")).token);
         if (!(this._idMovie === undefined)) {
           this.router.navigate(['../', 'movie', this._idMovie]);
         } 
