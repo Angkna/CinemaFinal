@@ -21,7 +21,14 @@ export class UserComponent implements OnInit {
   ngOnInit(): void {
     this.userService.userSubject$.subscribe((user: UserInterface) => {
       this.user = user;
-      console.log("user:" + JSON.stringify(user));
     });
+  }
+
+  public doEditUser(): void {
+    this.router.navigate(['editUser/:username']);
+  }
+
+  public returnToHome(): void {
+    this.router.navigate(['home']);
   }
 }

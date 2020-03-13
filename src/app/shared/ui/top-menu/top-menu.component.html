@@ -4,15 +4,16 @@
             <mat-icon class="home">home</mat-icon>
         </a>
 
-        <span class="example-spacer"></span>
-
         <a *ngIf="!user" [routerLink]="['login']">
             <mat-icon class="connect">account_circle</mat-icon>
         </a>
         <a *ngIf="user" (click)='doLogout()' [routerLink]="['home']">
             <mat-icon class="disconnect">exit_to_app</mat-icon>
         </a>
-        <a *ngIf="user" (click)='goAccount()'>
+
+        <span class="example-spacer"></span>
+
+        <a *ngIf="user" (click)='goAccount()' [routerLink]="['user']" style="align-content: 0px;">
           <mat-icon class="account">perm_identity</mat-icon>
         </a>
 

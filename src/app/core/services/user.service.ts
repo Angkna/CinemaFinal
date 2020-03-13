@@ -1,25 +1,27 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { UserInterface } from './../models/user-interface'
 import { HttpClient, HttpResponse } from '@angular/common/http';
-import { take, map } from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
+import { Movie } from '../models/movie';
+
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  private _user: UserInterface = { userName: '', password: '', email: '', role: '', movieLiked: new Set() };
+  private _user: UserInterface = { firstName: '', lastName: '', userName: '', password: '', email: '', role: '', movieLiked: [] };
 
   public userSubject$: BehaviorSubject<UserInterface> = new BehaviorSubject<UserInterface>(this._user);
 
   constructor(private httpClient: HttpClient) {
-
+    //Recup user on refresh page :
     const userAsString: string = localStorage.getItem('user');
     console.log("recherche token ...")
     if (userAsString !== null) {
-      console.log("token trouvé !")
+      console.log("token trouvé ! Loading user ...")
       const userAsObject: any = JSON.parse(userAsString);
       const apiRoute: string = `${environment.apiRoot}user/token?t=${userAsObject.token}`;
       this.httpClient.get<any>(
@@ -35,16 +37,18 @@ export class UserService {
           this._user.password = null;
           this._user.email = response.body.email;
           this._user.role = response.body.role;
-          this._user.movieLiked = response.body.movieLiked;
+          this._user.movieLiked = response.body.movieLiked.map(item => {
+                return new Movie().deserialize(item)
+              })
+          this._user.token = userAsObject.token;
+          this._user.isAuthenticated = true;
+          console.log("User loaded !")
+          this.userSubject$.next(this._user);
         }
       })
-      this._user.token = userAsObject.token;
-      this._user.isAuthenticated = true;
-      this.userSubject$.next(this._user);
     } else {
-      console.log("pas de token trouvé :(")
+      console.log("pas de token trouvé :( ")
       this._user = null;
-      console.log("Utilisateur : " + JSON.stringify(this._user));
       this.userSubject$.next(this._user);
     }
   }
@@ -98,9 +102,8 @@ export class UserService {
       if (response.status === 200 ) {
         this._user = response.body;
         this._user.password = null;
-        this._user.movieLiked = response.body.movieLiked;
         this.userSubject$.next(this._user);
-      }    
+      }
     })
   }
 

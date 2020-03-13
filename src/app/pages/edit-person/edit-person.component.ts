@@ -83,7 +83,6 @@ export class EditPersonComponent implements OnInit {
   public get editNationalities(): AbstractControl {
     return this.editForm.controls.editNationalities;
   }
-  
 
   public updatePerson(): void {
     console.log('uptate il faudrait')
@@ -105,7 +104,7 @@ export class EditPersonComponent implements OnInit {
     })
   }
 
-  public returnToPersonPage(): void{ 
+  public returnToPersonPage(): void{
     console.log("je retourne à ma page de gens precedent ");
    this.router.navigate([`person/${this.idPerson}`] );
   }

@@ -1,0 +1,28 @@
+
+.mat-card {
+  margin: auto;
+  margin-top: 30px;
+  width: 33.3333%;
+  display: grid;
+  text-align: center;
+}
+
+
+.mat-card-header {
+  margin: auto;
+  text-align: center;
+}
+
+.mat-card-title {
+  font-family:Georgia, 'Times New Roman', Times, serif ;
+  font-size: 30px;
+}
+
+.mat-card-content {
+  margin: auto;
+}
+
+.example-spacer {
+  // text-indent: 1px;
+  padding: 20px;
+  }

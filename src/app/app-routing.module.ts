@@ -14,6 +14,7 @@ import { UserComponent } from './pages/user/user.component';
 import { AdvencedSearchComponent } from './pages/advenced-search/advenced-search.component';
 import { AddMovieComponent } from './pages/add-movie/add-movie.component';
 import { AddPersonComponent } from './pages/add-person/add-person.component';
+import { EditUserComponent } from './pages/edit-user/edit-user.component';
 
 
 const routes: Routes = [
@@ -78,6 +79,10 @@ const routes: Routes = [
   {
     path: 'editPerson/:id',
     component: EditPersonComponent
+  },
+  {
+    path: 'editUser/:username',
+    component: EditUserComponent
   },
   {
     path: '**',

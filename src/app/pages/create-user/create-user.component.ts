@@ -16,16 +16,21 @@ export class CreateUserComponent implements OnInit {
 
   public RegisterForm: FormGroup;
   private _user: UserInterface = {
-    userName: '', password: '', email: ''
+   firstName:'', lastName:'', userName: '', password: '', email: ''
     //  lastname: '', firstname: ''
   };
 
-  constructor(private _snackBar: MatSnackBar, private formBuilder: FormBuilder, private router: Router, private userService: UserService ) { }
+  constructor(
+    private _snackBar: MatSnackBar,
+    private formBuilder: FormBuilder,
+    private router: Router,
+    private userService: UserService
+    ) { }
 
   ngOnInit(): void {
     this.RegisterForm = this.formBuilder.group({
       username: [
-        '', 
+        '',
         Validators.compose([
           Validators.required,
           Validators.minLength(5),
@@ -33,7 +38,7 @@ export class CreateUserComponent implements OnInit {
         ])
       ],
       email: [
-        '', 
+        '',
         Validators.compose([
           Validators.required,
           Validators.email,
@@ -41,7 +46,7 @@ export class CreateUserComponent implements OnInit {
         ])
       ],
       password: [
-        '', 
+        '',
         Validators.compose([
           Validators.required,
           Validators.minLength(8),
@@ -49,7 +54,7 @@ export class CreateUserComponent implements OnInit {
         ])
       ],
       passwordConfirm: [
-        '', 
+        '',
         Validators.compose([
           Validators.required,
           Validators.minLength(8),
@@ -92,7 +97,7 @@ export class CreateUserComponent implements OnInit {
   }
 
   public get firstname(): AbstractControl{
-    return this.RegisterForm.controls.lastname;
+    return this.RegisterForm.controls.firstname;
   }
 
   public async create() {
@@ -125,10 +130,10 @@ export class CreateUserComponent implements OnInit {
         verticalPosition:'top'
       })
     }
-    
+
   }
 
-  public returnToLogin(): void{ 
+  public returnToLogin(): void{
     this.router.navigate(['login']);
   }
 
