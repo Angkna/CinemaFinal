@@ -10,7 +10,7 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class UserService {
-  private _user: UserInterface = { userName: '', password: '', email: '', role: '' };
+  private _user: UserInterface = { userName: '', password: '', email: '', role: '', movieLiked: new Set() };
 
   public userSubject$: BehaviorSubject<UserInterface> = new BehaviorSubject<UserInterface>(this._user);
 
@@ -29,6 +29,8 @@ export class UserService {
         take(1)
       ).subscribe((response: HttpResponse<any>) => {
         if (response.status === 200 ) {
+          this._user.firstName = response.body.firstName;
+          this._user.lastName = response.body.lastName;
           this._user.userName = response.body.userName;
           this._user.password = null;
           this._user.email = response.body.email;
@@ -96,9 +98,7 @@ export class UserService {
       if (response.status === 200 ) {
         this._user = response.body;
         this._user.password = null;
-        // this._user.email = response.body.email;
-        // this._user.role = response.body.role;
-        // this._user.movieLiked = response.body.movieLiked;
+        this._user.movieLiked = response.body.movieLiked;
         this.userSubject$.next(this._user);
       }    
     })

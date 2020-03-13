@@ -51,18 +51,14 @@
       <mat-card-subtitle *ngIf="(currentYear - movie.year) > 4" >{{ movie.year }} : Film de plus de 5ans  !</mat-card-subtitle>
 
       <div *ngIf="user; else elseUser">
-        <div *ngIf="user.movieLiked.size != 0; else elseNoLikedMovie">
-          <div *ngFor="let movieLiked of user.movieLiked">
-            <div *ngIf="movie.idMovie == movieLiked.idMovie">
+        <div *ngIf="contain(movie, user); else elseMovieNotLiked">
               <mat-card-actions class="detail" [routerLink]="['../', 'movie', movie.idMovie]">Détails >>></mat-card-actions>
               <mat-card-actions class="like" (click)='unlike(movie, user)'>
                 J'aime !
                 <mat-icon matBadge="1" matBadgeColor="warn" [@addLike]="movie.animationState">favorite</mat-icon>
               </mat-card-actions>
-            </div>
-          </div>
         </div>
-        <ng-template #elseNoLikedMovie>
+        <ng-template #elseMovieNotLiked>
           <mat-card-actions class="detail" [routerLink]="['../', 'movie', movie.idMovie]">Détails >>></mat-card-actions>
           <mat-card-actions class="like" (click)='addLike(movie, user)'>
             J'aime !

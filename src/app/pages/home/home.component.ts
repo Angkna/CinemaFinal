@@ -161,6 +161,10 @@ export class HomeComponent implements OnInit {
     //});
   }
 
+  public contain(movie:Movie, user:UserInterface): Boolean {
+    return user.movieLiked.has(movie);
+  }
+
   public addLike(movie:Movie, user:UserInterface):void {
     movie.animationState = "big";
     setTimeout(() => {
