@@ -19,8 +19,8 @@ export class MovieService {
 
   constructor(
     private httpClient: HttpClient,
-    private _snackBar: MatSnackBar) { 
-    
+    private _snackBar: MatSnackBar) {
+
   }
 
   public all() : Observable<Movie[]> {
@@ -65,12 +65,9 @@ export class MovieService {
           .pipe(
             take(1),
             map((response: HttpResponse<any>) => {
-            
         return response;
-              
             }));
 
-            
   }
 
   public delete(movie: MovieFull) : Observable<HttpResponse<any>> {

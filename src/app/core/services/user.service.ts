@@ -4,13 +4,14 @@ import { UserInterface } from './../models/user-interface'
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { take, map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
+import { Interface } from 'readline';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  private _user: UserInterface = { userName: '', password: '', email: '', role: '' };
+  private _user: UserInterface = { firstName: '', lastName: '', userName: '', password: '', email: '', role: '' };
 
   public userSubject$: BehaviorSubject<UserInterface> = new BehaviorSubject<UserInterface>(this._user);
 
@@ -34,6 +35,8 @@ export class UserService {
         console.log('Reponse : ' + JSON.stringify(response));
         if (response.status === 200 ) {
 
+          this._user.firstName = response.body.firstName;
+          this._user.lastName = response.body.lastName;
           this._user.userName = response.body.userName;
           this._user.password = response.body.password;
           this._user.email = response.body.email;
@@ -90,5 +93,4 @@ export class UserService {
         .pipe(take(1))
         .toPromise().catch(error => { return new Promise<HttpResponse<any>>(resolve => resolve(error)) });
     }
-
 }
