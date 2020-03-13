@@ -6,7 +6,7 @@ export class Movie extends Data {
     public year: string;
     public nbLike?: number = 0;
     public animationState?: String= "base";
-    type = 'Movie';
+    type? = 'Movie';
 
     public deserialize(datas: any): Movie {
         Object.assign(this, datas);

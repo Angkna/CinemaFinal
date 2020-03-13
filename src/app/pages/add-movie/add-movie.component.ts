@@ -7,7 +7,7 @@ import { MovieFull } from 'src/app/core/models/movie-full';
 import { take, map } from 'rxjs/operators';
 import { HttpResponse, HttpClient } from '@angular/common/http';
 import { Movie } from 'src/app/core/models/movie';
-import { MovieInterface } from 'src/app/core/models/movie-interface';
+// import { MovieInterface } from 'src/app/core/models/movie-interface';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -17,12 +17,12 @@ import { environment } from 'src/environments/environment';
 })
 export class AddMovieComponent implements OnInit {
 
-  private _movie = new MovieInterface();
-  private saveMovie = new Movie();
+  private _movie = new MovieFull();
+  // private saveMovie = new MovieFull();
 
   public addMovieForm: FormGroup;
-  // public movie: MovieFull;
-  public movie: Movie;
+  public movie: MovieFull;
+  // public movie: Movie;
   // public movieAdd: MovieFull;
   public movieAdd: Movie;
   public editForm: FormGroup;
@@ -33,16 +33,16 @@ export class AddMovieComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private httpClient : HttpClient,
+    private httpClient: HttpClient,
     private movieService: MovieService,
     private formBuilder: FormBuilder,
     private router: Router,
     private _snackBar: MatSnackBar,
-    
+
   ) { }
 
   ngOnInit(): void {
-    
+
     this.addMovieForm = this.formBuilder.group({
       title: [
         '',
@@ -52,7 +52,7 @@ export class AddMovieComponent implements OnInit {
           Validators.maxLength(255)
         ])
       ],
-      years: [
+      year: [
         '',
         Validators.compose([
           Validators.required,
@@ -60,6 +60,14 @@ export class AddMovieComponent implements OnInit {
           Validators.maxLength(4)
         ])
       ]
+      // duration: [
+      //   '',
+      //   Validators.compose([
+      //     Validators.required,
+      //     Validators.minLength(3),
+      //     Validators.maxLength(3)
+      //   ])
+      // ]
     });
   }
 
@@ -70,52 +78,30 @@ export class AddMovieComponent implements OnInit {
   public get year(): AbstractControl {
     return this.addMovieForm.controls.year;
   }
-  // public get addSynopsis(): AbstractControl {
-  //   return this.editForm.controls.addSynopsis;
+  // public get synopsis(): AbstractControl {
+  //   return this.editForm.controls.synopsis;
   // }
-  // public get addDuration(): AbstractControl {
-  //   return this.editForm.controls.addDuration;
+  // public get duration(): AbstractControl {
+  //   return this.editForm.controls.duration;
   // }
- 
 
- 
-public async addMovie(title, year) {
-  console.log('need to create movie : ' + JSON.stringify(this._movie));
-  //  this._movie.idMovie = this.idMovie.value;
-  const apiRoute  =`${environment.movie}`;
-  this.saveMovie.title= this._movie.title;
-  this.saveMovie.year= this._movie.year;
-  // this._movie.year = this.year.value;
+  public  addMovie() {
+    this.movieService.movieToCreate.title = this.title.value;
+    this.movieService.movieToCreate.year = this.year.value;
+    // this.movieService.movieToCreate.duration = this.duration.value;
+    this.movieService.createMovie(this.movieService.movieToCreate)
+      .pipe(
+        take(1)
+      ).subscribe((response: HttpResponse<any>) => {
+        console.log('movie was created');
+        console.log(this.movieService.newMovie.idMovie);
+        // return this.router.navigate(['../', 'movie',  this.movieService.newMovie.idMovie]);
+      })
+      
+    //  await this.router.navigate(['../', 'movie',  this.movieService.newMovie.idMovie]);
+      
+    }
 
+  }
 
-
-  return this.httpClient.post<any>(
-    apiRoute,
-    this.saveMovie
-  ).pipe(
-    map( (response) => {
-      this._snackBar.open("Film crée !","Succès !", {
-        duration: 2500,
-        verticalPosition:'top'
-      }) 
-    }) )
-    
-  } 
-    // console.log('need to create movie : ' + JSON.stringify(this._movie));
-    // const response:HttpResponse<any> = await (this.movieService.addMovie(this.saveMovie));
-    // console.log(JSON.stringify(response));
-  //   if (response.status == 200 ) {
-  //     this._snackBar.open("Film créé !","Succes !", {
-  //       duration: 2500,
-  //       verticalPosition:'top'
-  //     }) 
-
-  // }
-  
-
-
-
-
-
-}
 

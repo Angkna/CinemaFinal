@@ -6,12 +6,16 @@ import { Observable, BehaviorSubject, throwError, of } from 'rxjs';
 import { take, map, catchError} from 'rxjs/operators';
 import { MovieFull } from '../models/movie-full';
 import { MatSnackBar } from '@angular/material/snack-bar';
+// import { MovieInterface } from './../models/movie-interface'
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class MovieService {
 
+ public movieToCreate = new MovieFull();
+  public newMovie;
   public movies: Observable<Movie[]>;
   public movie: Observable<MovieFull>;
   private _years: Set<number> = new Set<number>();
@@ -82,17 +86,19 @@ export class MovieService {
               return response;
             }));
   }
-// TODOOOOOOOOOOOO GOOD
-  public addMovie(movie: MovieFull) : Observable<HttpResponse<any>> {
-    const movieBofbof = {title: movie.title, year: movie.year, idMovie: movie.idMovie }
+
+  public createMovie(movie) : Observable<HttpResponse<any>> {
     const apiRoute: string = `${environment.apiRoot}movie`;
-    return this.httpClient.post<any>(apiRoute, movieBofbof, {observe: 'response'})
-          .pipe(
-            take(1),
-            map((response: HttpResponse<any>) => {
-              return response;
-            }));
-  }
+    movie = this.movieToCreate;
+  return this.httpClient.post<any> (apiRoute, movie, { observe: 'response' } )
+    .pipe(
+      take(1),
+      map( (response: HttpResponse<any>) => {
+              this.newMovie = movie.idMovie;
+                   return response;
+       } )
+       ) }
+    
 
   public byTitle(search: string) : Observable<Movie[]> {
     this._years = new Set<number>();
