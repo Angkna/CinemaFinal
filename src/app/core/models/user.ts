@@ -1,4 +1,5 @@
 import { UserInterface } from './user-interface';
+import { Movie } from './movie';
 
 export class User implements UserInterface {
   firstName: string;
@@ -8,7 +9,7 @@ export class User implements UserInterface {
   password: string;
   token?: string;
   isAuthenticated?: boolean;
-  movieLiked?: Set<import("./movie").Movie>;
+  movieLiked?: Movie[];
   email?: string;
   role?: string;
 
