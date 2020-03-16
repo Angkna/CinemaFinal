@@ -3,13 +3,13 @@
 
 <form [formGroup]="RegisterForm">
     <!-- firstname -->
-     
+
         <mat-form-field class="">
         <mat-label>{{ 'register.firstname' | translate }}</mat-label>
-        <input 
-            matInput 
-            type="text" 
-            placeholder="{{ 'register.placeholderfristname' | translate }}"
+        <input
+            matInput
+            type="text"
+            placeholder="{{ 'register.placeholderfirstname' | translate }}"
             formControlName="firstname"
         >
         <mat-error *ngIf="firstname.touched && firstname.invalid">
@@ -20,28 +20,28 @@
     <span class="example-spacer"></span>
 
      <!-- lastname -->
-   
+
      <mat-form-field class="">
         <mat-label>{{ 'register.lastname' | translate }}</mat-label>
-        <input 
-            matInput 
-            type="text" 
+        <input
+            matInput
+            type="text"
             placeholder="{{ 'register.placeholderlastname' | translate }}"
             formControlName="lastname"
         >
         <mat-error *ngIf="lastname.touched && lastname.invalid">
-            {{ 'register.lastnameinvalid' | translate }} 
+            {{ 'register.lastnameinvalid' | translate }}
         </mat-error>
-    </mat-form-field> 
+    </mat-form-field>
 
     <br>
-    
+
 
 
     <!-- nom d utilisateur -->
     <mat-form-field>
-        <mat-label>{{ 'register.username' | translate }}</mat-label> 
-        <input 
+        <mat-label>{{ 'register.username' | translate }}</mat-label>
+        <input
             matInput
             type="text"
             placeholder="username"
@@ -55,7 +55,7 @@
     <!-- email -->
     <mat-form-field>
         <mat-label>{{ 'register.email' | translate }}</mat-label>
-        <input 
+        <input
             matInput
             type="email"
             placeholder="{{ 'register.placeholderemail' | translate }}"
@@ -64,12 +64,12 @@
         <mat-error *ngIf='email.invalid && email.touched'>{{ 'register.erroremail' | translate }}</mat-error>
     </mat-form-field> <br>
 
-    
+
 
     <!-- password -->
     <mat-form-field>
         <mat-label>{{ 'register.password' | translate }}</mat-label>
-        <input 
+        <input
             matInput
             type="password"
             placeholder="password"
@@ -83,7 +83,7 @@
     <!-- confirm password  -->
     <mat-form-field>
         <mat-label>{{ 'register.passwordconfirm' | translate }}  </mat-label>
-        <input 
+        <input
             matInput
             type="password"
             placeholder="Confirm password"

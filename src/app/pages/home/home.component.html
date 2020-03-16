@@ -44,26 +44,46 @@
       <mat-card-title [ngClass]="{'new' : movie.year >= 2016, 'title': true }">
         {{ movie.title }}
       </mat-card-title>
-      <mat-card-subtitle >{{ movie.year }} : {{ movie.year | currentTime | async }}</mat-card-subtitle>
+      <!--<mat-card-subtitle >{{ movie.year }} : {{ movie.year | currentTime | async }}</mat-card-subtitle>-->
       <mat-card-subtitle *ngIf="(currentYear - movie.year) == 0" >{{ movie.year }} : Film de cet année !</mat-card-subtitle>
       <mat-card-subtitle *ngIf="(currentYear - movie.year) == 1" >{{ movie.year }} : Film de l'année dernière !</mat-card-subtitle>
       <mat-card-subtitle *ngIf="((currentYear - movie.year) > 1 && (currentYear - movie.year) < 5)" >{{ movie.year }} : Film de plus de 2ans !</mat-card-subtitle>
       <mat-card-subtitle *ngIf="(currentYear - movie.year) > 4" >{{ movie.year }} : Film de plus de 5ans  !</mat-card-subtitle>
 
-      <mat-card-actions class="detail" *ngIf="user" [routerLink]="['../', 'movie', movie.idMovie]">Détails >>></mat-card-actions>
-      <mat-card-actions class="detail" *ngIf="!user" (click)='needLoginMovie(movie.idMovie)'>Détails >>></mat-card-actions>
+      <div *ngIf="user; else elseUser">
+        <div *ngIf="contain(movie, user); else elseMovieNotLiked">
+              <mat-card-actions class="detail" [routerLink]="['../', 'movie', movie.idMovie]">Détails >>></mat-card-actions>
+              <mat-card-actions class="like" (click)='unlike(movie, user)'>
+                J'aime !
+                <mat-icon matBadge="1" matBadgeColor="warn" [@addLike]="movie.animationState">favorite</mat-icon>
+              </mat-card-actions>
+        </div>
+        <ng-template #elseMovieNotLiked>
+          <mat-card-actions class="detail" [routerLink]="['../', 'movie', movie.idMovie]">Détails >>></mat-card-actions>
+          <mat-card-actions class="like" (click)='addLike(movie, user)'>
+            J'aime !
+            <mat-icon [@addLike]="movie.animationState">favorite_border</mat-icon>
+          </mat-card-actions>
+        </ng-template>
+      </div>  
 
-      <mat-card-actions class="like" *ngIf="user" (click)='addLike(movie, user)'>
-        J'aime !
-        <mat-icon *ngIf="movie.nbLike == 0" [@addLike]="movie.animationState">favorite_border</mat-icon>
-        <mat-icon *ngIf="movie.nbLike > 0" matBadge="{{ movie.nbLike }}" matBadgeColor="warn" [@addLike]="movie.animationState">favorite</mat-icon>
-      </mat-card-actions>
-      
-      <mat-card-actions class="like" *ngIf="!user" (click)='needLoginForLike()'>
-        J'aime !  
-        <mat-icon *ngIf="movie.nbLike == 0">favorite_border</mat-icon>
-        <mat-icon *ngIf="movie.nbLike > 0" matBadge="{{ movie.nbLike }}" matBadgeColor="warn" >favorite</mat-icon>
-      </mat-card-actions>
+      <!-- 
+        <mat-card-actions class="detail" [routerLink]="['../', 'movie', movie.idMovie]">Détails >>></mat-card-actions>
+        <mat-card-actions class="like" (click)='addLike(movie, user)'>
+          J'aime !
+          <mat-icon *ngIf="movie.nbLike == 0" [@addLike]="movie.animationState">favorite_border</mat-icon>
+          <mat-icon *ngIf="movie.nbLike > 0" matBadge="{{ movie.nbLike }}" matBadgeColor="warn" [@addLike]="movie.animationState">favorite</mat-icon>
+        </mat-card-actions>
+      -->
+     
+      <ng-template #elseUser>   
+        <mat-card-actions class="detail" (click)='needLoginMovie(movie.idMovie)'>Détails >>></mat-card-actions>
+        <mat-card-actions class="like" (click)='needLoginForLike()'>
+          J'aime !  
+          <mat-icon>favorite_border</mat-icon>
+        </mat-card-actions>
+      </ng-template> 
+
     </div>
   </mat-card>
 </div>
@@ -75,7 +95,7 @@
 <!-- PERSON/////////////////////////// -->
 <div class="wrapper py-3">
   <mat-card [ngClass]="{'person': true}" *ngFor="let person of personsOb | async">
-    <mat-card-title > {{ person.name }} </mat-card-title>
+    <mat-card-title class="title"> {{ person.name }} </mat-card-title>
     <mat-card-subtitle > {{ person.birthdate | date : 'd MMM yyyy' }} : {{ person.birthdate | age }} </mat-card-subtitle >
 
     <mat-card-actions class="detail" *ngIf="user" [routerLink]="['../', 'person', person.idPerson]">Détails >>> </mat-card-actions>

@@ -1,1 +1,53 @@
-<p *ngIf="user">{{user | json}}</p>
+
+<mat-card class="example-card">
+  <mat-card-header>
+    <mat-card-title>MON COMPTE</mat-card-title>
+    <mat-card-subtitle></mat-card-subtitle>
+  </mat-card-header>
+  <!-- <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu"> -->
+  <mat-card-content >
+   <table>
+    <td>
+      <tr>
+        <p>
+          First Name: {{user.firstName}}
+        </p>
+      </tr>
+      <tr>
+        <p>
+          Last Name : {{user.lastName}}
+        </p>
+      </tr>
+      <tr>
+        <p>
+          Username : {{user.userName}}
+        </p>
+      </tr>
+      <tr>
+        <p>
+          Email : {{user.email |json }}
+        </p>
+      </tr>
+      <tr>
+        <p *ngIf='user'>
+          Password : ********
+        </p>
+      </tr>
+    </td>
+  </table>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-stroked-button (click) = 'doEditUser()'>EDIT</button>
+  </mat-card-actions>
+</mat-card>
+
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<span class="example-spacer"></span>
+<button mat-button (click)="returnToHome()" mat-raised-button color="primary"> Return to home page  </button>

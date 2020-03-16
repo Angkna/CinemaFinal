@@ -25,6 +25,7 @@ import { UserComponent } from './pages/user/user.component'
 import { AdvencedSearchComponent } from './pages/advenced-search/advenced-search.component';
 import { AddPersonComponent } from './pages/add-person/add-person.component';
 import { AddMovieComponent } from './pages/add-movie/add-movie.component';
+import { EditUserComponent } from './pages/edit-user/edit-user.component';
 
 
 export function translateInitializerFactory(
@@ -63,6 +64,7 @@ export function HttpLoaderFactory(http:HttpClient): TranslateHttpLoader {
     AdvencedSearchComponent,
     AddPersonComponent,
     AddMovieComponent,
+    EditUserComponent,
     
 
   ],

@@ -1,0 +1,83 @@
+<div class="editUser"> Page d'édition du compte</div>
+
+<br>
+<br>
+
+<form [formGroup]="editForm" >
+  <span class="example-spacer"></span>
+  <mat-form-field>
+      <mat-label>Titre du film</mat-label>
+      <input
+              matInput
+              ng-model="text"
+              placeholder="changer le titre du film"
+              formControlName="editTitle"
+          >
+  </mat-form-field> <br>
+
+  <span class="example-spacer"></span>
+
+  <mat-form-field>
+      <mat-label>Année du film</mat-label>
+      <input
+              matInput
+              type="text"
+              placeholder="changer l'année' du film"
+              formControlName="editYear"
+          >
+  </mat-form-field> <br>
+
+  <span class="example-spacer"></span>
+
+  <mat-form-field>
+    <mat-label>Synopsis du film</mat-label>
+    <input
+            matInput
+            type="text"
+            placeholder="changer le Synopsis du film"
+            formControlName="editSynopsis"
+        >
+</mat-form-field> <br>
+
+  <span class="example-spacer"></span>
+
+  <mat-form-field>
+    <mat-label>Genre(s) du film</mat-label>
+    <input
+            matInput
+            type="text"
+            placeholder="changer le genre du film"
+            formControlName="editGenres"
+        >
+</mat-form-field> <br>
+<span class="example-spacer"></span>
+<mat-form-field>
+  <mat-label>Audiance du film</mat-label>
+  <input
+          matInput
+          type="text"
+          placeholder="changer l'audiance du film"
+          formControlName="editAudiance"
+      >
+</mat-form-field> <br>
+
+<span class="example-spacer"></span>
+
+  <button mat-button mat-raised-button color="primary">Valider les modifications</button>
+  <br>
+  <br>
+  <br>
+
+  <br>
+
+  <div> Supprimez votre compte!</div>
+  <br><span class="example-spacer"></span>
+  <button mat-button mat-raised-button color="warn">Delete</button>
+  <br>
+  <br>
+  <br>
+  <br>
+  <span class="example-spacer"></span>
+  <button mat-button (click)="returnToUserPage()" mat-raised-button color="primary"> Return to user page  </button>
+
+</form>

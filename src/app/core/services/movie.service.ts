@@ -18,25 +18,20 @@ export class MovieService {
   public newMovie: MovieFull;
   public movies: Observable<Movie[]>;
   public movie: Observable<MovieFull>;
-  private _years: Set<number> = new Set<number>();
-  public years$: BehaviorSubject<number[]> = new BehaviorSubject<number[]>( Array.from(this._years).sort() );
 
   constructor(
     private httpClient: HttpClient,
-    private _snackBar: MatSnackBar) { 
-    
+    private _snackBar: MatSnackBar) {
+
   }
 
   public all() : Observable<Movie[]> {
-    this._years = new Set<number>();
     const apiRoute: string = `${environment.apiRoot}movie`;
     this.movies = this.httpClient.get<any[]>(apiRoute).pipe(
       take(1),
       map(
         (reponse) => {
           return reponse.map((item => {
-            this._years.add(item.year);
-            this.years$.next(Array.from(this._years).sort());
             return new Movie().deserialize(item)
           }))
         }
@@ -59,6 +54,21 @@ export class MovieService {
       );
   }
 
+  public likedByIdUser(id: number) : Observable<Movie[]> {
+    const apiRoute: string = `${environment.apiRoot}movie/likedByIdUser?id=${id}`;
+    this.movies = this.httpClient.get<any[]>(apiRoute).pipe(
+      take(1),
+      map(
+        (reponse) => {
+          return reponse.map((item => {
+            return new Movie().deserialize(item)
+          }))
+        }
+      )
+    );
+    return this.movies? this.movies:of([]);
+  }
+
   public modify(movieUpdated: MovieFull) : Observable<HttpResponse<any>> {
     const apiRoute: string = `${environment.apiRoot}movie/modify`;
     console.log('movie updated !')
@@ -69,12 +79,9 @@ export class MovieService {
           .pipe(
             take(1),
             map((response: HttpResponse<any>) => {
-            
         return response;
-              
             }));
 
-            
   }
 
   public delete(movie: MovieFull) : Observable<HttpResponse<any>> {
@@ -109,15 +116,12 @@ export class MovieService {
     
 
   public byTitle(search: string) : Observable<Movie[]> {
-    this._years = new Set<number>();
     const apiRoute: string = `${environment.apiRoot}movie/byTitleContaining?t=${search}`;
     this.movies = this.httpClient.get<any[]>(apiRoute).pipe(
       take(1),
       map(
         (reponse) => {
           return reponse.map((item => {
-            this._years.add(item.year);
-            this.years$.next(Array.from(this._years).sort());
             return new Movie().deserialize(item)
           }))
         }

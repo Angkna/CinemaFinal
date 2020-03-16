@@ -99,7 +99,7 @@ export class EditMovieComponent implements OnInit {
     this.movieUpdate.duration = this.editDuration.value;
     // this.movieUpdate.genres = this.editGenres.value;
     // this.movieUpdate.audiance = this.editAudiance.value;
-    
+
     this.movieService.modify(this.movieUpdate).pipe(take(1)).subscribe((response: HttpResponse<any>) => {});
   }
 
@@ -112,9 +112,9 @@ export class EditMovieComponent implements OnInit {
     })
   }
 
-  public returnToMoviePage(): void{ 
+  public returnToMoviePage(): void{
     console.log("je retourne à ma page de film precedent ");
     this.router.navigate([`movie/${this.idMovie}`] );
   }
-  
+
 }
