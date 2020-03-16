@@ -9,7 +9,6 @@ export class MovieFull extends Movie {
 
     public deserialize(datas: any): MovieFull {
         Object.assign(this, datas);
-        this.nbLike = 0;
         return this;
     }
 }

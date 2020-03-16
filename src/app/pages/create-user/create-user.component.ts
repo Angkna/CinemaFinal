@@ -5,6 +5,7 @@ import { UserInterface } from 'src/app/core/models/user-interface';
 import { UserService } from 'src/app/core/services/user.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { HttpResponse } from '@angular/common/http';
+import { Movie } from 'src/app/core/models/movie';
 
 @Component({
   selector: 'app-create-user',
@@ -107,6 +108,7 @@ export class CreateUserComponent implements OnInit {
       this._user.email = this.email.value;
       this._user.password = this.password.value;
       this._user.role = 'simpleUser';
+      //this._user.movieLiked = new Set<Movie>();
       console.log('need to create user : ' + JSON.stringify(this._user));
       const response:HttpResponse<any> = await (this.userService.addUser(this._user));
       console.log(JSON.stringify(response));

@@ -4,26 +4,35 @@ import { UserInterface } from './../models/user-interface'
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { take, map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
+<<<<<<< HEAD
 import { Interface } from 'readline';
 import { User } from '../models/user';
 import { RepositionScrollStrategy } from '@angular/cdk/overlay';
+=======
+import { Movie } from '../models/movie';
+
+>>>>>>> 71d1e061a8f57d80d040d3afc7cbb4e40d012d6f
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
+<<<<<<< HEAD
   private _user: UserInterface = { firstName: '', lastName: '', userName: '', password: '', email: '', role: '' };
   private _userC: Observable<User>;
+=======
+  private _user: UserInterface = { firstName: '', lastName: '', userName: '', password: '', email: '', role: '', movieLiked: [] };
+>>>>>>> 71d1e061a8f57d80d040d3afc7cbb4e40d012d6f
 
   public userSubject$: BehaviorSubject<UserInterface> = new BehaviorSubject<UserInterface>(this._user);
 
   constructor(private httpClient: HttpClient) {
-
+    //Recup user on refresh page :
     const userAsString: string = localStorage.getItem('user');
     console.log("recherche token ...")
     if (userAsString !== null) {
-      console.log("token trouvé !")
+      console.log("token trouvé ! Loading user ...")
       const userAsObject: any = JSON.parse(userAsString);
       const apiRoute: string = `${environment.apiRoot}user/token?t=${userAsObject.token}`;
       this.httpClient.get<any>(
@@ -39,13 +48,18 @@ export class UserService {
           this._user.password = null;
           this._user.email = response.body.email;
           this._user.role = response.body.role;
-          this._user.movieLiked = response.body.movieLiked;
+          this._user.movieLiked = response.body.movieLiked.map(item => {
+                return new Movie().deserialize(item)
+              })
+          this._user.token = userAsObject.token;
+          this._user.isAuthenticated = true;
+          console.log("User loaded !")
+          this.userSubject$.next(this._user);
         }
-        this.userSubject$.next(this._user);
-
       })
-      this._user.token = userAsObject.token;
-      this._user.isAuthenticated = true;
+    } else {
+      console.log("pas de token trouvé :( ")
+      this._user = null;
       this.userSubject$.next(this._user);
     }
   }
@@ -64,11 +78,6 @@ export class UserService {
         if (response.status === 200) {
           localStorage.setItem('user', JSON.stringify({ token: response.body.jwtToken }));
           resolve(true);
-          // this._user = user;
-          // this._user.password = null;
-          // this._user.token = response.body.jwttoken;
-          // this._user.isAuthenticated = true;
-          // this.userSubject$.next(this._user);
         }
       }, (error) => {
         this._user = null;
@@ -104,14 +113,12 @@ export class UserService {
       if (response.status === 200 ) {
         this._user = response.body;
         this._user.password = null;
-        // this._user.email = response.body.email;
-        // this._user.role = response.body.role;
-        // this._user.movieLiked = response.body.movieLiked;
         this.userSubject$.next(this._user);
       }
     })
   }
 
+<<<<<<< HEAD
   public ByUsername(username: string): Observable<User> {
       const apiRoute: string = `${environment.apiRoot}user/username?u=${username}`;
       return this.httpClient
@@ -121,4 +128,26 @@ export class UserService {
         map((reponse) => new User().deserialize(reponse.body))
         );
   }
+=======
+  public addMovieLiked(idMovie: number, userName: string): void {
+    const apiRoute: string = `${environment.apiRoot}user/addMovieLiked?idMovie=${idMovie}&idUser=${userName}`
+    this.httpClient.put<any>(apiRoute, {observe: 'response'})
+      .pipe(
+        take(1)
+      ).subscribe((response: HttpResponse<any>) => {
+        // NOOP
+      });
+  }
+
+  public deleteMovieLiked(idMovie: number, userName: string): void {
+    const apiRoute: string = `${environment.apiRoot}user/deleteMovieLiked?idMovie=${idMovie}&idUser=${userName}`
+    this.httpClient.put<any>(apiRoute, {observe: 'response'})
+      .pipe(
+        take(1)
+      ).subscribe((response: HttpResponse<any>) => {
+        // NOOP
+      });
+  }
+
+>>>>>>> 71d1e061a8f57d80d040d3afc7cbb4e40d012d6f
 }

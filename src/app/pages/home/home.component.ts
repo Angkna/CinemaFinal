@@ -161,22 +161,33 @@ export class HomeComponent implements OnInit {
     //});
   }
 
+  public contain(movie:Movie, user:UserInterface): Boolean {
+    let response = false;
+    user.movieLiked.forEach(movielike => {
+      if (movielike.idMovie == movie.idMovie) {
+        response = true;
+      } 
+    });
+    return response;
+  }
+
   public addLike(movie:Movie, user:UserInterface):void {
     movie.animationState = "big";
     setTimeout(() => {
-      movie.nbLike = movie.nbLike + 1;
+      user.movieLiked.push(movie);
+      console.log('liste des likes apres ajout  : ' + JSON.stringify(user.movieLiked));
+      this.userService.addMovieLiked(movie.idMovie, user.userName);
       setTimeout(() => {
         movie.animationState = "base";
-        setTimeout(() => {
-          this.socket$.next(movie);
-        }, 1000);
-      }, 1);
-    }, 1000)
-    //user.likedMovie.add(movie);
+        this.socket$.next(movie);
+      }, 1000);
+    }, 1000); 
   }
 
   public unlike(movie:Movie, user:UserInterface): void{
-    //TODO
+    user.movieLiked = user.movieLiked.filter(m => m.idMovie != movie.idMovie);
+    console.log('liste des like apres suppression : ' + JSON.stringify(user.movieLiked));
+    this.userService.deleteMovieLiked(movie.idMovie, user.userName);
   }
 
   public goAdvencedSearch() {
@@ -186,7 +197,7 @@ export class HomeComponent implements OnInit {
   public goAddMovie() {
     this.router.navigate(['app-add-movie']);
   }
-  
+
   public goAddPerson() {
     this.router.navigate(['home']);
   }
