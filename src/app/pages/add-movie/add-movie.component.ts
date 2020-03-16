@@ -86,18 +86,20 @@ export class AddMovieComponent implements OnInit {
   // }
 
   public  addMovie() {
+    console.log('> addMovie() was called.')
     this.movieService.movieToCreate.title = this.title.value;
     this.movieService.movieToCreate.year = this.year.value;
     // this.movieService.movieToCreate.duration = this.duration.value;
-    this.movieService.createMovie(this.movieService.movieToCreate)
-      .pipe(
-        take(1)
-      ).subscribe((response: HttpResponse<any>) => {
-        console.log('movie was created');
-        console.log(this.movieService.newMovie.idMovie);
-        // return this.router.navigate(['../', 'movie',  this.movieService.newMovie.idMovie]);
-      })
-      
+    if (this.movieService.createMovie(this.movieService.movieToCreate)) {
+      console.log('movie was created');
+      console.log(this.movieService.newMovie.idMovie);
+      this.router.navigate(['../', 'movie',  this.movieService.newMovie.idMovie]);
+    }
+      // .pipe(
+      //   take(1)
+      // ).subscribe((response: HttpResponse<any>) => {
+      // })
+
     //  await this.router.navigate(['../', 'movie',  this.movieService.newMovie.idMovie]);
       
     }
