@@ -30,6 +30,18 @@
   <span class="example-spacer"></span>
   
   <mat-form-field>
+        <mat-label>Duration du film</mat-label>
+        <input
+                matInput
+                type="text"
+                placeholder="changer la durée du film"
+                formControlName="editDuration"
+            >
+    </mat-form-field> <br>
+      
+      <span class="example-spacer"></span>
+
+  <mat-form-field>
     <mat-label>Synopsis du film</mat-label>
     <input
             matInput
@@ -41,7 +53,7 @@
   
   <span class="example-spacer"></span>
 
-  <mat-form-field>
+  <!-- <mat-form-field>
     <mat-label>Genre(s) du film</mat-label>
     <input
             matInput
@@ -59,9 +71,9 @@
           placeholder="changer l'audiance du film"
           formControlName="editAudiance"
       >
-</mat-form-field> <br>
+</mat-form-field> <br> -->
  
-<span class="example-spacer"></span>
+<!-- <span class="example-spacer"></span> -->
 
   <button mat-button (click)="update()" mat-raised-button color="primary">Valider les modifications</button>
   <br>
