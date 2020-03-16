@@ -4,26 +4,18 @@ import { UserInterface } from './../models/user-interface'
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { take, map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
-<<<<<<< HEAD
 import { Interface } from 'readline';
 import { User } from '../models/user';
 import { RepositionScrollStrategy } from '@angular/cdk/overlay';
-=======
 import { Movie } from '../models/movie';
-
->>>>>>> 71d1e061a8f57d80d040d3afc7cbb4e40d012d6f
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-<<<<<<< HEAD
   private _user: UserInterface = { firstName: '', lastName: '', userName: '', password: '', email: '', role: '' };
   private _userC: Observable<User>;
-=======
-  private _user: UserInterface = { firstName: '', lastName: '', userName: '', password: '', email: '', role: '', movieLiked: [] };
->>>>>>> 71d1e061a8f57d80d040d3afc7cbb4e40d012d6f
 
   public userSubject$: BehaviorSubject<UserInterface> = new BehaviorSubject<UserInterface>(this._user);
 
@@ -118,7 +110,6 @@ export class UserService {
     })
   }
 
-<<<<<<< HEAD
   public ByUsername(username: string): Observable<User> {
       const apiRoute: string = `${environment.apiRoot}user/username?u=${username}`;
       return this.httpClient
@@ -128,7 +119,6 @@ export class UserService {
         map((reponse) => new User().deserialize(reponse.body))
         );
   }
-=======
   public addMovieLiked(idMovie: number, userName: string): void {
     const apiRoute: string = `${environment.apiRoot}user/addMovieLiked?idMovie=${idMovie}&idUser=${userName}`
     this.httpClient.put<any>(apiRoute, {observe: 'response'})
@@ -149,5 +139,4 @@ export class UserService {
       });
   }
 
->>>>>>> 71d1e061a8f57d80d040d3afc7cbb4e40d012d6f
 }
