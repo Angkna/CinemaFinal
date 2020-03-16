@@ -25,7 +25,7 @@ export class UserComponent implements OnInit {
   }
 
   public doEditUser(): void {
-    this.router.navigate(['editUser/:username']);
+    this.router.navigate(['editUser', this.user.userName]);
   }
 
   public returnToHome(): void {

@@ -6,6 +6,7 @@ import { UserService } from 'src/app/core/services/user.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { HttpResponse } from '@angular/common/http';
 import { take } from 'rxjs/operators';
+import { User } from 'src/app/core/models/user';
 
 @Component({
   selector: 'app-edit-user',
@@ -14,10 +15,10 @@ import { take } from 'rxjs/operators';
 })
 export class EditUserComponent implements OnInit {
 
-  public user: UserInterface;
+  public user: User;
   public userUpdate: UserInterface;
   public editForm: FormGroup;
-  public username: string;
+  public userName: string;
 
   constructor(
     private route: ActivatedRoute,
@@ -29,66 +30,69 @@ export class EditUserComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe((datas: any) => {
-      this.user.userName = datas.string;
-      this.editForm = this.formBuilder.group({
-        editFirstName: [
-          this.user.firstName, //valeur par defaut
-          Validators.compose([
-            Validators.required,
-            Validators.minLength(2),
-            Validators.maxLength(255)
-          ])
-        ],
-        editLastName: [
-          this.user.lastName, //valeur par defaut
-          Validators.compose([
-            Validators.required,
-            Validators.pattern('[0-9]{4}')
-          ])
-        ],
-        editUsername: [
-          this.user.userName, //valeur par defaut
-          Validators.compose([
-            Validators.required,
-            Validators.minLength(2),
-            Validators.maxLength(255)
-          ])
-        ],
-        editPassword: [
-          this.user.password, //valeur par defaut
-          Validators.compose([
-            Validators.required,
-            Validators.minLength(2),
-            Validators.maxLength(255)
-          ])
-        ],
-        editEmail: [
-          this.user.email, //valeur par defaut
-          Validators.compose([
-            Validators.required,
-            Validators.minLength(2),
-            Validators.maxLength(255)
-          ])
-        ]
+      this.userName = datas.username;
+
+      this.userService.ByUsername(datas.username).subscribe((userT: User) => {
+        this.user = userT;
+        this.editForm = this.formBuilder.group({
+          editFirstName: [
+            this.user.firstName, //valeur par defaut
+            Validators.compose([
+              Validators.required,
+              Validators.minLength(2),
+              Validators.maxLength(255)
+            ])
+          ],
+          editLastName: [
+            this.user.lastName, //valeur par defaut
+            Validators.compose([
+              Validators.required,
+            ])
+          ],
+          editUsername: [
+            this.user.userName, //valeur par defaut
+            Validators.compose([
+              Validators.required,
+              Validators.minLength(2),
+              Validators.maxLength(255)
+            ])
+          ],
+          editPassword: [
+            this.user.password, //valeur par defaut
+            Validators.compose([
+              Validators.required,
+              Validators.minLength(2),
+              Validators.maxLength(255)
+            ])
+          ],
+          editEmail: [
+            this.user.email, //valeur par defaut
+            Validators.compose([
+              Validators.required,
+              Validators.minLength(2),
+              Validators.maxLength(255)
+            ])
+          ]
+        });
       });
-  });
-}
+    });
+  }
 
   public get editFirstName(): AbstractControl {
-  return this.editForm.controls.editFirstName;
-}
+      return this.editForm.controls.editFirstName;
+    }
   public get editLastName(): AbstractControl {
-  return this.editForm.controls.editLastName;
-}
+      return this.editForm.controls.editLastName;
+    }
   public get editUsername(): AbstractControl {
-  return this.editForm.controls.editUsername;
-}
+      return this.editForm.controls.editUsername;
+    }
   public get editPassword(): AbstractControl {
-  return this.editForm.controls.editPassword;
-}
+      return this.editForm.controls.editPassword;
+    }
   public get editAudiance(): AbstractControl {
-  return this.editForm.controls.editAudiance;
-}
+      return this.editForm.controls.editAudiance;
+    }
 
   // public updatePerson(): void {
   //   console.log('uptate il faudrait')
@@ -98,7 +102,7 @@ export class EditUserComponent implements OnInit {
   //   this.userUpdate.userName = this.editUsername.value;
   //   this.userUpdate.password = this.editPassword.value;
   //   this.userUpdate.email = this.editPassword.value;
-  //   this.userService.modify(this.personUpdate).pipe(take(1)).subscribe((response: HttpResponse<any>) => { });
+  //   this.userService.modify(this.userUpdate).pipe(take(1)).subscribe((response: HttpResponse<any>) => { });
   // }
 
 
@@ -112,7 +116,7 @@ export class EditUserComponent implements OnInit {
   // }
 
   public returnToUserPage(): void {
-  console.log("je retourne à ma page de mon user");
-  this.router.navigate([`user/${this.username}`]);
-}
+      console.log("je retourne à ma page de mon user");
+      this.router.navigate([`user/${this.user.userName}`]);
+    }
 }

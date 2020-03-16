@@ -5,6 +5,8 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { take, map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Interface } from 'readline';
+import { User } from '../models/user';
+import { RepositionScrollStrategy } from '@angular/cdk/overlay';
 
 
 @Injectable({
@@ -12,6 +14,7 @@ import { Interface } from 'readline';
 })
 export class UserService {
   private _user: UserInterface = { firstName: '', lastName: '', userName: '', password: '', email: '', role: '' };
+  private _userC: Observable<User>;
 
   public userSubject$: BehaviorSubject<UserInterface> = new BehaviorSubject<UserInterface>(this._user);
 
@@ -30,6 +33,8 @@ export class UserService {
         take(1)
       ).subscribe((response: HttpResponse<any>) => {
         if (response.status === 200 ) {
+          this._user.firstName = response.body.firstName;
+          this._user.lastName = response.body.lastName;
           this._user.userName = response.body.userName;
           this._user.password = null;
           this._user.email = response.body.email;
@@ -107,4 +112,13 @@ export class UserService {
     })
   }
 
+  public ByUsername(username: string): Observable<User> {
+      const apiRoute: string = `${environment.apiRoot}user/username?u=${username}`;
+      return this.httpClient
+      .get<any[]>(apiRoute, {observe: 'response'})
+      .pipe(
+        take(1),
+        map((reponse) => new User().deserialize(reponse.body))
+        );
+  }
 }
