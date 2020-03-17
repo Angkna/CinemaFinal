@@ -3,7 +3,7 @@
 <div class="edittitle"> Page d'édition de la personne "{{person.name}}" </div>
 
 <br>
-<br> 
+<br>
 
 <form [formGroup]="editForm" >
     <span class="example-spacer"></span>
@@ -16,7 +16,7 @@
                 formControlName="editName"
             >
     </mat-form-field> <br>
-  
+
     <span class="example-spacer"></span>
 
     <mat-form-field>
@@ -28,7 +28,7 @@
                 formControlName="editBirthdate"
             >
     </mat-form-field> <br>
-    
+
     <span class="example-spacer"></span>
 
     <mat-form-field>
@@ -50,13 +50,13 @@
                 formControlName="editNationality"
             >
     </mat-form-field> <br>
-  
+
     <span class="example-spacer"></span>
     <button mat-button (click)="updatePerson()" mat-raised-button color="primary">Valider les modifications</button>
     <br>
     <br>
     <br>
-    
+
     <br>
     <br>
     <span class="example-spacer"></span>
@@ -65,7 +65,7 @@
     <span class="example-spacer"></span>
     <button mat-button (click)="deletePerson()" mat-raised-button color="warn">Delete</button>
     <br>
-    
+
     <br>
 
     <span class="example-spacer"></span>

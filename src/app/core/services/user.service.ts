@@ -8,6 +8,7 @@ import { Interface } from 'readline';
 import { User } from '../models/user';
 import { RepositionScrollStrategy } from '@angular/cdk/overlay';
 import { Movie } from '../models/movie';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 
 @Injectable({
@@ -19,7 +20,7 @@ export class UserService {
 
   public userSubject$: BehaviorSubject<UserInterface> = new BehaviorSubject<UserInterface>(this._user);
 
-  constructor(private httpClient: HttpClient) {
+  constructor(private httpClient: HttpClient,  private _snackBar: MatSnackBar) {
     //Recup user on refresh page :
     const userAsString: string = localStorage.getItem('user');
     console.log("recherche token ...")
@@ -92,6 +93,20 @@ export class UserService {
     return this.httpClient.post<any>(apiRoute, user, { observe: 'response' })
       .pipe(take(1))
       .toPromise().catch(error => { return new Promise<HttpResponse<any>>(resolve => resolve(error)) });
+  }
+
+  public modifyUser(userUpdated: User): Observable<HttpResponse<any>> {
+    const apiRoute: string = `${environment.apiRoot}user`;
+    console.log('Account updated !')
+    this._snackBar.open("Update!", "", {
+      duration: 2500,
+      verticalPosition:'bottom'})
+    return this.httpClient.put<any>(apiRoute, userUpdated, {observe: 'response'})
+          .pipe(
+            take(1),
+            map((response: HttpResponse<any>) => {
+              return response;
+            }));
   }
 
   public updateUserFromToken(token:string): void {

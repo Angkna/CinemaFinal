@@ -5,7 +5,7 @@
 <form [formGroup]="loginForm">
     <mat-form-field>
         <mat-label>Nom d'utilisateur</mat-label>
-        <input 
+        <input
             matInput
             type="text"
             value=""
@@ -19,25 +19,27 @@
 
     <mat-form-field>
         <mat-label>Mot de passe</mat-label>
-        <input 
+        <input
             matInput
             type="password"
             value=""
             placeholder="password"
             formControlName="password"
+            [type]="hide ? 'password' : 'text'"
         >
+        <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
         <mat-error *ngIf='password.invalid && password.touched'>Le mot de passe doit comprendre au moins 8 caractères.</mat-error>
     </mat-form-field>
     <span class="example-spacer"></span>
 
-    <button mat-raised-button color='primary' (click)='doLoginNewVersion()' [disabled]="loginForm.invalid" >Se connecter</button> 
+    <button mat-raised-button color='primary' (click)='doLoginNewVersion()' [disabled]="loginForm.invalid" >Se connecter</button>
     <span class="example-spacer"></span> <br>
     <span class="example-spacer"></span> <br>
     <span class="example-spacer"></span> <br>
-    <span class="example-spacer"></span> 
+    <span class="example-spacer"></span>
     <div> Pas encore de compte ? </div>
-    
-        
+
+
     <button mat-raised-button color='primary' (click)='goToCreateAccount()'>Créer un compte !</button>
 </form>
 <div class="basdepage"></div>

@@ -25,12 +25,20 @@
       </tr>
       <tr>
         <p>
+          Password : ********
+        </p>
+      </tr>
+      <tr>
+        <p>
           Email : {{user.email |json }}
         </p>
       </tr>
       <tr>
-        <p *ngIf='user'>
-          Password : ********
+        <p>
+          Movies Liked :
+          <span *ngFor='let movie of user.movieLiked'>
+            {{movie.title}},
+          </span>
         </p>
       </tr>
     </td>

@@ -13,6 +13,7 @@ import { Observable } from 'rxjs';
 
 export class LoginComponent implements OnInit {
 
+  hide = true;
   public loginForm: FormGroup;
   public adminToken: Observable<String>
   private _navigation: Navigation;
@@ -45,7 +46,7 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
 
     if (this._navigation.extras && this._navigation.extras.state) {
-      const state = this._navigation.extras.state ; 
+      const state = this._navigation.extras.state ;
       // as { movie: number };
       if (state.hasOwnProperty('movie')) {
         this._idMovie = state.movie;
@@ -86,14 +87,14 @@ export class LoginComponent implements OnInit {
         this.userService.updateUserFromToken(JSON.parse(localStorage.getItem("user")).token);
         if (!(this._idMovie === undefined)) {
           this.router.navigate(['../', 'movie', this._idMovie]);
-        } 
+        }
         if (!(this._idPerson === undefined)) {
           this.router.navigate(['../', 'person', this._idPerson]);
-        } 
+        }
         if ( (this._idMovie === undefined) && (this._idPerson === undefined) )  {
            this.router.navigate(['home']);
-        } 
-       
+        }
+
       } else {
         this._snackBar.open(
           'Sorry, your identification failed!',

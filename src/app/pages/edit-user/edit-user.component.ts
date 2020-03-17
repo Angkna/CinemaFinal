@@ -7,6 +7,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { HttpResponse } from '@angular/common/http';
 import { take } from 'rxjs/operators';
 import { User } from 'src/app/core/models/user';
+import { encode } from 'punycode';
 
 @Component({
   selector: 'app-edit-user',
@@ -14,9 +15,9 @@ import { User } from 'src/app/core/models/user';
   styleUrls: ['./edit-user.component.scss']
 })
 export class EditUserComponent implements OnInit {
-
+  hide = true;
   public user: User;
-  public userUpdate: UserInterface;
+  public userUpdate: User;
   public editForm: FormGroup;
   public userName: string;
 
@@ -32,8 +33,8 @@ export class EditUserComponent implements OnInit {
     this.route.params.subscribe((datas: any) => {
       this.userName = datas.username;
 
-      this.userService.ByUsername(datas.username).subscribe((userT: User) => {
-        this.user = userT;
+      this.userService.ByUsername(datas.username).subscribe((user: User) => {
+        this.user = user;
         this.editForm = this.formBuilder.group({
           editFirstName: [
             this.user.firstName, //valeur par defaut
@@ -58,7 +59,8 @@ export class EditUserComponent implements OnInit {
             ])
           ],
           editPassword: [
-            this.user.password, //valeur par defaut
+            this.user.password = null,
+             //valeur par defaut
             Validators.compose([
               Validators.required,
               Validators.minLength(2),
@@ -90,20 +92,20 @@ export class EditUserComponent implements OnInit {
   public get editPassword(): AbstractControl {
       return this.editForm.controls.editPassword;
     }
-  public get editAudiance(): AbstractControl {
-      return this.editForm.controls.editAudiance;
+  public get editEmail(): AbstractControl {
+      return this.editForm.controls.editEmail;
     }
 
-  // public updatePerson(): void {
-  //   console.log('uptate il faudrait')
-  //   this.userUpdate = this.user;
-  //   this.userUpdate.firstName = this.editFirstName.value;
-  //   this.userUpdate.lastName = this.editLastName.value;
-  //   this.userUpdate.userName = this.editUsername.value;
-  //   this.userUpdate.password = this.editPassword.value;
-  //   this.userUpdate.email = this.editPassword.value;
-  //   this.userService.modify(this.userUpdate).pipe(take(1)).subscribe((response: HttpResponse<any>) => { });
-  // }
+  public updateUser(): void {
+    console.log('uptate il faudrait')
+    this.userUpdate = this.user;
+    this.userUpdate.firstName = this.editFirstName.value;
+    this.userUpdate.lastName = this.editLastName.value;
+    this.userUpdate.userName = this.editUsername.value;
+    this.userUpdate.password = this.editPassword.value;
+    this.userUpdate.email = this.editEmail.value;
+    this.userService.modifyUser(this.userUpdate).pipe(take(1)).subscribe((response: HttpResponse<any>) => { });
+  }
 
 
   // public deleteUser(): void {
