@@ -7,6 +7,7 @@ import { Data } from 'src/app/core/models/data';
 import { PersonService } from 'src/app/core/services/person.service';
 
 
+
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
@@ -35,7 +36,7 @@ export class SearchComponent implements OnInit {
     this.searchTerm.valueChanges.pipe(
       debounceTime(400),
       map(() => {
-        console.log('lancement recherche')
+       // console.log('lancement recherche')
         this.validSearch();
       })
     ).subscribe();

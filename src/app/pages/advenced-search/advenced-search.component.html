@@ -1,23 +1,26 @@
-<p>advenced-search works!</p>
-<form [formGroup]="advencedSearchForm">
+<div class="edittitle"> Page de recherche avancée </div>
+
+<form [formGroup]="searchForm">
+    <span class="example-spacer"></span> 
     <mat-form-field>
-        <mat-label>{{ 'global.title' | translate }}</mat-label>
+       
+        <mat-label>Film</mat-label>
         <input 
             matInput
             type="search"
-            placeholder="{{ 'global.title' | translate }}"
+            placeholder="Film"
             formControlName="searchTitle"
-        >
-    </mat-form-field>
-    <mat-form-field>
-        <mat-label>Année</mat-label>
-        <input 
-            matInput
-            type="search"
-            placeholder="Année"
-            formControlName="searchYear"
-        >
-    </mat-form-field>
+            (keyup)="reloadTitle()"
+        > 
+       </mat-form-field>
+       
+       <button mat-button (click)="validSearchTitle()" mat-raised-button color="primary">
+        <span class="example-spacer"></span>   <mat-icon class="connect">arrow_right</mat-icon>
+        </button>
+       <br>
+
+    <span class="example-spacer"></span> 
+ 
     <mat-form-field>
         <mat-label>Person</mat-label>
         <input 
@@ -25,8 +28,105 @@
             type="search"
             placeholder="Acteur or Realisateur"
             formControlName="searchPerson"
-        >
+            (keyup)="reloadPerson()"
+        > 
     </mat-form-field>
+    <button mat-button (click)="validSearchPerson()" mat-raised-button color="primary"> 
+        <span class="example-spacer"></span>   <mat-icon class="connect">arrow_right</mat-icon>
+    </button>
+    <br> 
 
-    <mat-card-actions (click)='validSearch()'> Rechercher ! </mat-card-actions>
+    <span class="example-spacer"></span> 
+
+    <mat-form-field>
+        <mat-label>Année du film</mat-label>
+        <input 
+            matInput
+            type="search"
+            placeholder="Année du film"
+            formControlName="searchYear"
+            (keyup)="reloadYear()"
+        > 
+    </mat-form-field>
+    <button mat-button (click)="validSearchYear()" mat-raised-button color="primary">
+        <span class="example-spacer"></span>   <mat-icon class="connect">arrow_right</mat-icon> 
+    </button>
+    <br> 
+    
+
+    <!-- <span class="example-spacer"></span>  -->
+    
+     <!-- <mat-form-field>
+        <mat-label>Duration</mat-label>
+        <input 
+            matInput
+            type="search"
+            placeholder="Duration"
+            formControlName="searchDuration"
+        > 
+    </mat-form-field><br>  -->
+    <h1> Personnes : </h1>
+    <div *ngFor = "let person of persons | async" > 
+      
+
+
+
+
+        {{ person.name | json}}
+    </div>
+
+<h1> Films : </h1>
+
+    <div class="wrapper py-3">
+        <mat-card [ngClass]="{'movie': true}"  *ngFor="let movie of movies | async">
+          <div>
+        <mat-card-title [ngClass]="{'new' : movie.year >= 2016, 'title': true }">
+            {{ movie.title  }}
+            <!-- {{ movie.year  |json }} -->
+          </mat-card-title>  
+
+          <mat-card-subtitle  >{{ movie.year }} </mat-card-subtitle>
+         
+          <mat-card-actions class="detail" [routerLink]="['../', 'movie', movie.idMovie]">Détails >>></mat-card-actions>
+          <!-- <mat-c/le *ngIf="(currentYear - movie.year) > 4" >{{ movie.year }} : Film de plus de 5ans  !</mat-card-subtitle> -->
+
+          <!-- <div *ngIf="user; else elseUser">
+            <div *ngIf="contain(movie, user); else elseMovieNotLiked">
+                  <mat-card-actions class="detail" [routerLink]="['../', 'movie', movie.idMovie]">Détails >>></mat-card-actions>
+                 
+            </div>
+            <ng-template #elseMovieNotLiked>
+              <mat-card-actions class="detail" [routerLink]="['../', 'movie', movie.idMovie]">Détails >>></mat-card-actions>
+              
+            </ng-template>
+          </div>   -->
+    
+        </div>
+      </mat-card>
+    </div>
+
+          <!-- {{ movie.title | json}} -->
+       
+   
+ <br>
+ <br> 
+
+ <span class="example-spacer"></span> 
+    <!-- <button mat-button (click)="validSearch()" mat-raised-button color="primary">Rechercher !</button> -->
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <span class="example-spacer"></span>
+    <button mat-button (click)="returnToMoviePage()" mat-raised-button color="primary"> Return to Home page  </button>
+
+
+
+
+
+
+
+
+
 </form>
