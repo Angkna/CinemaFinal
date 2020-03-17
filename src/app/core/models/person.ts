@@ -8,6 +8,7 @@ export class Person extends Data {
     public birthdate?: number;
     public nationalities? : string;
     public biography? : string;
+    public role?: string;
 
     
     public animationState: String= "base";
