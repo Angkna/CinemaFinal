@@ -1,4 +1,5 @@
 import { Movie } from './movie';
+import { Person } from './person';
 
 export class MovieFull extends Movie {
     public duration: number;
@@ -6,7 +7,7 @@ export class MovieFull extends Movie {
 	public rating?: number;
 	public synopsis?: string;
     public audiance?: string;
-    
+    public actors?: Person[];    
 
     public deserialize(datas: any): MovieFull {
         Object.assign(this, datas);
